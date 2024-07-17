@@ -1,0 +1,126 @@
+header {
+    margin-top: 100px;
+}
+
+header .header-text {
+    position: relative;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+
+}
+
+header .header-text h1 {
+    font-size: 24px;
+    color: #5e5e5e;
+    width: 320px;
+    text-align: center;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+header .header-text::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: grey;
+    position: absolute;
+    top: 15px;
+}
+
+/* cards start */
+
+main {
+    margin-top: 100px;
+}
+
+.card {
+    width: 300px;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #f8f9fa;
+
+
+
+}
+
+.cover {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #75c5cf;
+    border-radius: 50%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    color: #75c5cf;
+    transition: 0.3s all ease;
+    cursor: pointer;
+
+}
+
+.cover:hover  {
+    background-color: #75c5cf;
+    color: white;
+    animation: icon 1s ;
+}
+
+   @keyframes icon {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(20deg);
+    }
+
+    50% {
+        transform: rotate(-15deg);
+    }
+
+    75% {
+        transform: rotate(8deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+    
+   }
+
+
+
+.card-body {
+    text-align: center;
+}
+
+.card-body h3 {
+    font-size: 18px;
+    color: #5e5e5e;
+
+}
+
+.card-body p {
+    font-size: 13px;
+    color: #8e8b8b;
+}
+
+.card-body a {
+
+    text-decoration: none;
+    color: #75c5cf;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s all ease;
+
+}
+
+.card-body a:hover {
+    color: #5e5e5e;
+}
+
+/* cards end */

@@ -1,0 +1,150 @@
+main {
+    margin-top: 150px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.container-left {
+    width: 780px;
+    height: 520px;
+    position: relative;
+}
+
+.container-left img {
+    width: 780px;
+    height: 520px;
+}
+
+.mainbtn {
+    border-radius: 8px;
+    position: absolute;
+    top: -50px;
+    
+}
+
+
+.container-right {
+    width: 355px;
+    height: 520px;
+    padding: 30px;
+    box-shadow: 0px 2px 5px 2px rgb(201, 200, 200);
+    border-radius: 5px;
+    position: relative;
+}
+
+.container-right .reservation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+.container-right .header-text h1 {
+    width: 180px;
+    text-align: center;
+    font-size: 23px;
+    color: #5e5e5e;
+    background-color: white;
+    position: relative;
+
+}
+
+.container-right .header-text::before {
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    background-color: #5e5e5e;
+
+}
+
+.container-right .reserv-night h3 {
+    font-size: 14px;
+    border: 1px dashed #e9e7e7;
+    padding: 7px 22px;
+}
+
+.inputboxs {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    color: #5e5e5e;
+    
+}
+
+.err {
+    position: absolute;
+    right: 32px;
+    text-shadow: 0px 0px  2px rgb(22, 0, 0);
+    font-weight: 400;
+    color: red;
+    font-size: 11px;
+}
+
+.inputboxs input {
+   
+   width: 300px;
+   height: 35px;
+   outline: none;
+   border-radius: 4px;
+   border: none;
+   box-shadow: inset 0px 1px 3px 2px #dbdada;
+   font-size: 14px;
+   box-sizing: border-box;
+   padding: 0px 15px;
+}
+
+label {
+    font-size: 14px;
+    
+}
+
+
+
+
+.container-right button {
+    width: 84%;
+    font-weight: bold;
+    padding: 10px 0;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    transition: 0.2s all ease;
+    position: absolute;
+    bottom: 30px;
+}
+
+.container-right button:hover {
+    background-color: rgb(43, 105, 241);
+}
+
+@media only screen and (max-width: 768px) {
+
+}
+
+
+@media only screen and (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .container-left {
+        width: auto;
+    }
+
+   .container-right {
+    width: auto;
+    margin: 0 auto;
+   }
+    
+}

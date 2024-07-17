@@ -1,0 +1,29 @@
+<div class="section-padding">
+
+<div class="travel-recommendation-wrapper">
+  <h2 class="section-title">
+    <i class="fas fa-clock"></i> Top destinations
+  </h2>
+  <div class="travel-cards">
+    <div class="travel-card" *ngFor="let place of places">
+      <img class="travel-card-image" [src]="place.imageSrc" alt="Destination image">
+      <div class="travel-card-content">
+        <p class="travel-card-country">{{ place.country }}</p>
+        <a class="travel-card-link" [href]="place.link" target="_blank">{{ place.city }}</a>
+      </div>
+    </div>
+  </div>
+  <div class="show-more-wrapper" *ngIf="isMoreDataAvailable()">
+    <button class="show-more-button" (click)="loadMorePlaces()" [disabled]="isLoading">
+      <div class="loader" *ngIf="isLoading">
+        <div class="dot first"></div>
+        <div class="dot second"></div>
+        <div class="dot third"></div>
+        <div class="dot fourth"></div>
+      </div>
+      <div class="button-content" *ngIf="!isLoading">Show more</div>
+    </button>
+  </div>
+</div>
+
+</div>

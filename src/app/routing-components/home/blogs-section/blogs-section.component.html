@@ -1,0 +1,32 @@
+<div class="section-padding">
+
+<div class="homepage-blog-wrapper">
+  <article class="blog">
+    <a class="blog-title" href="https://blog.zenhotels.com/?ref=zenhotels-mainpage" target="_blank">Travel blog</a>
+    <div class="blog-posts" id="blog-posts">
+      <div class="post" *ngFor="let post of posts">
+        <a [href]="post.link" target="_blank">
+          <img class="post-image" [src]="post.imageSrc" alt="Post image">
+        </a>
+        <div class="post-content">
+          <a class="post-category" [href]="post.categoryLink" target="_blank">{{ post.category }}</a>
+          <p class="post-date">{{ post.date }}</p>
+        </div>
+        <a class="post-title" [href]="post.link" target="_blank">{{ post.title }}</a>
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div class="button-wrapper">
+      <button class="show-more-button" (click)="addMorePosts()" [disabled]="isLoading">
+        <div class="loader" *ngIf="isLoading">
+          <div class="dot first"></div>
+          <div class="dot second"></div>
+          <div class="dot third"></div>
+          <div class="dot fourth"></div>
+        </div>
+        <div class="button-content" *ngIf="!isLoading">Show more articles</div>
+      </button>
+    </div>
+  </article>
+</div>
+</div>

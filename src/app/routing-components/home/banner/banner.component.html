@@ -1,0 +1,101 @@
+<!-- banner start -->
+<section id="banner">
+    <div class="container-fluid">
+        <div class="cover">
+            <!-- Tabs and Search Bar Container -->
+            <div class="search-container">
+                <div class="tabs">
+                    <button class="tab active" id="hotel-tab">Hotel</button>
+                    <!-- <button class="tab" id="business-trip-tab">For Business Trips</button> -->
+                </div>
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <form>
+                        <div class="input-group">
+                            <div class="custom-input" tabindex="0">
+                                <label class="custom-label">
+                                    <div class="input-title">Destination</div>
+                                    <select class="input-box">
+                                        <option value="" disabled selected>Select destination</option>
+                                        <option value="newyork">New York</option>
+                                        <option value="losangeles">Los Angeles</option>
+                                        <option value="chicago">Chicago</option>
+                                        <option value="miami">Miami</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="custom-input" tabindex="0">
+                                <label class="custom-label">
+                                    <div class="input-title">Check-in</div>
+                                    <input type="date" class="input-box">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="custom-input" tabindex="0">
+                                <label class="custom-label">
+                                    <div class="input-title">Check-out</div>
+                                    <input type="date" class="input-box">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <div class="input-group">
+                                <div class="custom-input" tabindex="0" (click)="toggleGuestsDropdown()">
+                                    <label class="custom-label">
+                                        <div class="input-title">Guests</div>
+                                        <input type="text" [placeholder]="getGuestsPlaceholder()" class="input-box" readonly>
+                                    </label>
+                                </div>
+                            </div>
+                        <div class="dropdown-menu guests-dropdown" [ngClass]="{'show': isGuestsDropdownVisible}">
+                            <div class="popup-content" *ngFor="let room of rooms; let i = index">
+                                <div class="popup-header">
+                                    <h3>Room {{ i + 1 }}</h3>
+                                    <button class="close-button" (click)="removeRoom(i)" *ngIf="rooms.length > 1">×</button>
+                                </div>
+                                <div class="popup-body">
+                                    <div class="guests-control">
+                                        <div class="adults-control">
+                                            <label class="global-label">
+                                                <div>Adults</div>
+                                                <div class="control-buttons">
+                                                    <button (click)="decreaseAdults(i)">−</button>
+                                                    <span>{{ room.adults }}</span>
+                                                    <button (click)="increaseAdults(i)">+</button>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="children-control">
+                                            <label class="global-label">
+                                                <div>Children</div>
+                                                <div class="control-buttons">
+                                                    <button (click)="decreaseChildren(i)">−</button>
+                                                    <span>{{ room.children }}</span>
+                                                    <button (click)="increaseChildren(i)">+</button>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="add-room-button" (click)="addRoom()">+ Add a room</button>
+                            <button class="done-button" (click)="toggleGuestsDropdown()">Done</button>
+                        </div>
+                        </div>
+                        <div class="input-group">
+                            <button type="submit" class="search-button">Search</button>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<!-- banner end -->

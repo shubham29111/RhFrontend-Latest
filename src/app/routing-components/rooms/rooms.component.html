@@ -1,0 +1,93 @@
+
+<header>
+    <div class="container">
+        <div class="selectrooms">
+            
+            <button (click)="getAllRooms()">All</button>
+            <button (click)="getSingleRooms()">Single Room</button>
+            <button (click)="getDoubleRooms()">Double Room</button>
+            <button (click)="getDeluxeRooms()">Deluxe Room</button>
+     
+        </div>  
+    </div>
+</header>
+
+<main>
+    <section>
+        <div class="container bottom">
+            <div class="inputboxs">
+                <label>Price Per Night</label>
+                <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ngx-slider>
+            </div>
+            <div class="inputboxs">
+                <label>Room Type <i class="fa-solid fa-circle-info"></i></label>
+                <select name="room" id="room">
+                    <option selected value="">Select a room</option>
+                    <option value="1">Single Room</option>
+                    <option value="2">Double Room</option>
+                    <option value="3">Deluxe Room</option>
+                </select>
+
+            </div>
+
+            <div class="inputboxs">
+                <label>Check-in <i class="fa-solid fa-circle-info"></i></label>
+                <input type="date" name="" id="" placeholder="Check-in">
+            </div>
+            <div class="inputboxs">
+                <label>Check-out <i class="fa-solid fa-circle-info"></i> </label>
+                <input type="date" name="" id="" placeholder="Check-ოუტ">
+            </div>
+            <div class="inputboxs">
+                <label>Guest <i class="fa-solid fa-user"></i> </label>
+                <select name="guest" id="guest">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <div class="inputbuttons">
+                <button class="mainbtn">APPLY FILTER</button>
+                <button class="mainbtn">RESET</button>
+            </div>
+
+
+
+        </div>
+        
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                <div class="col mt-5 d-flex justify-content-center" *ngFor="let item of rooms">
+                    <div class="card">
+                        <div class="card-items">
+                            <img src="{{item.images[0].source}}"
+                                class="card-img-top" alt="...">
+                            <div class="card-body-top">
+                                <div class="info">
+                                    <p class="card-text">{{item.name}}</p>
+                                    <div class="prices">
+                                        <p class="price">{{item.pricePerNight | currency:"EUR":"symbol"}}</p>
+                                        <p class="night">a night</p>
+                                    </div>
+
+                                </div>
+                                <button routerLink="/roomdetails/{{item.id}}">BOOK NOW</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+</main>

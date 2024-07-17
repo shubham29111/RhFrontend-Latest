@@ -1,0 +1,163 @@
+main {
+  margin-top: 150px;
+}
+
+
+table {
+  
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+}
+
+table img {
+  width: 70px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px 1px grey;
+}
+
+
+
+table tr {
+  
+  border: 1px solid #ddd;
+  
+  
+}
+
+
+
+thead th {
+  text-shadow: 1px 1px 1px rgb(189, 187, 187);
+  color: rgb(78, 78, 78);
+  text-align: center;
+  
+}
+
+tbody td {
+  text-align: center;
+  font-size: 14px;
+}
+
+.status {
+  background-color: rgb(171, 171, 171);
+  text-align: center;
+  padding: 2px 2px;
+  color: white;
+  font-weight: 500;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px 2px rgb(143, 143, 143);
+}
+
+td .cancelbtn {
+  background-color: rgb(178, 0, 0);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-weight: 500;
+  border-radius: 7px;
+  box-shadow: 0px 0px 9px 2px red;
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+
+td .cancelbtn:hover {
+  background-color: rgb(226, 0, 0);
+  box-shadow: 0px 0px 11px 3px red;
+}
+.noCart img {
+  width: 400px;
+}
+
+.noCart button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 7px;
+  background-color: #51a9b4;
+  color: white;
+  transition: 0.2s all ease;
+  box-shadow: 0px 0px 12px 4px #a6babd;
+}
+
+.noCart button:hover {
+  background-color: #7ecbd5;
+  box-shadow: 0px 0px 13px 4px #51a9b4;
+}
+@media screen and (min-width: 992px) {
+
+  
+
+  table td, th {
+    transform: scale(0.8);
+    
+  }
+  td button {
+    padding: 3px 0px;
+  }
+  
+}
+
+
+@media screen and (min-width: 768px) {
+
+ 
+  table td, th {
+    transform: scale(0.8);
+    
+  }
+  td button {
+    padding: 3px 0px;
+  }
+  
+}
+
+
+
+@media screen and (max-width: 768px) {
+  
+table {
+  border: none;
+ 
+}
+ 
+  
+  table thead {
+    display: none;
+  }
+  
+  table tr {
+    display: block;
+    margin-bottom: .625em;
+    box-shadow: 0px 1px 4px 1px grey;
+    border-radius: 6px;
+  
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: center;
+    padding: 13px 0;
+  }
+
+  .status {
+    width: 100px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+
+  
+
+}
+
+
+
+
+
+
+

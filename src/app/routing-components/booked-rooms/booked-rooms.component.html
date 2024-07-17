@@ -1,0 +1,66 @@
+<main>
+  <ng-container *ngIf="table.length != 0">
+    <div class="container">
+      <div class="card bg-white">
+        <div class="product">
+          <table>
+            <thead>
+              <tr>
+                <th>Book ID</th>
+                <th colspan="2">Customer</th>
+                <th>Status</th>
+                <th>Check in</th>
+                <th>Check out</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of table">
+                <td>{{item.id}}</td>
+                <td>
+                 
+               
+               
+               
+                <td>
+                  <p class="fw-bolder">Name: {{ item.customerName }}</p>
+                  <p>Phone: {{ item.customerPhone }}</p>
+                </td>
+                <td>
+                  <p class="status">Booked</p>
+                </td>
+                <td>
+                  <p class="fw-bolder">{{ item.checkInDate.slice(0, 10) }}</p>
+                </td>
+                <td>
+                  <p class="fw-bolder">{{ item.checkOutDate.slice(0, 10) }}</p>
+                </td>
+                <td>
+                  <p class="fw-bolder">
+                    {{ item.totalPrice | currency : "EUR" : "symbol" }}
+                  </p>
+                </td>
+                <td>
+                  <button (click)="cancelBooking(item.id)" class="cancelbtn">
+                    CANCEL BOOKING
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="table.length == 0">
+    <div class="container noCart">
+      <div class="text-center">
+        <img src="../../../assets/hotel-logo_10250-628.avif" alt="" />
+        <h6>No Booked Rooms</h6>
+        <button routerLink="/rooms" class="mt-4">Book Now</button>
+      </div>
+    </div>
+  </ng-container>
+</main>

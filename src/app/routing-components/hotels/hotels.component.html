@@ -1,0 +1,42 @@
+<header>
+    <div class="container">
+        <div class="selectrooms">
+            <button>All</button>
+            <button>Tbilisi</button>
+            
+        </div>
+    </div>
+</header>
+
+<main>
+    <section>
+        <main>
+            <section>
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                        <div class="col mt-5 d-flex justify-content-center" *ngFor="let items of hotels">
+                            <div class="card">
+                                <div class="card-items">
+                                    <img [src]="items.featuredImage"
+                                        class="card-img-top" alt="...">
+                                    <div class="card-body-top">
+                                        <div class="info">
+                                            <p class="card-text">{{items.name}}</p>
+                                          
+
+                                        </div>
+                                        <button routerLink="/rooms">VIEW ROOMS</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </section>
+        </main>
+    </section>
+</main>

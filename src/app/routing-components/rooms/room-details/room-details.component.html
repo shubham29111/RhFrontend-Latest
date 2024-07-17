@@ -1,0 +1,64 @@
+<main>
+    <section>
+        <div class="container">
+            <div class="container-left">
+                <button routerLink="/rooms" class="mainbtn"> &larr; Back</button>
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img [src]="room?.images[imageId]?.source"
+                                class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button (click)="backImg()" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button (click)="nextImg()"  class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="container-right">
+                <div class="reservation">
+                    <div class="header-text">
+                        <h1>Reservation</h1>
+                    </div>
+                    <div class="reserv-night">
+                        <h3>{{room?.name}} <span style="color: #75c5cf; font-weight: bold;">{{room?.pricePerNight | currency:"EUR":"symbol"}} </span> - a night</h3>
+                    </div>
+                    <form [formGroup]="postForm" (ngSubmit)="postCustomRoom()">
+                    <div class="inputboxs">
+                        <label>Check-in  <i class="fa-solid fa-circle-info"></i></label>
+                        <input type="date" formControlName="checkIn" placeholder="Check-in">
+                        <p *ngIf="postForm.get('checkIn')?.errors"  class="err">Password is required!</p>
+                    </div>
+                    <div class="inputboxs">
+                        <label>Check-out <i class="fa-solid fa-circle-info"></i> </label>
+                        <input type="date" formControlName="checkOut" placeholder="Check-ოუტ">
+                        <p *ngIf="postForm.get('checkOut')?.errors"  class="err">Password is required!</p>
+                    </div>
+                    <div class="inputboxs">
+                        <label for="">Customer Name <i class="fa-solid fa-user"></i></label>
+                        <input type="text" formControlName="userName" placeholder="Please enter your name">
+                        <p *ngIf="postForm.get('userName')?.errors"  class="err">Password is required!</p>
+                    </div>
+                    <div class="inputboxs">
+                        <label>Customer Tel-number <i class="fa-solid fa-phone"></i></label>
+                        <input type="text" formControlName="userPhone" placeholder="Please enter your phone number">
+                        <p *ngIf="postForm.get('userPhone')?.errors"  class="err">Password is required!</p>
+                    </div>
+                    <button type="submit">Book Now</button>
+                </form>
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<app-room-moredetails></app-room-moredetails>

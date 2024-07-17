@@ -1,0 +1,95 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    padding: 0;
+}
+/* @font-face {
+    font-family: 'Gilroy';
+    src: url('/assets/fonts/Gilroy-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  } */
+  
+  @font-face {
+    font-family: 'Gilroy';
+    src: url('/assets/fonts/gilroy/Gilroy-Medium.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  body {
+    font-family: 'Gilroy';
+  }
+ 
+
+.mainbtn {
+    padding: 7px 25px;
+    border: none;
+    background-color: #51a9b4;
+    box-shadow: 0px 0px 12px 4px #a6babd;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    transition: 0.2s all ease;
+}
+.mainbtn:hover {
+    background-color: #7ecbd5;
+    box-shadow: 0px 0px 13px 4px #51a9b4;
+}
+
+/* Global input styles */
+.global-input {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.global-input:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.global-label {
+    position: relative;
+    width: 100%;
+}
+
+.global-input-box {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 15px;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 5px;
+}
+
+.global-input-box[type="date"], .global-input-box select {
+    width: 100%;
+    padding: 5px;
+}
+
+.global-input-title {
+    font-size: 0.75rem;
+    color: #888;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    background: #fff;
+    padding: 0 5px;
+    margin-top: -10px;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.section-padding {
+    padding: 40px 20px !important; 
+    background-color: #f8f9fa;
+}
