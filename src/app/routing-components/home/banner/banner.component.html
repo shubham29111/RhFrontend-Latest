@@ -5,24 +5,40 @@
             <!-- Tabs and Search Bar Container -->
             <div class="search-container">
                 <div class="tabs">
-                    <button class="tab active" id="hotel-tab">Hotel</button>
-                    <!-- <button class="tab" id="business-trip-tab">For Business Trips</button> -->
+                    <button class="tab active" id="hotel-tab">Hotels</button>
                 </div>
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <form>
-                        <div class="input-group">
+                    <form (ngSubmit)="onSubmit()" #bookingForm="ngForm" autocomplete="off">
+                        <div class="input-group destination">
                             <div class="custom-input" tabindex="0">
                                 <label class="custom-label">
-                                    <div class="input-title">Destination</div>
-                                    <select class="input-box">
-                                        <option value="" disabled selected>Select destination</option>
-                                        <option value="newyork">New York</option>
-                                        <option value="losangeles">Los Angeles</option>
-                                        <option value="chicago">Chicago</option>
-                                        <option value="miami">Miami</option>
-                                        <!-- Add more options as needed -->
-                                    </select>
+                                    <div class="relative">
+                                        <div class="h-10 bg-black flex  rounded">
+                                            <div class="input-title">Destination</div>
+
+                                            <input [(ngModel)]="location" placeholder='Enter location' name="uniqueLocation" id="uniqueLocation" class="px-4 appearance-none outline-none text-gray-800 w-full" (ngModelChange)="onLocationChange($event)" (click)="showDropdown()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+
+                                            <label for="show_more" class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
+                                            </label>
+                                        </div>
+
+                                        <input type="checkbox" name="show_more" id="show_more" class="hidden peer" />
+                                        <div class="absolute rounded shadow bg-black overflow-hidden" [ngClass]="{'hidden': !showDropdownMenu, 'flex': showDropdownMenu}" style="flex-direction: column; width: 100%; margin-top: 1rem;">
+                                            <div *ngIf="suggestions.regions.length" class="dropdown-section">
+                                                <div class="dropdown-header">Regions</div>
+                                                <div class="cursor-pointer group" *ngFor="let region of suggestions.regions">
+                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black" (click)="selectSuggestion(region)">{{ region.name }}, {{ region.country_code }}</a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="suggestions.hotels.length" class="dropdown-section">
+                                                <div class="dropdown-header">Hotels</div>
+                                                <div class="cursor-pointer group" *ngFor="let hotel of suggestions.hotels">
+                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black" (click)="selectSuggestion(hotel)">{{ hotel.name }}, {{ hotel.region_id }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -30,7 +46,7 @@
                             <div class="custom-input" tabindex="0">
                                 <label class="custom-label">
                                     <div class="input-title">Check-in</div>
-                                    <input type="date" class="input-box">
+                                    <input type="date" class="input-box" [(ngModel)]="checkIn" name="uniqueCheckIn" id="uniqueCheckIn" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                                 </label>
                             </div>
                         </div>
@@ -38,64 +54,61 @@
                             <div class="custom-input" tabindex="0">
                                 <label class="custom-label">
                                     <div class="input-title">Check-out</div>
-                                    <input type="date" class="input-box">
+                                    <input type="date" class="input-box" [(ngModel)]="checkOut" name="uniqueCheckOut" id="uniqueCheckOut" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                                 </label>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
-                            <div class="input-group">
-                                <div class="custom-input" tabindex="0" (click)="toggleGuestsDropdown()">
-                                    <label class="custom-label">
-                                        <div class="input-title">Guests</div>
-                                        <input type="text" [placeholder]="getGuestsPlaceholder()" class="input-box" readonly>
-                                    </label>
-                                </div>
+                        <div class="input-group guests-dropdown-container">
+                            <div class="custom-input" tabindex="0" (click)="toggleGuestsDropdown()">
+                                <label class="custom-label">
+                                    <div class="input-title">Guests</div>
+                                    <input type="text" [placeholder]="getGuestsPlaceholder()" class="input-box" readonly autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </label>
                             </div>
-                        <div class="dropdown-menu guests-dropdown" [ngClass]="{'show': isGuestsDropdownVisible}">
-                            <div class="popup-content" *ngFor="let room of rooms; let i = index">
-                                <div class="popup-header">
-                                    <h3>Room {{ i + 1 }}</h3>
-                                    <button class="close-button" (click)="removeRoom(i)" *ngIf="rooms.length > 1">×</button>
-                                </div>
-                                <div class="popup-body">
-                                    <div class="guests-control">
-                                        <div class="adults-control">
-                                            <label class="global-label">
-                                                <div>Adults</div>
-                                                <div class="control-buttons">
-                                                    <button (click)="decreaseAdults(i)">−</button>
-                                                    <span>{{ room.adults }}</span>
-                                                    <button (click)="increaseAdults(i)">+</button>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="children-control">
-                                            <label class="global-label">
-                                                <div>Children</div>
-                                                <div class="control-buttons">
-                                                    <button (click)="decreaseChildren(i)">−</button>
-                                                    <span>{{ room.children }}</span>
-                                                    <button (click)="increaseChildren(i)">+</button>
-                                                </div>
-                                            </label>
+                            <div class="dropdown-menu guests-dropdown" [ngClass]="{'show': isGuestsDropdownVisible}">
+                                <div class="popup-content" *ngFor="let room of rooms; let i = index">
+                                    <div class="popup-header">
+                                        <h3>Room {{ i + 1 }}</h3>
+                                        <button type="button" class="close-button" (click)="removeRoom(i)" *ngIf="rooms.length > 1">×</button>
+                                    </div>
+                                    <div class="popup-body">
+                                        <div class="guests-control">
+                                            <div class="adults-control">
+                                                <label class="global-label">
+                                                    <div>Adults</div>
+                                                    <div class="control-buttons">
+                                                        <button type="button" (click)="decreaseAdults(i)">−</button>
+                                                        <span>{{ room.adults }}</span>
+                                                        <button type="button" (click)="increaseAdults(i)">+</button>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="children-control">
+                                                <label class="global-label">
+                                                    <div>Children</div>
+                                                    <div class="control-buttons">
+                                                        <button type="button" (click)="decreaseChildren(i)">−</button>
+                                                        <span>{{ room.children }}</span>
+                                                        <button type="button" (click)="increaseChildren(i)">+</button>
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="button-container">
+                                    <button type="button" class="add-room-button" (click)="addRoom()">+ Add a room</button>
+                                    <button type="button" class="done-button" (click)="toggleGuestsDropdown()">Done</button>
+                                </div>
                             </div>
-                            <button class="add-room-button" (click)="addRoom()">+ Add a room</button>
-                            <button class="done-button" (click)="toggleGuestsDropdown()">Done</button>
-                        </div>
                         </div>
                         <div class="input-group">
                             <button type="submit" class="search-button">Search</button>
                         </div>
                     </form>
                 </div>
-                
             </div>
         </div>
     </div>
-    
 </section>
-
 <!-- banner end -->

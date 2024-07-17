@@ -1,4 +1,3 @@
-/* General Banner Styles */
 #banner {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../../../assets/slide-bg.jpg") no-repeat center center/cover;
     color: white;
@@ -48,7 +47,6 @@
 
 .tab:hover:not(.active) {
     background: #e0e0e0;
-    
 }
 
 .search-bar {
@@ -61,7 +59,7 @@
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     flex-wrap: wrap;
-    margin-top: 40px; 
+    margin-top: 40px;
 }
 
 .search-bar form {
@@ -72,9 +70,17 @@
 }
 
 .input-group {
-    flex: 1 1 150px;
+    flex: 1;
     margin: 5px;
     min-width: 150px; 
+}
+
+.input-group.destination {
+    flex: 2; /* Give more space to the destination input */
+}
+
+.input-group.guests-dropdown-container {
+    flex: 0.7; /* Adjust width of guests dropdown to be smaller */
 }
 
 .custom-input {
@@ -83,6 +89,7 @@
     border-radius: 5px;
     width: 100%;
     display: flex;
+    height: 43px;
     flex-direction: column;
     position: relative;
     transition: box-shadow 0.3s ease;
@@ -100,16 +107,21 @@
 .input-box {
     font-size: 1rem;
     color: #333;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     border: none;
     outline: none;
+    background:none;
     width: 100%;
-    padding: 5px;
+    padding: 10px; /* Adjust padding to make the height consistent */
+    height: 45px; /* Set a consistent height */
+    box-sizing: border-box; /* Ensure padding is included in the height */
 }
 
 .input-box[type="date"], .input-box select {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
+    height: 45px; /* Set a consistent height */
+    box-sizing: border-box; /* Ensure padding is included in the height */
 }
 
 .input-title {
@@ -124,21 +136,24 @@
 }
 
 .search-button {
-    background-color: #205391;
+    background-color: #1b9bd0;
     color: white;
     border: none;
     padding: 10px 20px; 
     margin: 10px;
+    margin-top: 0px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
-    flex: 1 1 150px; 
+    flex: 0.5; 
     min-width: 150px; 
+    height: 40px; /* Set a consistent height */
+    box-sizing: border-box; /* Ensure padding is included in the height */
 }
 
 .search-button:hover {
-    background-color: #205391;
+    background-color: #0b3446;
 }
 
 @media (max-width: 768px) {
@@ -152,11 +167,63 @@
         margin: 5px 0; 
     }
 
+    .input-group.destination {
+        flex: 1 1 100%; 
+    }
+
     .search-button {
         width: 100%;
         margin: 5px 0; 
     }
 }
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.dropdown-section {
+    padding: 10px;
+}
+
+.dropdown-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+.region-icon::before {
+    content: "🏙️"; /* Adjust icon */
+    margin-right: 5px;
+}
+
+.hotel-icon::before {
+    content: "🏨"; /* Adjust icon */
+    margin-right: 5px;
+}
+
 
 /* Additional Styles for Guests Dropdown */
 .guests-dropdown {
@@ -241,7 +308,7 @@
 }
 
 .add-room-button, .done-button {
-    background-color: #ff5a5f;
+    background-color: #205391;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -262,6 +329,7 @@
 .add-room-button:hover, .done-button:hover {
     background-color: #e04b4b;
 }
+
 
 @media (max-width: 768px) {
     .popup-content {
@@ -285,4 +353,17 @@
         margin: 5px 0;
         padding: 10px;
     }
+}
+.bg-black {
+    --tw-bg-opacity: 0.5;
+    background-color: #fffffff5;
+    color: black;
+    text-align: left;
+    text-overflow: ellipsis;
+
+
+}
+.input-box::placeholder {
+    color: black;
+    opacity: 1; /* Ensure the color is not faded */
 }

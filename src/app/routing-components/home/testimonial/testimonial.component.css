@@ -14,7 +14,7 @@ h2 {
     margin: 0 auto;
     height: 4px;
     border-radius: 1px;
-    background: #1c47e3;
+    background: #1b9bd0;
     left: 0;
     right: 0;
     bottom: -20px;
@@ -48,7 +48,7 @@ h2 {
   }
   .carousel .overview b {
     text-transform: uppercase;
-    color: #1c47e3;
+    color: #1b9bd0;
   }
   .carousel .carousel-indicators {
     bottom: -40px;
@@ -66,6 +66,6 @@ h2 {
   }
   .carousel-indicators li.active {
     color: #fff;
-    background: #1c47e3;
+    background: #1b9bd0;
     border: 5px double;
   }

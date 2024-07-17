@@ -1,42 +1,70 @@
-<header>
-    <div class="container">
-        <div class="selectrooms">
-            <button>All</button>
-            <button>Tbilisi</button>
-            
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-lg-3">
+      <!-- Filters Section -->
+      <div class="filters p-3 mb-4 bg-light border rounded">
+        <h4>Filters</h4>
+        <!-- Filter options -->
+        <div>
+          <label for="sortBy">Sort by</label>
+          <select id="sortBy" class="form-control mb-3">
+            <option value="popularity">Popularity</option>
+            <option value="price">Price</option>
+            <option value="rating">Rating</option>
+          </select>
         </div>
+        <div>
+          <label for="priceRange">Price for a night in EUR</label>
+          <input type="range" id="priceRange" class="form-control-range">
+        </div>
+      </div>
     </div>
-</header>
-
-<main>
-    <section>
-        <main>
-            <section>
-                <div class="container">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-                        <div class="col mt-5 d-flex justify-content-center" *ngFor="let items of hotels">
-                            <div class="card">
-                                <div class="card-items">
-                                    <img [src]="items.featuredImage"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body-top">
-                                        <div class="info">
-                                            <p class="card-text">{{items.name}}</p>
-                                          
-
-                                        </div>
-                                        <button routerLink="/rooms">VIEW ROOMS</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="col-lg-9">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>New York: 647 accommodation options available</h2>
+        <div>
+          <button class="btn btn-outline-primary" [class.active]="!showMap" (click)="setView('list')">List view</button>
+          <button class="btn btn-primary" [class.active]="showMap" (click)="setView('map')">Map view</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12" *ngIf="showMap">
+          <div id="map" class="mb-4" style="height: 500px;"></div>
+          <button class="btn btn-secondary" (click)="setView('list')">Hide the map</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let hotel of hotels" [ngClass]="{'col-md-12': !showMap, 'col-md-6': showMap}">
+          <div class="hotel-card" *ngFor="let hotel of hotels">
+            <div class="hotel-card-inner">
+              <div class="hotel-card-img">
+                <img [src]="hotel.image" alt="Hotel image">
+                <div class="hotel-rating">{{ hotel.reviews }}</div>
+              </div>
+              <div class="hotel-card-content">
+                <div class="hotel-card-header">
+                  <div class="hotel-info">
+                    <h3>{{ hotel.name }}</h3>
+                    <p>{{ hotel.address }}</p>
+                    <p>{{ hotel.distance }}</p>
+                    <p>{{ hotel.nearby }}</p>
+                    <div class="hotel-reviews">
+                      <div class="rating">{{ hotel.userRating }} <i class="fas fa-star"></i></div>
+                      <p>{{ hotel.reviews }} reviews</p>
                     </div>
+                  </div>
+                  <div class="hotel-price">
+                    <h4>€ {{ hotel.price }}</h4>
+                    <p>for a night for 2 guests</p>
+                    <button>Show all rooms</button>
+                  </div>
                 </div>
-
-
-
-            </section>
-        </main>
-    </section>
-</main>
+                <div class="hotel-amenities">
+                  <div class="amenity" *ngFor="let amenity of hotel.amenities" [title]="amenity.title">
+                    <i [class]="amenity.icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          

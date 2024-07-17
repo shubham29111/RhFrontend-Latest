@@ -1,5 +1,5 @@
 .travel-recommendation-wrapper {
-  padding: 40px 20px;
+  padding: 0px 20px;
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
 
 .section-title i {
   margin-right: 10px;
-  color: #007bff;
+  color: #1b9bd0;
 }
 
 .travel-cards {
@@ -63,7 +63,7 @@
 
 .travel-card-link {
   font-size: 18px;
-  color: #007bff;
+  color: #1b9bd0;
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -78,7 +78,7 @@
 }
 
 .show-more-button {
-  background-color: #007bff;
+  background-color: #1b9bd0;
   color: #fff;
   border: none;
   padding: 10px 20px;

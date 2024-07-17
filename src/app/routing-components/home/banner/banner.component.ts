@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
-
-interface Room {
-  adults: number;
-  children: number;
-}
+import { Component, HostListener } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environments';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-banner',
@@ -11,13 +9,66 @@ interface Room {
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent {
-
-
+  location: string = '';
+  checkIn: string = '';
+  checkOut: string = '';
+  suggestions: { regions: any[], hotels: any[] } = { regions: [], hotels: [] };
   isGuestsDropdownVisible: boolean = false;
-  rooms: Room[] = [{ adults: 1, children: 0 }];
+  rooms: any[] = [{ adults: 1, children: 0 }];
+  showDropdownMenu: boolean = false;
+  programmaticChange: boolean = false;
 
+  constructor(private http: HttpClient, private router: Router) {}
+
+  onLocationChange(query: string) {
+    if (this.programmaticChange) {
+      this.programmaticChange = false;
+      return;
+    }
+    if (query.length > 2) {
+      this.http.get<any>(environment.baseUrl+`/regions?search=${query}`).subscribe(
+        (data) => {
+          console.log('API Response:', data);
+          this.suggestions.regions = data.response.regions;
+          this.suggestions.hotels = data.response.hotels;
+          this.showDropdownMenu = true; // Show dropdown when suggestions are updated
+        },
+        (error) => {
+          console.error('Error fetching suggestions', error);
+        }
+      );
+    } else {
+      this.suggestions = { regions: [], hotels: [] };
+      this.showDropdownMenu = false; // Hide dropdown if query is too short
+    }
+  }
+
+  showDropdown() {
+    if (this.location.length > 0) {
+      this.onLocationChange(this.location);
+      this.showDropdownMenu = true; // Show dropdown on click
+    }
+  }
+
+
+  selectSuggestion(suggestion: any) {
+    this.location = suggestion.name;
+    this.suggestions = { regions: [], hotels: [] };
+    this.showDropdownMenu = false; // Hide dropdown after selection
+    this.programmaticChange = true; // Prevent reopening
+  }
   toggleGuestsDropdown() {
     this.isGuestsDropdownVisible = !this.isGuestsDropdownVisible;
+  }
+
+  addRoom() {
+    this.rooms.push({ adults: 1, children: 0 });
+  }
+
+  removeRoom(index: number) {
+    if (this.rooms.length > 1) {
+      this.rooms.splice(index, 1);
+    }
   }
 
   decreaseAdults(index: number) {
@@ -29,27 +80,53 @@ export class BannerComponent {
   increaseAdults(index: number) {
     this.rooms[index].adults++;
   }
-  increaseChildren(index: number) {
-    this.rooms[index].children++;
-  }
 
   decreaseChildren(index: number) {
     if (this.rooms[index].children > 0) {
       this.rooms[index].children--;
     }
   }
-  addRoom() {
-    this.rooms.push({ adults: 1, children: 0 });
+
+  increaseChildren(index: number) {
+    this.rooms[index].children++;
   }
 
-  removeRoom(index: number) {
-    this.rooms.splice(index, 1);
-  }
   getGuestsPlaceholder() {
+    let totalAdults = 0;
+    let totalChildren = 0;
+    this.rooms.forEach(room => {
+      totalAdults += room.adults;
+      totalChildren += room.children;
+    });
+    return `${totalAdults} Adults, ${totalChildren} Child`;
+  }
+
+  onSubmit() {
     const totalAdults = this.rooms.reduce((sum, room) => sum + room.adults, 0);
     const totalChildren = this.rooms.reduce((sum, room) => sum + room.children, 0);
-    return `${totalAdults} adults, ${totalChildren} children`;
+    const guests = totalAdults + totalChildren;
+
+    this.router.navigate(['/hotels'], {
+      queryParams: {
+        location: this.location,
+        checkIn: this.checkIn,
+        checkOut: this.checkOut,
+        guests
+      }
+    });
   }
-  
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const isClickInsideDropdown = target.closest('.dropdown-menu') !== null;
+    const isClickInsideInput = target.closest('.custom-input') !== null;
+
+    if (!isClickInsideDropdown && !isClickInsideInput) {
+      this.showDropdownMenu = false;
+      this.isGuestsDropdownVisible = false;
+    }
+  }
 }
+
+
 

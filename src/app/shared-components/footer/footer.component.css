@@ -20,7 +20,7 @@
 }
 
 .footer ul li a {
-    color: #007bff;
+    color: #1b9bd0;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -52,7 +52,7 @@
 }
 
 .footer .social-icons a:hover {
-    color: #007bff;
+    color: #1b9bd0;
 }
 
 .footer .qr-code img {
@@ -96,7 +96,7 @@
 }
 
 .footer .top-footer .nav-links a {
-    color: #007bff;
+    color: #1b9bd0;
     margin: 0 15px;
     text-decoration: none;
     font-size: 16px;
