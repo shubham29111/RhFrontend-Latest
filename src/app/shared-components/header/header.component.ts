@@ -64,5 +64,14 @@ export class HeaderComponent {
         }
       });
     });
+
+
+const avatarDropdown = document.getElementById('avatarDropdown');
+    avatarDropdown?.addEventListener('click', () => {
+      const chevronIcon = avatarDropdown.querySelector('.chevron-icon');
+      if (chevronIcon) {
+        chevronIcon.classList.toggle('rotate-180');
+      }
+    });
   }
 }
