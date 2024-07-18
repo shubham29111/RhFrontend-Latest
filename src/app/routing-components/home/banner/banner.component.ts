@@ -17,6 +17,7 @@ export class BannerComponent {
   rooms: any[] = [{ adults: 1, children: 0 }];
   showDropdownMenu: boolean = false;
   programmaticChange: boolean = false;
+  region: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -25,7 +26,7 @@ export class BannerComponent {
       this.programmaticChange = false;
       return;
     }
-    if (query.length > 2) {
+    if (query.length ) {
       this.http.get<any>(environment.baseUrl+`/regions?search=${query}`).subscribe(
         (data) => {
           console.log('API Response:', data);
@@ -46,16 +47,17 @@ export class BannerComponent {
   showDropdown() {
     if (this.location.length > 0) {
       this.onLocationChange(this.location);
-      this.showDropdownMenu = true; // Show dropdown on click
+      this.showDropdownMenu = true; 
     }
   }
 
 
   selectSuggestion(suggestion: any) {
+    this.region=suggestion;
     this.location = suggestion.name;
     this.suggestions = { regions: [], hotels: [] };
-    this.showDropdownMenu = false; // Hide dropdown after selection
-    this.programmaticChange = true; // Prevent reopening
+    this.showDropdownMenu = false; 
+    this.programmaticChange = true; 
   }
   toggleGuestsDropdown() {
     this.isGuestsDropdownVisible = !this.isGuestsDropdownVisible;
@@ -109,6 +111,7 @@ export class BannerComponent {
     this.router.navigate(['/hotels'], {
       queryParams: {
         location: this.location,
+        regionId: this.region.id,
         checkIn: this.checkIn,
         checkOut: this.checkOut,
         guests

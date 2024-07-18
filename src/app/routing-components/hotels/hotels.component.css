@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+
 .hotel-card {
   display: flex;
   background: white;
@@ -105,4 +108,22 @@
 .amenity {
   margin-right: 10px;
   color: #6c757d;
+}
+.mt-100{
+	
+	margin-top:100px;
+}
+
+.carousel .carousel-indicators li{
+	
+	display:inline-block;
+	width:10px;
+	height:10px;
+	text-indent: -99px;
+	cursor:pointer;
+	border:1px solid #fff;
+	background:#fff;
+	border-radius:2px;
+	
+	
 }

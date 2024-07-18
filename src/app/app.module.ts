@@ -21,6 +21,7 @@ import { NotfoundComponent } from './routing-components/notfound/notfound.compon
 import { HttpClientModule } from '@angular/common/http';
 import { BlogsSectionComponent } from './routing-components/home/blogs-section/blogs-section.component';
 import { TestimonialComponent } from './routing-components/home/testimonial/testimonial.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 
@@ -53,6 +54,7 @@ import { TestimonialComponent } from './routing-components/home/testimonial/test
     HttpClientModule,
     NgxSliderModule,
     ReactiveFormsModule,
+    SlickCarouselModule
     
     
     

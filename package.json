@@ -27,9 +27,11 @@
     "detect-passive-events": "^2.0.3",
     "jquery": "^3.7.1",
     "ng5-slider": "^1.2.6",
+    "ngx-slick-carousel": "^17.0.0",
     "ngx-slider-v2": "^16.0.2",
     "rxjs": "~7.8.0",
     "rxjs-compat": "^6.6.7",
+    "slick-carousel": "^1.8.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.13.0"
   },
