@@ -91,7 +91,7 @@
 
 .section-padding {
     padding: 40px 20px !important; 
-    background-color: #f8f9fa;
+    background-color: #f2f1f0;
 }
 .custom-input {
     background: #fff;
@@ -107,7 +107,9 @@
 
 .custom-input:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #1b9bd0;
 }
+
 
 .custom-label {
     position: relative;

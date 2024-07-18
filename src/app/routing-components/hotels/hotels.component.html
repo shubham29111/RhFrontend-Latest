@@ -1,90 +1,81 @@
-<div class="container-fluid mt-4">
-  <div class="row">
-    <div class="col-lg-3">
-      <!-- Filters Section -->
-      <div class="filters p-3 mb-4 bg-light border rounded">
-        <h4>Filters</h4>
-        <!-- Filter options -->
-        <div>
-          <label for="sortBy">Sort by</label>
-          <select id="sortBy" class="form-control mb-3" (change)="sortHotels($event)">
-            <option value="popularity">Popularity</option>
-            <option value="price">Price</option>
-            <option value="rating">Rating</option>
-          </select>
-        </div>
-        <div>
-          <label for="priceRange">Price for a night in EUR</label>
-          <input type="range" id="priceRange" class="form-control-range" (input)="filterByPrice($event)">
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-9">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>{{regionName}}: {{hotels.length}} accommodation options available</h2>
-        <!-- <div>
-          <button class="btn btn-outline-primary" [class.active]="!showMap" (click)="setView('list')">List view</button>
-          <button class="btn btn-primary" [class.active]="showMap" (click)="setView('map')">Map view</button>
-        </div> -->
-      </div>
-      <div class="row">
-        <div class="col-12" *ngIf="showMap">
-          <div id="map" class="mb-4" style="height: 500px;"></div>
-          <button class="btn btn-secondary" (click)="setView('list')">Hide the map</button>
+<div class="section-padding">
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-lg-3">
+        <!-- Filters Section -->
+        <div class="filters p-3 mb-4 bg-light border rounded">
+          <h4>Filters</h4>
+          <!-- Filter options -->
+          <div>
+            <label for="sortBy">Sort by</label>
+            <select id="sortBy" class="form-control mb-3" (change)="sortHotels($event)">
+              <option value="popularity">Popularity</option>
+              <option value="price">Price</option>
+              <option value="rating">Rating</option>
+            </select>
+          </div>
+          <div>
+            <label for="priceRange">Price for a night in EUR</label>
+            <input type="range" id="priceRange" class="form-control-range" (input)="filterByPrice($event)">
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6 mb-4" *ngFor="let hotel of hotels" [ngClass]="{'col-md-12': !showMap, 'col-md-6': showMap}">
-          <div class="hotel-card">
-            <div class="hotel-card-inner">
-              <div class="hotel-card-img">
-                <div id="carouselIndicators-{{hotel.id}}" class="carousel slide" data-ride="carousel">
-                  <ol class="carousel-indicators">
-                    <li *ngFor="let img of hotel.images; let i = index" [attr.data-target]="'#carouselIndicators-' + hotel.id" [attr.data-slide-to]="i" [class.active]="i === 0"></li>
-                  </ol>
-                  <div class="carousel-inner">
-                    <div *ngFor="let img of hotel.images; let i = index" class="carousel-item" [class.active]="i === 0">
-                      <img class="d-block w-100" [src]="img" alt="Slide {{i}}">
-                      <div class="carousel-caption d-none d-md-block">
-                        <h4>
-                          <i class="fa fa-map-marker"></i>
-                          {{hotel.name}}, {{hotel.Region.name}}
-                        </h4>
+
+      <div class="col-lg-9">
+        <div class="total-accomodation">
+          <div *ngIf="!loading" class="d-flex justify-content-between align-items-center mb-4">
+            <h2 style="padding-left: 20px;">{{regionName}}: {{hotels.length}} accommodation options available</h2>
+          </div>
+          <div *ngIf="loading" class="progress-container">
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" *ngIf="showMap">
+            <div id="map" class="mb-4" style="height: 500px;"></div>
+            <button class="btn btn-secondary" (click)="setView('list')">Hide the map</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-4" *ngFor="let hotel of hotels">
+            <div class="hotel-card">
+              <div class="hotel-card-inner">
+                <div class="hotel-card-img">
+                  <div id="carouselIndicators-{{hotel.id}}" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div *ngFor="let img of hotel.images; let i = index" class="carousel-item" [class.active]="i === 0">
+                        <img class="d-block w-100" [src]="img" alt="Slide {{i}}">
                       </div>
                     </div>
                   </div>
-                  <a class="carousel-control-prev" [attr.href]="'#carouselIndicators-' + hotel.id" role="button" data-slide="prev">
-                    <i class="fa fa-chevron-left"></i>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" [attr.href]="'#carouselIndicators-' + hotel.id" role="button" data-slide="next">
-                    <i class="fa fa-chevron-right"></i>
-                    <span class="sr-only">Next</span>
-                  </a>
+                  <div class="hotel-rating">{{ hotel.userRating }}</div>
                 </div>
-                <div class="hotel-rating">{{ hotel.reviews }}</div>
-              </div>
-              <div class="hotel-card-content">
-                <div class="hotel-card-header">
-                  <div class="hotel-info">
-                    <h3>{{ hotel.name }}</h3>
-                    <p>{{ hotel.address }}</p>
-                    <p>{{ hotel.distance }} km from center</p>
-                    <p>Nearby: {{ hotel.nearby }}</p>
-                    <div class="hotel-reviews">
-                      <div class="rating">{{ hotel.userRating }} <i class="fas fa-star"></i></div>
-                      <p>{{ hotel.reviews }} reviews</p>
+                <div class="hotel-card-content">
+                  <div class="hotel-card-header">
+                    <div class="hotel-info">
+                      <h3>{{ hotel.name }}</h3>
+                      <p>{{ hotel.address }}</p>
+                      <p>{{ hotel.distance }} km from center</p>
+                      <div class="hotel-reviews">
+                        <div class="rating">
+                          <i class="fas fa-star"></i> {{ hotel.userRating }}
+                        </div>
+                        <p>{{ hotel.reviews }} reviews</p>
+                      </div>
+                    </div>
+                    <div class="hotel-price">
+                      <h4>€ {{ hotel.price }}</h4>
+                      <p>for a night for 2 guests</p>
+                      <button class="btn btn-primary">Show all rooms</button>
                     </div>
                   </div>
-                  <div class="hotel-price">
-                    <h4>€ {{ hotel.price }}</h4>
-                    <p>for a night for 2 guests</p>
-                    <button>Show all rooms</button>
-                  </div>
-                </div>
-                <div class="hotel-amenities">
-                  <div class="amenity" *ngFor="let amenity of hotel.amenities" [title]="amenity.title">
-                    <i [class]="amenity.icon"></i>
+                  <div class="hotel-amenities">
+                    <div *ngFor="let amenity of hotel.amenities" class="amenity">
+                      <img [src]="amenity.icon" [alt]="amenity.title">
+                      <span>{{ amenity.title }}</span>
+                    </div>
                   </div>
                 </div>
               </div>

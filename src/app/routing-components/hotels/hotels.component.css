@@ -1,5 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Calibri:400,300,700);
-
 
 .hotel-card {
   display: flex;
@@ -8,6 +6,11 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin: 15px 0;
   overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.hotel-card:hover {
+  transform: scale(1.02);
 }
 
 .hotel-card-inner {
@@ -17,22 +20,25 @@
 
 .hotel-card-img {
   position: relative;
-  width: 250px;
+  width: 200px;
+  overflow: hidden;
 }
 
 .hotel-card-img img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hotel-rating {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #38a169;
+  background: #ffbc00;
   color: white;
-  padding: 5px;
+  padding: 5px 10px;
   border-radius: 5px;
+  font-weight: bold;
 }
 
 .hotel-card-content {
@@ -46,6 +52,8 @@
 .hotel-card-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .hotel-info {
@@ -53,12 +61,13 @@
 }
 
 .hotel-info h3 {
-  margin: 0 0 5px;
+  margin: 0;
   font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .hotel-info p {
-  margin: 0 0 5px;
+  margin: 5px 0;
   color: #6c757d;
 }
 
@@ -74,6 +83,12 @@
   align-items: center;
   margin-right: 10px;
   color: #ffc107;
+}
+
+.filters {
+  background-color: white !important;
+  border-radius: 10px;
+  padding: 15px;
 }
 
 .hotel-price {
@@ -102,28 +117,60 @@
 
 .hotel-amenities {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 15px;
 }
 
 .amenity {
+  display: flex;
+  align-items: center;
   margin-right: 10px;
   color: #6c757d;
 }
-.mt-100{
-	
-	margin-top:100px;
+
+.amenity img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 
-.carousel .carousel-indicators li{
-	
-	display:inline-block;
-	width:10px;
-	height:10px;
-	text-indent: -99px;
-	cursor:pointer;
-	border:1px solid #fff;
-	background:#fff;
-	border-radius:2px;
-	
-	
+.mt-100 {
+  margin-top: 100px;
+}
+
+.carousel .carousel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.col-lg-9 {
+  max-width: 60% !important;
+}
+
+.total-accomodation {
+  background-color: white;
+  height: 70px;
+  border-radius: 20px;
+  padding: 26px 20px;
+  align-content: flex-end;
+}
+.progress {
+  width: 98%;
+  height: 15px;
+  margin-top: 3px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #007bff;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #007bff;
 }

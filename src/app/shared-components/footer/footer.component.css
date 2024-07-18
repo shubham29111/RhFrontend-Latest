@@ -1,5 +1,5 @@
 .footer {
-    background-color: #f8f9fa;
+    background-color:#f2f1f0;
     padding: 40px 20px;
     color: #333;
 }
@@ -84,8 +84,11 @@
 
 .footer .top-footer {
     border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    /* padding-bottom: 20px;*/
+    margin-bottom: 20px; 
+    padding-top: 17px !important;
+    /* margin-top: 20px; */
+    border-top: 1px solid #d2d2d2;
 }
 
 .footer .top-footer .nav-links {

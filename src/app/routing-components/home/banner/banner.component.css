@@ -97,7 +97,9 @@
 
 .custom-input:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #1b9bd0;
 }
+
 
 .custom-label {
     position: relative;

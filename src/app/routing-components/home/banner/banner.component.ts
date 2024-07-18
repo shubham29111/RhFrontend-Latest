@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.css']
 })
-export class BannerComponent {
+export class BannerComponent implements OnInit {
   location: string = '';
   checkIn: string = '';
   checkOut: string = '';
@@ -20,7 +20,19 @@ export class BannerComponent {
   region: any;
 
   constructor(private http: HttpClient, private router: Router) {}
+  ngOnInit(): void {
+  this.currentDate();
+}
 
+  currentDate()
+  {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.checkIn = today.toISOString().split('T')[0];
+    this.checkOut = tomorrow.toISOString().split('T')[0];
+  }
+  
   onLocationChange(query: string) {
     if (this.programmaticChange) {
       this.programmaticChange = false;
@@ -32,7 +44,7 @@ export class BannerComponent {
           console.log('API Response:', data);
           this.suggestions.regions = data.response.regions;
           this.suggestions.hotels = data.response.hotels;
-          this.showDropdownMenu = true; // Show dropdown when suggestions are updated
+          this.showDropdownMenu = true; 
         },
         (error) => {
           console.error('Error fetching suggestions', error);
@@ -40,7 +52,7 @@ export class BannerComponent {
       );
     } else {
       this.suggestions = { regions: [], hotels: [] };
-      this.showDropdownMenu = false; // Hide dropdown if query is too short
+      this.showDropdownMenu = false; 
     }
   }
 
@@ -118,6 +130,7 @@ export class BannerComponent {
       }
     });
   }
+  
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;

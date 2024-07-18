@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+translateLanguage(arg0: string) {
+throw new Error('Method not implemented.');
+}
   selectedCurrency = 'USD';
   currencyPanelVisible = false;
   loginPanelVisible = false;
