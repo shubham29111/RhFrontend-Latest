@@ -19,6 +19,11 @@
                     <div class="media-body">
                       <div class="testimonial">
                         <p>{{ testimonial.text }}</p>
+                        <div class="rating">
+                          <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                            <i class="fa" [ngClass]="{'fa-star': i < testimonial.rating, 'fa-star-o': i >= testimonial.rating}"></i>
+                          </ng-container>
+                        </div>
                         <p class="overview"><b>{{ testimonial.name }}</b>, {{ testimonial.position }}</p>
                       </div>
                     </div>

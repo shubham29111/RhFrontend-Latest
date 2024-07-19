@@ -1,3 +1,4 @@
+
 #banner {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../../../assets/slide-bg.jpg") no-repeat center center/cover;
     color: white;
@@ -11,14 +12,12 @@
     z-index: 2;
 }
 
-/* Search Container Styles */
 .search-container {
     position: relative;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-/* Tabs Styles */
 .tabs {
     position: absolute;
     top: -44px; 
@@ -51,10 +50,9 @@
 
 .search-bar {
     background: white;
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px;
     padding: 20px;
     display: flex;
-    border-top-left-radius: 0;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -64,7 +62,7 @@
 
 .search-bar form {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
 }
@@ -72,15 +70,15 @@
 .input-group {
     flex: 1;
     margin: 5px;
-    min-width: 150px; 
+    min-width: 150px;
 }
 
 .input-group.destination {
-    flex: 2; /* Give more space to the destination input */
+    flex: 2;
 }
 
 .input-group.guests-dropdown-container {
-    flex: 0.7; /* Adjust width of guests dropdown to be smaller */
+    flex: 0.7;
 }
 
 .custom-input {
@@ -100,7 +98,6 @@
     border: 1px solid #1b9bd0;
 }
 
-
 .custom-label {
     position: relative;
     width: 100%;
@@ -109,21 +106,19 @@
 .input-box {
     font-size: 1rem;
     color: #333;
-    /* margin-top: 15px; */
     border: none;
     outline: none;
-    background:none;
-    width: 100%;
-    padding: 10px; /* Adjust padding to make the height consistent */
-    height: 45px; /* Set a consistent height */
-    box-sizing: border-box; /* Ensure padding is included in the height */
-}
-
-.input-box[type="date"], .input-box select {
+    background: none;
     width: 100%;
     padding: 10px;
-    height: 45px; /* Set a consistent height */
-    box-sizing: border-box; /* Ensure padding is included in the height */
+    height: 45px;
+    box-sizing: border-box;
+}
+
+.input-box[type="date"],
+.input-box select {
+    padding: 10px;
+    height: 45px;
 }
 
 .input-title {
@@ -134,24 +129,22 @@
     left: 10px;
     background: #fff;
     padding: 0 5px;
-    margin-top: -10px; 
+    margin-top: -10px;
 }
 
 .search-button {
     background-color: #1b9bd0;
     color: white;
     border: none;
-    padding: 10px 20px; 
-    margin: 10px;
-    margin-top: 0px;
+    padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
-    flex: 0.5; 
-    min-width: 150px; 
-    height: 40px; /* Set a consistent height */
-    box-sizing: border-box; /* Ensure padding is included in the height */
+    flex: 0.5;
+    min-width: 150px;
+    height: 40px;
+    box-sizing: border-box;
 }
 
 .search-button:hover {
@@ -165,20 +158,20 @@
     }
 
     .input-group {
-        flex: 1 1 100%; 
-        margin: 5px 0; 
+        flex: 1 1 100%;
+        margin: 5px 0;
     }
 
     .input-group.destination {
-        flex: 1 1 100%; 
+        flex: 1 1 100%;
     }
 
     .search-button {
         width: 100%;
-        margin: 5px 0; 
+        margin: 5px 0;
     }
 }
-/* Dropdown Menu Styles */
+
 .dropdown-menu {
     position: absolute;
     background-color: white;
@@ -216,18 +209,6 @@ li:hover {
     background-color: #f0f0f0;
 }
 
-.region-icon::before {
-    content: "🏙️"; /* Adjust icon */
-    margin-right: 5px;
-}
-
-.hotel-icon::before {
-    content: "🏨"; /* Adjust icon */
-    margin-right: 5px;
-}
-
-
-/* Additional Styles for Guests Dropdown */
 .guests-dropdown {
     display: none;
     position: absolute;
@@ -235,8 +216,8 @@ li:hover {
     left: 0;
     z-index: 1000;
     min-width: 300px;
-    padding: .5rem 1rem;
-    margin: .125rem 0 0;
+    padding: 0.5rem 1rem;
+    margin: 0.125rem 0 0;
     font-size: 1rem;
     color: #212529;
     text-align: left;
@@ -285,7 +266,8 @@ li:hover {
     margin-bottom: 10px;
 }
 
-.adults-control, .children-control {
+.adults-control,
+.children-control {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -309,7 +291,8 @@ li:hover {
     margin: 0 10px;
 }
 
-.add-room-button, .done-button {
+.add-room-button,
+.done-button {
     background-color: #205391;
     color: white;
     border: none;
@@ -328,14 +311,13 @@ li:hover {
     margin-bottom: 10px;
 }
 
-.add-room-button:hover, .done-button:hover {
-    background-color: #e04b4b;
+.add-room-button:hover,
+.done-button:hover {
+    background-color: #4bb1e0;
 }
-
 
 @media (max-width: 768px) {
     .popup-content {
-        width: 100%;
         padding: 10px;
     }
 
@@ -344,18 +326,20 @@ li:hover {
         align-items: flex-start;
     }
 
-    .adults-control, .children-control {
+    .adults-control,
+    .children-control {
         flex-direction: row;
         justify-content: space-between;
         width: 100%;
     }
 
-    .add-room-button, .done-button {
-        width: 100%;
+    .add-room-button,
+    .done-button {
         margin: 5px 0;
         padding: 10px;
     }
 }
+
 .bg-black {
     --tw-bg-opacity: 0.5;
     background-color: #fffffff5;
@@ -364,7 +348,8 @@ li:hover {
     text-overflow: ellipsis;
     z-index: 1;
 }
+
 .input-box::placeholder {
     color: black;
-    opacity: 1; /* Ensure the color is not faded */
+    opacity: 1;
 }

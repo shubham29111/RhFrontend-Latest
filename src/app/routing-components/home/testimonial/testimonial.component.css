@@ -69,3 +69,11 @@ h2 {
     background: #1b9bd0;
     border: 5px double;
   }
+  .rating {
+    margin: 10px 0;
+  }
+  
+  .rating .fa {
+    color: #ffcc00;
+  }
+  

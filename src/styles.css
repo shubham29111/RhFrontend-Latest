@@ -3,13 +3,7 @@
     margin: 0;
     padding: 0;
 }
-/* @font-face {
-    font-family: 'Gilroy';
-    src: url('/assets/fonts/Gilroy-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  } */
-  
+
   @font-face {
     font-family: 'Gilroy';
     src: url('/assets/fonts/gilroy/Gilroy-Medium.ttf') format('truetype');
@@ -139,3 +133,31 @@
     border: none;
     box-shadow: none;
   }
+  .global-button {
+    background-color: #1b9bd0;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s;
+  }
+  
+  .global-button:hover {
+    background-color: #0056b3;
+  }
+  .global-title{
+    font-size: 24px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+    margin-bottom: 20px;
+    transition: color 0.3s;
+  }
+ 
