@@ -1,8 +1,12 @@
 <!-- banner start -->
 <section id="banner">
-    <div class="container-fluid">
-        <div class="cover">
-            <div class="search-container">
+    <div class="section__container header__container">
+        <div class="header__image__container">
+          <div class="header__content">
+            <h1>Enjoy Your Dream Vacation</h1>
+            <p>Book Hotels, Flights and stay packages at lowest price.</p>
+          </div>
+          <div class="search-container">
                 <div class="tabs">
                     <button class="tab active" id="hotel-tab">Hotels</button>
                 </div>
@@ -15,24 +19,38 @@
                                         <div class="h-10 bg-black flex  rounded">
                                             <div class="input-title">Destination</div>
 
-                                            <input [(ngModel)]="location" placeholder='Enter location' name="uniqueLocation" id="uniqueLocation" class="px-4 appearance-none outline-none text-gray-800 w-full" (ngModelChange)="onLocationChange($event)" (click)="showDropdown()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                                            <input [(ngModel)]="location" placeholder='Enter location'
+                                                name="uniqueLocation" id="uniqueLocation"
+                                                class="px-4 appearance-none outline-none text-gray-800 w-full"
+                                                (ngModelChange)="onLocationChange($event)" (click)="showDropdown()"
+                                                autocomplete="off" autocorrect="off" autocapitalize="off"
+                                                spellcheck="false" />
 
-                                            <label for="show_more" class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
+                                            <label for="show_more"
+                                                class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
                                             </label>
                                         </div>
 
                                         <input type="checkbox" name="show_more" id="show_more" class="hidden peer" />
-                                        <div class="absolute rounded shadow bg-black overflow-hidden" [ngClass]="{'hidden': !showDropdownMenu, 'flex': showDropdownMenu}" style="flex-direction: column; width: 100%; margin-top: 1rem;">
+                                        <div class="absolute rounded shadow bg-black overflow-hidden"
+                                            [ngClass]="{'hidden': !showDropdownMenu, 'flex': showDropdownMenu}"
+                                            style="flex-direction: column; width: 100%; margin-top: 1rem;">
                                             <div *ngIf="suggestions.regions.length" class="dropdown-section">
                                                 <div class="dropdown-header">Regions</div>
-                                                <div class="cursor-pointer group" *ngFor="let region of suggestions.regions">
-                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black" (click)="selectSuggestion(region)">{{ region.name }}, {{ region.country_code }}</a>
+                                                <div class="cursor-pointer group"
+                                                    *ngFor="let region of suggestions.regions">
+                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black"
+                                                        (click)="selectSuggestion(region)">{{ region.name }}, {{
+                                                        region.country_code }}</a>
                                                 </div>
                                             </div>
                                             <div *ngIf="suggestions.hotels.length" class="dropdown-section">
                                                 <div class="dropdown-header">Hotels</div>
-                                                <div class="cursor-pointer group" *ngFor="let hotel of suggestions.hotels">
-                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black" (click)="selectSuggestion(hotel)">{{ hotel.name }}, {{ hotel.region_id }}</a>
+                                                <div class="cursor-pointer group"
+                                                    *ngFor="let hotel of suggestions.hotels">
+                                                    <a class="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 text-black"
+                                                        (click)="selectSuggestion(hotel)">{{ hotel.name }}, {{
+                                                        hotel.region_id }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,14 +78,16 @@
                             <div class="custom-input" tabindex="0" (click)="toggleGuestsDropdown()">
                                 <label class="custom-label">
                                     <div class="input-title">Guests</div>
-                                    <input type="text" [placeholder]="getGuestsPlaceholder()" class="input-box" readonly autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                    <input type="text" [placeholder]="getGuestsPlaceholder()" class="input-box" readonly
+                                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                                 </label>
                             </div>
                             <div class="dropdown-menu guests-dropdown" [ngClass]="{'show': isGuestsDropdownVisible}">
                                 <div class="popup-content" *ngFor="let room of rooms; let i = index">
                                     <div class="popup-header">
                                         <h3>Room {{ i + 1 }}</h3>
-                                        <button type="button" class="close-button" (click)="removeRoom(i)" *ngIf="rooms.length > 1">×</button>
+                                        <button type="button" class="close-button" (click)="removeRoom(i)"
+                                            *ngIf="rooms.length > 1">×</button>
                                     </div>
                                     <div class="popup-body">
                                         <div class="guests-control">
@@ -95,8 +115,10 @@
                                     </div>
                                 </div>
                                 <div class="button-container">
-                                    <button type="button" class="add-room-button" (click)="addRoom()">+ Add a room</button>
-                                    <button type="button" class="done-button" (click)="toggleGuestsDropdown()">Done</button>
+                                    <button type="button" class="add-room-button" (click)="addRoom()">+ Add a
+                                        room</button>
+                                    <button type="button" class="done-button"
+                                        (click)="toggleGuestsDropdown()">Done</button>
                                 </div>
                             </div>
                         </div>
@@ -106,6 +128,6 @@
                     </form>
                 </div>
             </div>
+          </div>
         </div>
-    </div>
 </section>

@@ -18,7 +18,7 @@ header .header-text h1 {
     width: 320px;
     text-align: center;
     position: relative;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 header .header-text::before {
@@ -42,7 +42,6 @@ main {
     display: flex;
     justify-content: center;
     border: none;
-    background-color: #f2f1f0;
 }
 
 .card-body h3 {
@@ -63,7 +62,8 @@ main {
     transition: 0.3s all ease;
     cursor: pointer;
     margin-bottom: 15px;
-
+    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
 }
 
 .cover:hover  {
@@ -127,3 +127,11 @@ main {
 }
 
 /* cards end */
+.lg\:text-6xl
+{
+font-size: 2.30rem;
+}
+.row-cols-1
+{
+
+}

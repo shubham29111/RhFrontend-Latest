@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 
 interface Testimonial {
   image: string;
-  text: string;
   name: string;
   position: string;
+  review: string;
   rating: number;
-
 }
 
 @Component({
@@ -17,48 +16,25 @@ interface Testimonial {
 export class TestimonialComponent {
   testimonials: Testimonial[] = [
     {
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxeFTUR0eRWALuD2nh1TvKqhUBy259t2EHyFzLmCNFCVrZIG80ylXC2LWki__jFA9JH34&usqp=CAU',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem scelerisque, tempor mauris eget, luctus dui. Mauris magna metus, nec efficitur urna.',
-      name: 'Paula Wilson',
-      position: 'Frequent Traveler',
-      rating: 5
-
+      image: 'https://tecdn.b-cdn.net/img/Photos/Avatars/img%20(1).jpg',
+      name: 'Maria Smantha',
+      review: 'The website is very user-friendly and easy to navigate. Booking was a breeze!',
+      rating: 5,
+      position:"Frequent Traveller"
     },
     {
-      image: 'https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png',
-      text: 'Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget mi suscipit tincidunt. Ut tristique tempus dictum. Pellentesque viverra.',
-      name: 'Antonio Moreno',
-      position: 'Business Traveler',
-      rating: 4
-
+      image: 'https://tecdn.b-cdn.net/img/Photos/Avatars/img%20(2).jpg',
+      name: 'Lisa Cudrow',
+      review: 'I found the website to be quite useful, but I encountered some bugs during the booking process.',
+      rating: 4,
+      position:"Frequent Traveller"
     },
     {
-      image: 'https://img.buzzfeed.com/buzzfeed-static/static/2022-05/11/14/asset/82ea240a9e12/sub-buzz-2936-1652280422-21.jpg?downsize=900:*&output-format=auto&output-quality=auto',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem scelerisque, tempor mauris eget, luctus dui. Mauris magna metus, nec efficitur urna.',
-      name: 'Michael Holz',
-      position: 'Vacationer',
-      rating: 5
-    },
-    {
-      image: 'https://img.buzzfeed.com/buzzfeed-static/static/2022-05/11/14/asset/82ea240a9e12/sub-buzz-2936-1652279997-1.jpg?downsize=900:*&output-format=auto&output-quality=auto',
-      text: 'Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget mi suscipit tincidunt. Ut tristique tempus dictum. Pellentesque viverra.',
-      name: 'Mary Saveley',
-      position: 'Solo Traveler',
-      rating: 4
-    },
-    {
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHcRhomoiP8D_ois0NBRzRmhRH53LrVSErNg&s',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem scelerisque, tempor mauris eget, luctus dui. Mauris magna metus, nec efficitur urna.',
-      name: 'Martin Sommer',
-      position: 'Family Vacationer',
-      rating: 3
-    },
-    {
-      image: 'https://cdn.pixabay.com/photo/2020/06/26/14/46/india-5342927_1280.jpg',
-      text: 'Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget mi suscipit tincidunt. Ut tristique tempus dictum. Pellentesque viverra.',
-      name: 'John Williams',
-      position: 'Leisure Traveler',
-      rating: 5
+      image: 'https://tecdn.b-cdn.net/img/Photos/Avatars/img%20(9).jpg',
+      name: 'John Smith',
+      review: 'The website was slow and unresponsive at times, making it hard to complete my booking.',
+      rating: 2,
+      position:"Frequent Traveller"
     }
   ];
 
@@ -67,11 +43,13 @@ export class TestimonialComponent {
   ngOnInit(): void {
   }
 
-  chunk(arr: any[], chunkSize: number): any[] {
-    let R = [];
-    for (let i = 0; i < arr.length; i += chunkSize) {
-      R.push(arr.slice(i, i + chunkSize));
-    }
-    return R;
+ chunk(arr: any[], size: number): any[] {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
   }
+  return result;
+}
+
+
 }

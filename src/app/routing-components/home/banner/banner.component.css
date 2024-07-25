@@ -1,11 +1,43 @@
 
-#banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../../../assets/slide-bg.jpg") no-repeat center center/cover;
-    color: white;
-    padding: 180px 0;
-    text-align: center;
-    position: relative;
-}
+.header__container {
+    padding: 1rem 1rem 0rem 1rem;
+    background-color: #ffffff;
+  }
+  
+  .header__image__container {
+    position: static;
+    min-height: 500px;
+    background-image: linear-gradient(
+        to right,
+        rgba(44, 56, 85, 0.9),
+        rgba(100, 125, 187, 0.1)
+      ),
+      url("../../../../assets/slide-bg.jpg");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 2rem;
+    padding: 15px;
+
+  }
+  
+  .header__content {
+    max-width: 600px;
+    padding: 5rem 2rem;
+  }
+  
+  .header__content h1 {
+    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    line-height: 4rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  
+  .header__content p {
+    color: whitesmoke;
+  }
+  
 
 .cover {
     position: relative;
@@ -20,7 +52,7 @@
 
 .tabs {
     position: absolute;
-    top: -44px; 
+    top: -32px; 
     left: 0;
     display: flex;
     justify-content: flex-start;
@@ -31,7 +63,7 @@
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 5px 5px 0 0;
-    padding: 10px 20px;
+    padding: 5px 20px;
     cursor: pointer;
     margin-right: 5px;
     font-size: 1rem;
@@ -58,6 +90,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     flex-wrap: wrap;
     margin-top: 40px;
+    border-top-right-radius:10px ;
 }
 
 .search-bar form {
@@ -353,3 +386,26 @@ li:hover {
     color: black;
     opacity: 1;
 }
+
+  @media (width < 900px) {
+    .booking__container form {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+  }
+  
+  @media (width < 600px) {
+    .nav__links {
+      display: none;
+    }
+
+  
+    .booking__container {
+      flex-direction: column;
+      bottom: -25rem;
+    }
+    .booking__container form {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  
+  }

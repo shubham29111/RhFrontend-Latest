@@ -1,6 +1,6 @@
 .travel-recommendation-wrapper {
   padding: 0px 20px;
-  /* background-color: #f8f9fa; */
+   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,4 +157,8 @@
   .travel-card {
     width: calc(100% - 20px);
   }
+}
+.lg\:text-6xl
+{
+font-size: 2.30rem;
 }

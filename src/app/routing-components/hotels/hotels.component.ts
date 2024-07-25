@@ -10,6 +10,8 @@ import { Hotel } from './hotel.model';
   styleUrls: ['./hotels.component.css']
 })
 export class HotelsComponent implements OnInit {
+
+
   hotels: Hotel[] = [];
   regionId: string = '';
   regionName: string = '';
@@ -39,6 +41,7 @@ export class HotelsComponent implements OnInit {
       }
     );
   }
+  
 
   manipulateHotelData(hotels: any[]): Hotel[] {
     return hotels.map(hotel => {

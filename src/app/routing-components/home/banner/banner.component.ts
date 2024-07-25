@@ -14,6 +14,7 @@ export class BannerComponent implements OnInit {
   checkOut: string = '';
   suggestions: { regions: any[], hotels: any[] } = { regions: [], hotels: [] };
   isGuestsDropdownVisible: boolean = false;
+  isCheckInDropdownVisible: boolean = false;
   rooms: any[] = [{ adults: 1, children: 0 }];
   showDropdownMenu: boolean = false;
   programmaticChange: boolean = false;
@@ -71,6 +72,10 @@ export class BannerComponent implements OnInit {
     this.showDropdownMenu = false; 
     this.programmaticChange = true; 
   }
+  toggleCheckInDropdown() {
+    this.isCheckInDropdownVisible = !this.isCheckInDropdownVisible;
+  }
+
   toggleGuestsDropdown() {
     this.isGuestsDropdownVisible = !this.isGuestsDropdownVisible;
   }

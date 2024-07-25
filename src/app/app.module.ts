@@ -22,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BlogsSectionComponent } from './routing-components/home/blogs-section/blogs-section.component';
 import { TestimonialComponent } from './routing-components/home/testimonial/testimonial.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { DatePickerComponent } from './shared-components/date-picker/date-picker.component';
+import { register as registerSwiperElements } from 'swiper/element/bundle';
 
 
 
@@ -44,6 +46,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     NotfoundComponent,
     BlogsSectionComponent,
     TestimonialComponent,
+    DatePickerComponent,
 
    
   ],
@@ -54,8 +57,8 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     HttpClientModule,
     NgxSliderModule,
     ReactiveFormsModule,
-    SlickCarouselModule
-    
+    SlickCarouselModule,
+      
     
     
   ],
