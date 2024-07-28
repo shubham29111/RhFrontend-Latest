@@ -23,7 +23,9 @@
       "ES2022",
       "dom"
     ],
-    "types": ["googlemaps"]
+    "types": ["googlemaps"],
+    "allowJs": true,
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

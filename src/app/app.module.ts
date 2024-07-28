@@ -24,7 +24,6 @@ import { TestimonialComponent } from './routing-components/home/testimonial/test
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { DatePickerComponent } from './shared-components/date-picker/date-picker.component';
 import { register as registerSwiperElements } from 'swiper/element/bundle';
-import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -60,7 +59,7 @@ import { MatIconModule } from '@angular/material/icon';
     NgxSliderModule,
     ReactiveFormsModule,
     SlickCarouselModule,
-    MatIconModule
+   
       
     
     

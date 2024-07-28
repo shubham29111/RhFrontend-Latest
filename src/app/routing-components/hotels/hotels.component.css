@@ -2,7 +2,7 @@
   background-color: #f2f1f0;
 }
 
-.container {
+.rh-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -15,7 +15,6 @@
 .filter-bar {
   width: 100%;
   background-color: #f2f1f0;
-  border-top-left-radius: inherit;
 }
 
 .main-hotel-listing {
@@ -98,7 +97,7 @@
 }
 
 @media (min-width: 769px) {
-  .container {
+  .rh-container {
     flex-direction: row;
   }
   .filter-bar {
@@ -199,7 +198,6 @@
   display: none;
 }
 
-/* image-slider.component.css */
 .image-slider {
   position: relative;
   overflow: hidden;
@@ -212,13 +210,39 @@
 .image-slider div.hidden {
   opacity: 0;
 }
-.fa-tag {
+
+.fa-bookmark {
   position: absolute;
   top: 10px;
-  right: 10px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
+  left: 10px;
+  color: #1b9bd0;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   padding: 5px;
+  z-index: 10;
 }
 
+.amenity-icon {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #1bd04e;
+}
+
+.rh-address {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rgb-button {
+  background: linear-gradient(45deg, #f8f9fa, #205391, #1b9bd0);
+  background-size: 600% 600%;
+  animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

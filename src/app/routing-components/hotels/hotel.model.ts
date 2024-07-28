@@ -10,4 +10,10 @@ export interface Hotel {
   rating: number | null;
   images: string[];
   currentImageIndex: number;
+  serp_names?: string[];
+  star_rating:number;
+  km_distance:number;
+  showAllAmenities: boolean
+
+
 }
