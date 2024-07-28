@@ -1,55 +1,142 @@
-<!-- <app-date-picker></app-date-picker> -->
-<div class="container mx-auto p-6">
-  <div class="col-md-12 mb-4" *ngFor="let hotel of hotels">
-  <div class="card">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li *ngFor="let img of hotel.images; let i = index" [attr.data-target]="'#carouselExampleIndicators'" [attr.data-slide-to]="i" [class.active]="i === 0"></li>
-      </ol>
-      <div class="carousel-inner fixed-size-carousel">
-        <div *ngFor="let img of hotel.images; let i = index" class="carousel-item" [class.active]="i === 0">
-          <img class="d-block w-100 carousel-image" [src]="img" alt="Slide {{i}}">
-        </div>
-      </div>  
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    <div class="card-body">
-      <div>
-        <h2 class="card-title">
-          {{ hotel.name }}
-          <div class="reviews ml-4">
-            <i *ngFor="let i of [1,2,3,]" class="fas fa-star text-yellow-500"></i>
-            <i class="fas fa-star-half-alt text-yellow-500"></i>
-            <i class="far fa-star text-yellow-500"></i>
-            <!-- <span class="ml-2">({{ hotel.reviews }} reviews)</span> -->
-          </div>
-        </h2>
-        <p class="card-text">{{ hotel.address }}</p>
-        <div class="amenities">
-          <i *ngFor="let amenity of hotel.amenities" [ngClass]="[amenity.icon]"></i>
-        </div>
-        <!-- <p class="card-text mt-2">
-          <i class="fas fa-bed"></i> {{ hotel.roomType }}
-          <span *ngFor="let feature of hotel.features">
-            <i [ngClass]="feature.icon"></i>
+<div class="section-padding">
+<div class="container">
+  <div class="filter-bar justify-center">
+    <div class="sort-by w-48 rounded-2xl text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
+      <label class="ml-2 pt-2 pl-2 mb-0 font-semibold text-gray-900 dark:text-white group-title">Sort by</label>
+      <div class="relative flex items-center justify-between p-2.5 ">
+        <button id="sort-button" class="block text-xs appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" (click)="toggleDropdown()">
+          <span class="truncate">{{ selectedOption }}</span>
+          <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.292 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
           </span>
-        </p> -->
-      </div>
-      <div class="card-footer">
-        <div>
-          <div class="card-price">INR {{ hotel.price }}</div>
-          <small>for a night for 2 guests</small>
-        </div>
-        <div class="btn">Show all rooms</div>
+        </button>
+        <ul id="sort-options" class="absolute left-0 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg z-10" [ngClass]="{ 'hidden': !dropdownOpen }">
+          <li class="px-1 py-1 text-xs text-gray-700 hover:bg-gray-100 cursor-pointer" *ngFor="let option of options" (click)="selectOption(option)">
+            {{ option }}
+          </li>
+        </ul>
       </div>
     </div>
+    
+    
+    <div class="mt-2" *ngFor="let group of technologyGroups">
+      <ul class="w-48 rounded-2xl text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
+          <p class="ml-2 pt-2 pl-2 font-semibold text-gray-900 dark:text-white group-title">{{ group.groupName }}</p>
+          <div *ngIf="group.subGroups; else noSubGroups">
+              <div *ngFor="let subGroup of group.subGroups">
+                  <p class="ml-2 pt-2 pl-2 font-semibold text-gray-900 dark:text-white sub-group-title">{{ subGroup.subGroupName }}</p>
+                  <li *ngFor="let tech of subGroup.technologies" class="dark:bg-gray-600">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-start">
+                          <input [id]="tech.id" type="checkbox" value="" class="custom-checkbox ml-2 mt-2 mb-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          <label [for]="tech.id" class="ml-2 mt-2 text-xs space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }}
+                          </label>
+                      
+                      </div>
+                      <div class="mr-4 flex items-center">
+                          <span class="zen-filter-checkbox-count ml-2">{{ tech.count }}</span>
+                      </div>
+                  </div>
+                  </li>
+              </div>
+          </div>
+          <ng-template #noSubGroups>
+              <li *ngFor="let tech of group.technologies" class="dark:bg-gray-600">
+                  <div class="flex items-center justify-between">
+                      <div class="flex items-start">
+                          <input [id]="tech.id" type="checkbox" value="" class="custom-checkbox ml-2 mt-2 mb-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          <label [for]="tech.id" class="ml-2 mt-2 text-xs space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }}
+                          </label>
+                        
+                      </div>
+                      <div class="mr-4 flex items-center">
+                          <span class="zen-filter-checkbox-count ml-2 text-xs">{{ tech.count }}</span>
+                      </div>
+                  </div>
+              </li>
+          </ng-template>
+      </ul>
   </div>
+      </div>
+  <div class="main-hotel-listing bg-gray-200 h-auto" id="hotelListing">
+
+    <div *ngIf="isLoading">
+      <div class="bg-gray-200 w-full animate-pulse h-14 rounded-2xl"></div>
+     <div *ngFor="let loader of loaders" class="bg-white m-2 p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none ">
+      <div class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 animate-pulse" >
+        <mat-icon>turned_in</mat-icon>
+      </div>
+      <div class="flex flex-col flex-1 gap-5 sm:p-2">
+        <div class="flex flex-1 flex-col gap-3">
+          <div class="bg-gray-200 w-full animate-pulse h-14 rounded-2xl" >
+
+          </div>
+          <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+        </div>
+        <div class="mt-auto flex gap-3">
+          <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full" ></div>
+          <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full" ></div>
+          <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto" ></div>
+        </div>
+      </div>
+    </div>
+</div>
+<div *ngIf="!isLoading ">
+  <div class="bg-gray-200 w-full h-14 rounded-2xl"></div>
+  <div *ngFor="let hotel of hotels" class="bg-white m-2 p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none">
+    <div class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 relative overflow-hidden">
+      <i class="fa fa-solid fa-tag"></i> 
+      <div *ngFor="let image of hotel.images; let i = index"
+      [ngStyle]="{'background-image': 'url(' + image + ')'}"
+      class="absolute top-0 left-0 h-full w-full rounded-xl bg-cover bg-center transition-opacity duration-700"
+      [class.hidden]="i !== hotel.currentImageIndex">
+ </div>
+      <button (click)="prevImage(hotel.id)" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-transparent text-white p-2 h-10 w-10 rounded-full flex items-center justify-center border border-white">
+        &lt;
+      </button>
+      <button (click)="nextImage(hotel.id)" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-transparent text-white p-2 h-10 w-10 rounded-full flex items-center justify-center border border-white">
+        &gt;
+      </button>
+    </div>
+      <div class="flex flex-col flex-1 gap-5 sm:p-2">
+        <div class="flex flex-1 flex-col gap-3">
+          <div class="w-full h-14 rounded-2xl" >
+            <h5 class="mb-2 text-xl font-medium leading-tight" [ngStyle]="{'color': '#1b9bd0'}">{{hotel.name}}</h5>
+            <p class="mb-4 text-xs text-gray-500">
+             {{hotel.address}}
+            </p>
+          </div>
+          <div class=" w-full h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full h-3 rounded-2xl" ></div>
+          <div class="bg-gray-200 w-full h-3 rounded-2xl" ></div>
+        </div>
+        <div class="mt-auto flex gap-3">
+          <div class="bg-gray-200 w-20 h-8 rounded-full" ></div>
+          <div class="bg-gray-200 w-20 h-8 rounded-full" ></div>
+          <div class="bg-gray-200 w-20 h-8 rounded-full ml-auto" ></div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class=""></div>
   </div>
+  <div class="map-overlay" id="mapOverlay"  (click)="toggleMap()" >
+    <div class="relative w-full h-full">
+      <iframe class="absolute top-0 left-0 w-full h-full"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12080.73732861526!2d-74.0059418!3d40.7127847!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40zMDA2JzEwLjAiTiA3NMKwMjUnMzcuNyJX!5e0!3m2!1sen!2sus!4v1648482801994!5m2!1sen!2sus"
+        frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+      </iframe>
+            <div class="overlay"></div>
+
+    </div>
+  </div>
+</div>
 </div>

@@ -1,61 +1,224 @@
-.card {
-  display: flex;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  max-width: 800px;
-  margin: auto;
-  flex-direction: row;
+.section-padding {
+  background-color: #f2f1f0;
 }
-.fixed-size-carousel {
-  width: 300px;
-  height: 230px;
-}
-.carousel-image {
-  width: 300px;
-  height: 230px;
-  object-fit: cover;
-}
-.card-body {
-  padding: 3px;
+
+.container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+  padding-top: 3px;
+  background-color: #f2f1f0;
+}
+
+.filter-bar {
+  width: 100%;
+  background-color: #f2f1f0;
+  border-top-left-radius: inherit;
+}
+
+.main-hotel-listing {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px;
+  transition: width 0.3s;
+  overflow-y: auto;
+}
+
+.map-overlay {
+  flex-grow: 1;
+  background-color: #e0e0e0;
+  padding: 10px;
+  transition: width 0.3s, min-width 0.3s;
+  border-top-right-radius: inherit;
+  position: relative;
+  min-width: 50px;
+  overflow: hidden;
+}
+
+.map-overlay.show {
+  min-width: 50px;
   width: 100%;
 }
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #0056b3;
-  display: flex;
-  align-items: center;
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s;
+  opacity: 1;
 }
-.card-text {
-  color: #6c757d;
+
+.map-overlay.show .overlay {
+  opacity: 0;
 }
-.card-price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+
+.toggle-map-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: left 0.5s ease, background-color 0.3s ease;
 }
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+.toggle-map-btn.show {
+  left: 32%;
 }
-.btn {
-  background-color: #ff5722;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  text-align: center;
+
+.toggle-map-btn:hover {
+  background-color: #0056b3;
+}
+
+.main-hotel-listing.shrink {
+  width: 100%;
+}
+
+.button-text {
+  display: inline-block;
+  transition: opacity 0.3s;
+}
+
+.custom-checkbox:checked {
+  background-color: #1b9bd0;
+  border-color: #1b9bd0;
+}
+
+.custom-checkbox:focus {
+  border-color: #1b9bd0;
+  box-shadow: 0 0 0 3px rgba(27, 155, 208, 0.5);
+}
+
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+  }
+  .filter-bar {
+    width: 260px;
+  }
+  .main-hotel-listing {
+    width: 800px;
+  }
+  .main-hotel-listing.shrink {
+    width: 320px;
+  }
+  .map-overlay {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    width: 100%;
+    padding: 5px;
+  }
+  .main-hotel-listing {
+    width: 100%;
+    padding: 5px;
+  }
+  .map-overlay {
+    display: none;
+  }
+  .toggle-map-btn {
+    left: 85%;
+  }
+  .main-hotel-listing.shrink {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-bar {
+    display: none;
+  }
+  .main-hotel-listing {
+    width: 100%;
+    padding: 5px;
+  }
+  .toggle-map-btn {
+    left: 85%;
+  }
+  .main-hotel-listing.shrink {
+    width: 100%;
+  }
+}
+
+.sort-by {
+  position: relative;
+}
+
+#sort-button {
+  padding-right: 2.5rem; /* Ensure there is space for the dropdown arrow */
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap; /* Ensure the text doesn't wrap */
+  text-overflow: ellipsis; /* Add ellipsis if text overflows */
+}
+
+#sort-button .truncate {
+  display: block;
+  white-space: nowrap; /* Ensure the text doesn't wrap */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis if text overflows */
+}
+
+#sort-button svg {
+  transition: transform 0.2s ease;
+}
+
+#sort-button.open svg {
+  transform: rotate(180deg);
+}
+
+#sort-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sort-options li {
+  padding: 0.5rem 1rem;
+  white-space: normal; /* Allow wrapping within the dropdown */
+}
+
+#sort-options li:hover {
+  background-color: #f1f1f1;
   cursor: pointer;
 }
-.amenities i
-{
-  margin-right: 4px;
+
+.hidden {
+  display: none;
 }
-.reviews i {
-  padding: 1px;
+
+/* image-slider.component.css */
+.image-slider {
+  position: relative;
+  overflow: hidden;
 }
+
+.image-slider div {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.image-slider div.hidden {
+  opacity: 0;
+}
+.fa-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+}
+

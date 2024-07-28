@@ -25,8 +25,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/glider-js/glider.min.css",
               "src/styles.css"            ],
             "scripts": [
+              "node_modules/glider-js/glider.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },

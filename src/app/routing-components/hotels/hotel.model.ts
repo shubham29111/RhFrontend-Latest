@@ -1,14 +1,13 @@
 export interface Hotel {
-        id: string;
-        name: string;
-        address: string;
-        distance: number;
-        nearby: string;
-        userRating: number;
-        reviews: number;
-        price: number;
-        images: string[];
-        amenities: { title: string; icon: string }[];
-        Region: { name: string };
-        HotelImages: { images: string }[];
-      }
+  id: string;
+  hotel_id: string;
+  name: string;
+  address: string;
+  longitude: number;
+  latitude: number;
+  region_id: string;
+  region_name: string;
+  rating: number | null;
+  images: string[];
+  currentImageIndex: number;
+}

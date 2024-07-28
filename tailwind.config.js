@@ -7,7 +7,11 @@ module.exports = {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'pt-root-ui': ['"PT Root UI"', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin'),
