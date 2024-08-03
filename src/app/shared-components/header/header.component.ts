@@ -24,8 +24,6 @@ export class HeaderComponent {
   userName = '';
   selectedLanguage: string = 'en';
   translations: any = translations;
-  selectedLang = "nl"
-
 
 
   constructor(private http: HttpClient,private translationService: TranslationService) {
@@ -141,9 +139,10 @@ const avatarDropdown = document.getElementById('avatarDropdown');
   googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en', 
-      includedLanguages: 'az,ru,en', 
+      includedLanguages: 'en,ru,az', 
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
+  
 }
   
 }

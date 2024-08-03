@@ -8,8 +8,6 @@ header .header-text {
     display: flex;
     justify-content: center;
     width: 100%;
-
-
 }
 
 header .header-text h1 {
@@ -37,17 +35,17 @@ main {
 }
 
 .card {
-    width: 300px;
+    width: 100%;
     height: 100%; 
     display: flex;
     justify-content: center;
     border: none;
+    max-width: 300px; /* Ensures the card doesn't exceed 300px in width */
 }
 
 .card-body h3 {
     margin-bottom: 15px; /* Add padding between title and text */
-  }
-  
+}
 
 .cover {
     width: 80px;
@@ -69,33 +67,26 @@ main {
 .cover:hover  {
     background-color: #1b9bd0;
     color: white;
-    animation: icon 1s ;
+    animation: icon 1s;
 }
 
-   @keyframes icon {
+@keyframes icon {
     0% {
         transform: rotate(0deg);
     }
-
     25% {
         transform: rotate(20deg);
     }
-
     50% {
         transform: rotate(-15deg);
     }
-
     75% {
         transform: rotate(8deg);
     }
-
     100% {
         transform: rotate(0deg);
     }
-    
-   }
-
-
+}
 
 .card-body {
     text-align: center;
@@ -104,7 +95,6 @@ main {
 .card-body h3 {
     font-size: 18px;
     color: #5e5e5e;
-
 }
 
 .card-body p {
@@ -113,13 +103,11 @@ main {
 }
 
 .card-body a {
-
     text-decoration: none;
     color: #1b9bd0;
     font-size: 13px;
     font-weight: bold;
     transition: 0.3s all ease;
-
 }
 
 .card-body a:hover {
@@ -127,11 +115,6 @@ main {
 }
 
 /* cards end */
-.lg\:text-6xl
-{
-font-size: 2.30rem;
-}
-.row-cols-1
-{
-
+.lg\:text-6xl {
+    font-size: 2.30rem;
 }
