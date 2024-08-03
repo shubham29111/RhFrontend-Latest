@@ -167,9 +167,9 @@
 
 #sort-button .truncate {
   display: block;
-  white-space: nowrap; /* Ensure the text doesn't wrap */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Add ellipsis if text overflows */
+  text-overflow: ellipsis; 
 }
 
 #sort-button svg {
@@ -188,7 +188,7 @@
 
 #sort-options li {
   padding: 0.5rem 1rem;
-  white-space: normal; /* Allow wrapping within the dropdown */
+  white-space: normal; 
 }
 
 #sort-options li:hover {

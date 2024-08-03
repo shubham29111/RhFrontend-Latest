@@ -33,7 +33,7 @@ declare var google: any;
 export class HotelsComponent implements OnInit {
   hotels: Hotel[] = [];
   hotel: Hotel | undefined;
-  regionId: string = '';
+  regionId: any = [];
   regionName: string = '';
   region:string='';
   showMap: boolean = false;
@@ -93,18 +93,18 @@ export class HotelsComponent implements OnInit {
     });
     this.fetchHotels();
       this.loadFilters();
-      this.loadGoogleMaps();
+     // this.loadGoogleMaps();
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
+   // this.initMap();
   }
   
   
   fetchHotels() {
     this.loading = true; 
     const queryParams = this.buildQueryParams(true);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1${queryParams}`).subscribe(      (data) => {
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionIds=[${this.regionId}]&${queryParams}`).subscribe(      (data) => {
         this.totalItems = data.response.total;
         this.hotels = this.manipulateHotelData(data.response.data);
        
@@ -121,7 +121,7 @@ export class HotelsComponent implements OnInit {
   }
    loadFilters() {
     const queryParams = this.buildQueryParams(false);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}${queryParams}`).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionIds=[${this.regionId}]${queryParams}`).subscribe(
       (data) => {
         this.updateFilterCounts(data.response);
       },
@@ -164,7 +164,7 @@ export class HotelsComponent implements OnInit {
       params.append('page', this.currentPage.toString());
       params.append('limit', this.itemsPerPage.toString());
     }
-    return `?${params.toString()}`;
+    return `${params.toString()}`;
   }
   convertStarSymbolsToNumbers(starSymbol: string): number {
     const starNumber= starSymbol.replace(/[^⭐️]/g, '').length
