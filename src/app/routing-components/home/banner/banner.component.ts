@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { Router } from '@angular/router';
+import { TranslationService } from 'src/app/services/translation.service';
 
 @Component({
   selector: 'app-banner',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class BannerComponent implements OnInit {
   location: string = '';
+  selectedLanguage: string = 'en';
   checkIn: string = '';
   checkOut: string = '';
   suggestions: { regions: any[], hotels: any[] } = { regions: [], hotels: [] };
@@ -20,11 +22,16 @@ export class BannerComponent implements OnInit {
   programmaticChange: boolean = false;
   region: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,private translationService: TranslationService) {}
   ngOnInit(): void {
+    this.translationService.getLanguage().subscribe(language => {
+      this.selectedLanguage = language;
+    });
   this.currentDate();
 }
-
+getTranslation(key: string): string {
+  return this.translationService.getTranslation(key, this.selectedLanguage);
+}
   currentDate()
   {
     const today = new Date();

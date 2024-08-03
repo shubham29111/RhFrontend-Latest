@@ -1,4 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { TranslationService } from 'src/app/services/translation.service';
+import translations from 'src/app/shared-components/header/translations.json';
+declare const $: any;
+declare var google: any;
+declare global {
+  interface Window {
+    googleTranslateElementInit: () => void;
+  }
+}
 
 @Component({
   selector: 'app-header',
@@ -6,14 +16,43 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-translateLanguage(arg0: string) {
-throw new Error('Method not implemented.');
-}
+
   selectedCurrency = 'USD';
   currencyPanelVisible = false;
   loginPanelVisible = false;
   loginUser = false;
   userName = '';
+  selectedLanguage: string = 'en';
+  translations: any = translations;
+  selectedLang = "nl"
+
+
+
+  constructor(private http: HttpClient,private translationService: TranslationService) {
+    this.loadGoogleTranslate();
+
+  }
+
+  ngOnInit(): void {
+    this.translationService.getLanguage().subscribe(language => {
+      this.selectedLanguage = language;
+    });
+
+  }
+
+  translateLanguage(language: string) {
+    this.translationService.setLanguage(language);
+  }
+
+
+  getTranslation(key: string): string {
+    return this.translationService.getTranslation(key, this.selectedLanguage);
+  }
+
+  getNestedTranslation(parentKey: string, childKey: string): string {
+    return this.translationService.getNestedTranslation(parentKey, childKey, this.selectedLanguage);
+  }
+
   toggleCurrencyPanel() {
     this.currencyPanelVisible = !this.currencyPanelVisible;
   }
@@ -77,4 +116,34 @@ const avatarDropdown = document.getElementById('avatarDropdown');
       }
     });
   }
+
+
+  changeLanguage(langCode: string) {
+    if (typeof google !== 'undefined' && google.translate && google.translate.TranslateElement) {
+      const translateElement = new google.translate.TranslateElement();
+      const control = translateElement.getControl();
+      if (control) {
+        control.setLanguage(langCode);
+      }
+    }
+  }
+
+  loadGoogleTranslate() {
+    const googleTranslateScript = document.createElement('script');
+    googleTranslateScript.src =
+      '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    googleTranslateScript.async = true;
+    googleTranslateScript.defer = true;
+    document.head.appendChild(googleTranslateScript);
+    window.googleTranslateElementInit = this.googleTranslateElementInit.bind(this);
+  }
+
+  googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en', 
+      includedLanguages: 'az,ru,en', 
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+  
 }

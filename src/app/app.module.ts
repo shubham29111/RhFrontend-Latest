@@ -23,7 +23,7 @@ import { BlogsSectionComponent } from './routing-components/home/blogs-section/b
 import { TestimonialComponent } from './routing-components/home/testimonial/testimonial.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { DatePickerComponent } from './shared-components/date-picker/date-picker.component';
-import { register as registerSwiperElements } from 'swiper/element/bundle';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 
@@ -59,6 +59,7 @@ import { register as registerSwiperElements } from 'swiper/element/bundle';
     NgxSliderModule,
     ReactiveFormsModule,
     SlickCarouselModule,
+    GoogleMapsModule
    
       
     

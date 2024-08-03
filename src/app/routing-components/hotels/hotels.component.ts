@@ -3,15 +3,27 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environments';
 import { Hotel } from './hotel.model';
-import technologyGroups from 'src/app/constants/filters'
-import Swiper from 'swiper';
+import staticFilters from './static-filters';
 
-interface HotelImage {
-  images: string;
+interface FilterItem {
+  type: string | null;
+  category: string;
+  count: string;
 }
 
-declare var google: any;
+interface Technology {
+  name: string;
+  id: string;
+  count: string;
+}
 
+interface FilterGroup {
+  groupName: string;
+  category: string;
+  technologies?: Technology[];
+  subGroups?: { subGroupName: string; technologies: Technology[] }[];
+}
+declare var google: any;
 
 @Component({
   selector: 'app-hotels',
@@ -23,19 +35,38 @@ export class HotelsComponent implements OnInit {
   hotel: Hotel | undefined;
   regionId: string = '';
   regionName: string = '';
+  region:string='';
   showMap: boolean = false;
   loading: boolean = false;
   isLoading = true;
   allImagesLoaded: boolean = false;
-  filters=technologyGroups;
-
+  filters: FilterGroup[] = staticFilters;
   loaders: number[] = Array(10).fill(0);
-
   currentImageIndex: number = 0;
   map: any;
-
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
   showFilterModal: boolean = false;
   showMapModal: boolean = false;
+  totalItems: number = 0;
+  selectedOption: string = 'Price (high to low)';
+  dropdownOpen: boolean = false;
+  options: string[] = [
+    'popularity',
+    'Price (low to high)',
+    'Price (high to low)',
+    'Closest to the city center first',
+    'Guests\' rating (high to low)'
+  ];
+  selectedFilters: { [key: string]: string[] } = {
+    kind: [],
+    star_rating: [],
+    serp_name: [],
+    payment_method: [],
+    room_amenity: []
+  };
+  
+
 
   private amenityIcons: { [key: string]: string } = {
     'air_conditioning': 'fa-snowflake',
@@ -52,17 +83,17 @@ export class HotelsComponent implements OnInit {
     'kitchen': 'fa-kitchen-set'
   };
 
-
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 3000);
     this.route.queryParams.subscribe(params => {
       this.regionId = params['regionId'];
-      this.fetchHotels();
+      this.region=params['location'];
+      
     });
+    this.fetchHotels();
+      this.loadFilters();
+      this.loadGoogleMaps();
   }
 
   ngAfterViewInit(): void {
@@ -72,15 +103,14 @@ export class HotelsComponent implements OnInit {
   
   fetchHotels() {
     this.loading = true; 
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&page=1`).subscribe(
-      (data) => {
+    const queryParams = this.buildQueryParams(true);
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1${queryParams}`).subscribe(      (data) => {
+        this.totalItems = data.response.total;
         this.hotels = this.manipulateHotelData(data.response.data);
+       
         this.hotel = this.hotels.length > 0 ? this.hotels[0] : undefined;
         this.regionName = this.hotel ? this.hotel.region_name : 'No region found';
-        console.log(this.hotels);
         this.preloadImages();
-
-        
         this.loading = false;
       },
       (error) => {
@@ -89,13 +119,100 @@ export class HotelsComponent implements OnInit {
       }
     );
   }
+   loadFilters() {
+    const queryParams = this.buildQueryParams(false);
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}${queryParams}`).subscribe(
+      (data) => {
+        this.updateFilterCounts(data.response);
+      },
+      (error) => {
+        console.error('Error fetching filters', error);
+      }
+    );
+  }
+  buildQueryParams(includePagination: boolean): string {
+    const params = new URLSearchParams();
+    for (const key in this.selectedFilters) {
+      if (this.selectedFilters[key].length) {
+        let paramKey = key;
+      if (paramKey === 'kind') {
+        paramKey = 'propertyTypes';
+      }
+      else if(paramKey === 'room_amenity')
+      {
+        paramKey='inRoom';
+      }
+      else if(paramKey === 'serp_name')
+      {
+        paramKey='serpNames';
+      }
+      else if(paramKey==='star_rating')
+      {
+        paramKey='starRatings'
+        const starNumbers = this.selectedFilters[key].map(star => this.convertStarSymbolsToNumbers(star));
+        params.append(paramKey, JSON.stringify(starNumbers));
+        continue;
+      }
+     
+      if (this.selectedFilters[key].length) {
+        params.append(paramKey, JSON.stringify(this.selectedFilters[key]));
+        console.log(`${paramKey}: ${JSON.stringify(this.selectedFilters[key])}`); 
+      }
+      }
+    }    
+    if (includePagination) {
+      params.append('page', this.currentPage.toString());
+      params.append('limit', this.itemsPerPage.toString());
+    }
+    return `?${params.toString()}`;
+  }
+  convertStarSymbolsToNumbers(starSymbol: string): number {
+    const starNumber= starSymbol.replace(/[^⭐️]/g, '').length
+    return starNumber/2;
+  }
+  onFilterChange(category: string, value: string, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const checked = inputElement.checked;
+  
+    if (checked) {
+      this.selectedFilters[category].push(value);
+    } else {
+      const index = this.selectedFilters[category].indexOf(value);
+      if (index > -1) {
+        this.selectedFilters[category].splice(index, 1);
+      }
+    }
+    this.fetchHotels();
+    this.loadFilters();
+    this.loadGoogleMaps();
+  }
+  
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.fetchHotels();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage * this.itemsPerPage < this.totalItems) {
+      this.currentPage++;
+      this.fetchHotels();
+    }
+  }
+  
 
   manipulateHotelData(hotels: any[]): Hotel[] {
     return hotels.map((hotel, index) => {
-      const images = hotel.images && hotel.images.length > 0 ? hotel.images.map((img: string) => img.replace('{size}', '640x400')) : ['default-image.jpg']
+      const placeholderImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/495px-No-Image-Placeholder.svg.png?20200912122019';
+
+      const images = hotel.images && hotel.images.length > 0 
+        ? hotel.images.slice(0, 10).map((img: string) => img ? img.replace('{size}', '640x400') :  [placeholderImage]) 
+        :  [placeholderImage];
       return {
         ...hotel,
-        images: images.length > 0 ? images : ['default-image.jpg'],
+        images: images.length > 0 ? images : [placeholderImage],
         price: Math.floor(Math.random() * 10000),
         userRating: (Math.random() * 5).toFixed(1),
         reviews: Math.floor(Math.random() * 100),
@@ -104,10 +221,7 @@ export class HotelsComponent implements OnInit {
       };
     });
   }
-
-
-
-
+  
   setView(view: string) {
     this.showMap = view === 'map';
   }
@@ -131,15 +245,6 @@ export class HotelsComponent implements OnInit {
       toggleMapBtn.classList.remove('show');
     }
   }
-  options: string[] = [
-    'popularity',
-    'Price (low to high)',
-    'Price (high to low)',
-    'Closest to the city center first',
-    'Guests\' rating (high to low)'
-  ];
-  selectedOption: string = 'Price (high to low)';
-  dropdownOpen: boolean = false;
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
@@ -159,12 +264,13 @@ export class HotelsComponent implements OnInit {
   }
 
   preloadImages() {
+    this.isLoading = false;
     const promises = this.hotels.flatMap(hotel =>
       hotel.images.map(image => this.loadImage(image))
     );
     Promise.all(promises).then(() => {
       this.allImagesLoaded = true;
-      this.isLoading = false;
+      
     }).catch(() => {
       this.isLoading = false;
     });
@@ -193,8 +299,18 @@ export class HotelsComponent implements OnInit {
     }
   }
  
+  loadGoogleMaps() {
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC4F8yyFkMxb3pO1ojHx5tFp5ETb4tIuko&libraries=places';
+    script.async = true;
+    script.onload = () => {
+      this.initMap();
+    };
+    document.head.appendChild(script);
+  }
+
   initMap() {
-    this.map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
       zoom: 4,
       center: { lat: 20, lng: 0 }
     });
@@ -212,7 +328,7 @@ export class HotelsComponent implements OnInit {
           map: this.map,
           title: hotel.name
         });
-        
+
         const infoWindow = new google.maps.InfoWindow({
           content: `<b>${hotel.name}</b><br>${hotel.address}`
         });
@@ -230,7 +346,35 @@ export class HotelsComponent implements OnInit {
     return formattedValue.charAt(0).toUpperCase() + formattedValue.slice(1);
   }
   getAmenityIcon(amenity: string): string {
-    return this.amenityIcons[amenity] || ''; 
+    return this.amenityIcons[amenity] || 'No Amenity'; 
   }
-  
+
+  createFilterMap(apiResponse: FilterItem[]): Record<string, FilterItem[]> {
+    const filters: Record<string, FilterItem[]> = {};
+    apiResponse.forEach(item => {
+      if (!filters[item.category]) {
+        filters[item.category] = [];
+      }
+      filters[item.category].push(item);
+    });
+    return filters;
+  }
+
+  formatName(name: string | null): string {
+    if (name === null) return '';
+    if (name === '0') return '0';
+    if (name.match(/^\d+$/)) return '⭐️'.repeat(Number(name));
+    return name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  }
+
+  updateFilterCounts(apiResponse: FilterItem[]) {
+    const filterMap = this.createFilterMap(apiResponse);
+
+    this.filters.forEach(group => {
+      group.technologies?.forEach(tech => {
+        const count = filterMap[group.category]?.find(item => this.formatName(item.type) === tech.name)?.count || '';
+        tech.count = count === '0' ? '' : count;
+      });
+    });
+  }
 }

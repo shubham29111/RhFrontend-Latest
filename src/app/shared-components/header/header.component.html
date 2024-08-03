@@ -11,20 +11,10 @@
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-globe nav-icon" aria-hidden="true"></i> Language
+        <a class="down-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-globe nav-icon" aria-hidden="true"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-          <a class="dropdown-item" href="#" (click)="translateLanguage('en')">English</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('es')">Spanish</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('fr')">French</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('de')">German</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('it')">Italian</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('pt')">Portuguese</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('zh-CN')">Chinese</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('ja')">Japanese</a>
-          <a class="dropdown-item" href="#" (click)="translateLanguage('ko')">Korean</a>
-        </div>
+        <div id="google_translate_element"></div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="avatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,14 +34,12 @@
             <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
               <form autocomplete="off">
                 <div class="form-group">
-                  <div class="input-group">
-                    <div class="custom-input" tabindex="0">
-                        <label class="custom-label">
-                            <div class="input-title">Username</div>
-                            <input type="text" class="input-box" id="loginUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        </label>
-                    </div>
-                </div>
+                  <div class="custom-input" tabindex="0">
+                      <label class="custom-label">
+                          <div class="input-title">Username</div>
+                          <input type="text" class="input-box" id="loginUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                      </label>
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="custom-input" tabindex="0">
@@ -59,7 +47,7 @@
                         <div class="input-title">Password</div>
                         <input type="password" class="input-box" id="loginPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </label>
-                </div>
+                  </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                 <div class="text-center mt-2">
@@ -73,25 +61,25 @@
                   <div class="custom-input" tabindex="0">
                     <label class="custom-label">
                         <div class="input-title">Username</div>
-                        <input type="text" class="input-box" id="loginUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        <input type="text" class="input-box" id="signupUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </label>
-                </div>
+                  </div>
                 </div>
                 <div class="form-group">
-                <div class="custom-input" tabindex="0">
-                  <label class="custom-label">
-                      <div class="input-title">Password</div>
-                      <input type="password" class="input-box" id="loginPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                  </label>
-              </div>
-            </div>
+                  <div class="custom-input" tabindex="0">
+                    <label class="custom-label">
+                        <div class="input-title">Password</div>
+                        <input type="password" class="input-box" id="signupPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </label>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="custom-input" tabindex="0">
                     <label class="custom-label">
                         <div class="input-title">Confirm Password</div>
                         <input type="password" class="input-box" id="signupConfirmPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                     </label>
-                </div>
+                  </div>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="termsCheckbox" required>

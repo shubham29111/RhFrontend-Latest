@@ -1,0 +1,113 @@
+{
+  "en": {
+    "navbar": {
+      "language": "Language",
+      "login": "Log in",
+      "heart": "Heart",
+      "bell": "Notifications",
+      "languages": {
+        "english": "English",
+        "russian": "Russian",
+        "azerbaijani": "Azerbaijani"
+      },
+      "username": "Username",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "forgot_password": "Forgot Your password?",
+      "terms_conditions": "I accept the Terms & Conditions",
+      "sign_up": "Sign up",
+      "login_button": "Login",
+      "sign_up_button": "Sign up"
+    },
+    "banner": {
+      "title": "Enjoy Your Dream Vacation",
+      "subtitle": "Book Hotels, Flights and stay packages at lowest price.",
+      "destination": "Destination",
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "guests": "Guests",
+      "add_room": "+ Add a room",
+      "done": "Done",
+      "search": "Search",
+      "regions": "Regions",
+      "hotels": "Hotels",
+      "adults": "Adults",
+      "children": "Children",
+      "room": "Room"
+    }
+  },
+  "ru": {
+    "navbar": {
+      "language": "Язык",
+      "login": "Войти",
+      "heart": "Сердце",
+      "bell": "Уведомления",
+      "languages": {
+        "english": "Английский",
+        "russian": "Русский",
+        "azerbaijani": "Азербайджанский"
+      },
+      "username": "Имя пользователя",
+      "password": "Пароль",
+      "confirm_password": "Подтвердите Пароль",
+      "forgot_password": "Забыли пароль?",
+      "terms_conditions": "Я принимаю Условия и Положения",
+      "sign_up": "Зарегистрироваться",
+      "login_button": "Войти",
+      "sign_up_button": "Зарегистрироваться"
+    },
+    "banner": {
+      "title": "Наслаждайтесь Вашим Мечтательным Отпуском",
+      "subtitle": "Бронируйте отели, рейсы и пакеты проживания по самой низкой цене.",
+      "destination": "Место назначения",
+      "check_in": "Регистрация",
+      "check_out": "Выезд",
+      "guests": "Гости",
+      "add_room": "+ Добавить комнату",
+      "done": "Готово",
+      "search": "Поиск",
+      "regions": "Регионы",
+      "hotels": "Отели",
+      "adults": "Взрослые",
+      "children": "Дети",
+      "room": "Комната"
+    }
+  },
+  "az": {
+    "navbar": {
+      "language": "Dil",
+      "login": "Daxil ol",
+      "heart": "Ürək",
+      "bell": "Bildirişlər",
+      "languages": {
+        "english": "İngilis",
+        "russian": "Rus",
+        "azerbaijani": "Azərbaycan"
+      },
+      "username": "İstifadəçi adı",
+      "password": "Parol",
+      "confirm_password": "Parolu təsdiqləyin",
+      "forgot_password": "Şifrənizi unutmusunuz?",
+      "terms_conditions": "Mən Şərtləri qəbul edirəm",
+      "sign_up": "Qeydiyyatdan keçin",
+      "login_button": "Daxil ol",
+      "sign_up_button": "Qeydiyyatdan keçin"
+    },
+    "banner": {
+      "title": "Arzu etdiyiniz tətilin dadını çıxarın",
+      "subtitle": "Otelləri, uçuşları və qalma paketlərini ən aşağı qiymətlərlə bron edin.",
+      "destination": "Məkan",
+      "check_in": "Yoxlama",
+      "check_out": "Çıxış",
+      "guests": "Qonaqlar",
+      "add_room": "+ Otaq əlavə edin",
+      "done": "Hazırdır",
+      "search": "Axtarış",
+      "regions": "Bölgələr",
+      "hotels": "Otellər",
+      "adults": "Böyüklər",
+      "children": "Uşaqlar",
+      "room": "Otaq"
+    }
+  }
+}

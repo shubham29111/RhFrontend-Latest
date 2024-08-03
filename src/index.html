@@ -6,7 +6,54 @@
   <title>Hotel booking</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body > .skiptranslate > iframe.skiptranslate {
+        display: none !important;
+    }
+    body {
+        top: 0px !important;
+    }
 
+    #goog-gt-tt {
+    display: none !important;
+}
+
+#google_translate_element
+{
+  top: 0px;
+  position: relative;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+.skiptranslate .goog-te-gadget-icon {
+    display: none !important;
+}
+.goog-te-gadget-simple
+{
+  border: none !important; 
+  background-color: transparent !important;
+}
+.goog-te-gadget-simple a{
+display: flex !important;
+}
+
+#google_translate_element a {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    margin-right: 5px;
+}
+</style>
   <!-- CSS Imports -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -18,26 +65,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="icon" type="image/x-icon" href="assets/logo.png">
   <link href="./styles.css" rel="stylesheet">
+
 </head>
 
 <body>
   <app-root></app-root>
-  <div id="google_translate_element" style="display: none;"></div>
+  <script src="js/gt.min.js" data-gt-widget-id="43217984"></script>
   
-  <!-- Google Translate Script -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        autoDisplay: false
-      }, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-  <!-- JS Imports -->
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

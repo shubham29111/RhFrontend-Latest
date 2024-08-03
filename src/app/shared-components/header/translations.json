@@ -1,0 +1,66 @@
+{
+    "en": {
+      "navbar": {
+        "language": "Language",
+        "login": "Log in",
+        "heart": "Heart",
+        "bell": "Notifications",
+        "languages": {
+          "english": "English",
+          "russian": "Russian",
+          "azerbaijani": "Azerbaijani"
+        },
+        "username": "Username",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "forgot_password": "Forgot Your password?",
+        "terms_conditions": "I accept the Terms & Conditions",
+        "sign_up": "Sign up",
+        "login_button": "Login",
+        "sign_up_button": "Sign up"
+      }
+    },
+    "ru": {
+      "navbar": {
+        "language": "Язык",
+        "login": "Войти",
+        "heart": "Сердце",
+        "bell": "Уведомления",
+        "languages": {
+          "english": "Английский",
+          "russian": "Русский",
+          "azerbaijani": "Азербайджанский"
+        },
+        "username": "Имя пользователя",
+        "password": "Пароль",
+        "confirm_password": "Подтвердите Пароль",
+        "forgot_password": "Забыли пароль?",
+        "terms_conditions": "Я принимаю Условия и Положения",
+        "sign_up": "Зарегистрироваться",
+        "login_button": "Войти",
+        "sign_up_button": "Зарегистрироваться"
+      }
+    },
+    "az": {
+      "navbar": {
+        "language": "Dil",
+        "login": "Daxil ol",
+        "heart": "Ürək",
+        "bell": "Bildirişlər",
+        "languages": {
+          "english": "İngilis",
+          "russian": "Rus",
+          "azerbaijani": "Azərbaycan"
+        },
+        "username": "İstifadəçi adı",
+        "password": "Parol",
+        "confirm_password": "Parolu təsdiqləyin",
+        "forgot_password": "Şifrənizi unutmusunuz?",
+        "terms_conditions": "Mən Şərtləri qəbul edirəm",
+        "sign_up": "Qeydiyyatdan keçin",
+        "login_button": "Daxil ol",
+        "sign_up_button": "Qeydiyyatdan keçin"
+      }
+    }
+  }
+  
