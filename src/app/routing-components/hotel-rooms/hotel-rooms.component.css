@@ -1,0 +1,934 @@
+    .section-padding
+    {padding: 0px 20px !important;
+      background-color: #f2f1f0 !important;
+    }
+    .hotel-container{
+            max-width: 1536px;
+            padding-right: 100px;
+            padding-left: 100px;
+            background-color: #f2f1f0;;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1333333333;
+      padding-top: 100px;
+      left: 0;
+      top: -40px;
+      width: 100%;
+      height: 109%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal.show {
+      display: block;
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.2); 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px); 
+      border-radius: 10px; 
+      border: 1px solid rgba(255, 255, 255, 0.3); 
+      margin: auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 90%;
+      max-height: 101%;
+      overflow-y: auto;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .close {
+      position: absolute; 
+      top: 10px; 
+      right: 10px; 
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: rgba(255, 255, 255, 1);
+    }
+
+    .selected-image-container {
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      margin-bottom: 20px;
+    }
+    
+    .selected-image {
+      width: 50%;
+      height: 50%;
+      max-width: 100%;
+      max-height: 400px; 
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .slider-container {
+      position: relative;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      max-width: 100%;
+    }
+
+    .image-slider {
+      display: inline-flex;
+    }
+
+    .image-item {
+      margin-right: 10px;
+      flex: 0 0 auto;
+      width: 150px;
+    }
+
+    .image-item img {
+      border-radius: 8px;
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .image-item img:hover {
+      transform: scale(1.05);
+    }
+
+    /* General scrollbar styles */
+.slider-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* Height for horizontal scrollbar */
+}
+
+.slider-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+
+.slider-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5); /* Color of the scrollbar thumb */
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.1); /* Adds some padding around the thumb */
+}
+
+.slider-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Hover color of the scrollbar thumb */
+}
+
+/* Scrollbar for Firefox */
+.slider-container {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.1); /* Thumb color and track color */
+}
+
+/* Optional: hide scrollbar on overflow */
+.slider-container::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar but allows scrolling */
+}
+
+/* When hovering over the slider, show the scrollbar */
+.slider-container:hover::-webkit-scrollbar {
+  display: block; /* Shows the scrollbar on hover */
+}
+/* Global Styles */
+body {
+  color: #000000;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.custom-container
+{
+  margin-right: 27%;
+  margin-left: 6%;
+  top: -487px;
+    position: relative;
+}
+.hotel-booking-page {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hotel-overview,.hotel-card ,.hotel-details,.hotel-policies, .contact-info {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #1a237e; /* Dark Blue */
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1c8dc2; 
+}
+
+p {
+  font-size: 18px;
+  color: #686868;
+  margin-bottom: 5px;
+}
+
+.hotel-address, .hotel-phone {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+/* Image Gallery */
+.image-gallery {
+}
+
+/* Booking Section (Sticky Card) */
+.booking-section {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+  background-color: #1a237e;
+  color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+}
+
+
+.booking-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.btn-book {
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-book:hover {
+  background-color: #1a237e; /* Dark Blue */
+}
+
+/* Amenities Section */
+.amenities-card {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.amenities-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.amenity-category {
+  color: #495057;
+}
+
+.amenity-category h3 {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  font-weight: lighter;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+.amenity-category h3 i {
+  
+  margin-right: 8px;
+  color: #000000;
+}
+
+.amenity-category ul {
+  padding: 0;
+  margin: 0 0 20px 0;
+  padding-left: 21px !important;
+
+}
+
+.amenity-category ul li {
+  list-style-type: circle;
+
+  margin-bottom: 8px;
+
+}
+
+.amenity-category ul li i {
+  margin-left: 5px;
+  color: #007bff;
+}
+
+.amenity-category ul li span {
+  color: #000000;
+}
+
+/* Contact Info */
+.contact-info {
+  text-align: center;
+}
+
+.contact-info p {
+  font-size: 20px;
+}
+
+/* Additional Styles for UI Enhancements */
+.hotel-rating .stars {
+  color: #ffeb3b; /* Yellow for stars */
+  font-size: 22px;
+}
+
+.hotel-rating .rating-text {
+  font-size: 20px;
+  color: #1a237e; /* Dark Blue */
+}
+
+.image-gallery img {
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  background-color: #1a237e;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  margin-right: 4%;
+
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ffeb3b;
+}
+
+.card p {
+  font-size: 20px;
+  color: #ffeb3b;
+}
+.hotel-card {
+  display: flex;
+  justify-content: space-between;
+  top: 20px;
+  position: relative;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 24px;
+}
+
+
+.hotel-card-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.hotel-info {
+  max-width: 70%;
+}
+
+.hotel-name {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.hotel-address, .hotel-distance {
+  font-size: 20px;
+  color: #000000;
+}
+
+.map-link {
+  color: #1e90ff;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.hotel-pricing {
+  text-align: right;
+}
+
+.price-label {
+  font-size: 21px;
+  color: #999;
+}
+
+.price-amount {
+  font-size: 1.2em;
+  color: #175401;
+  font-weight: bold;
+  margin: 0;
+}
+
+.show-rooms-btn {
+  background-color:#205391;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.show-rooms-btn:hover {
+  background-color: #304157;
+}
+
+.hotel-card i {
+  margin-right: 5px;
+}
+
+.hotel-card .hotel-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.amenities, .location {
+  width: 48%;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  color: #000000;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.grid-layout li {
+  font-size: 1em;
+  color: #495057;
+  display: flex;
+  align-items: center;
+}
+
+.grid-layout li i {
+  margin-right: 10px;
+  color: #000000;
+}
+
+.grid-layout li a {
+  color: #007bff;
+  text-decoration: none;
+  grid-column: span 2;
+  text-align: center;
+}
+
+.grid-layout li a:hover {
+  text-decoration: underline;
+}
+
+.check-in-out-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 5px;
+  padding-right: 30px;
+  padding-left: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.check-in, .check-out {
+  flex: 1;
+  margin: 2px;
+}
+
+.check-in h4, .check-out h4 {
+  margin: 0;
+  font-size: 17px;
+  color: #000000;
+}
+
+.check-in p, .check-out p {
+  margin: 5px 0 0;
+  font-size: 15px;
+  color: #000000;
+}
+
+.check-in p a, .check-out p a {
+  color: rgb(30 62 175);
+  text-decoration: none;
+  font-weight: bold;
+
+}
+
+.check-in p span, .check-out p span {
+  color: #757474;
+}
+
+.change-button {
+  margin-left: 20px;
+}
+
+.change-button button {
+  background-color:#205391;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: medium;
+
+}
+.bg-blue-500
+{
+  background-color:#205391 !important;
+}
+
+.change-button button:hover {
+  background-color:#2864ac;
+}
+.policies-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  font-size: 1.25em;
+  margin-bottom: 15px;
+  color: #343a40;
+  background-color: #e9ecef;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.check-in-out {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.check-time {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  padding-left: 7px;
+  margin: -15px;
+  border-bottom:solid gray 2px !important;
+}
+
+.time-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+}
+
+.time-label {
+  flex-basis: 15%;
+  font-weight: bold;
+  color: #7d7d7d;
+}
+
+.time-value {
+  flex-basis: 20%;
+  color: #000;
+  margin-right: 10px;
+}
+
+.progress-container {
+  position: relative;
+  width: 60%;
+}
+
+.progress-background {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  position: relative;
+}
+
+.progress-checkin {
+  height: 10px;
+  background-color: #5cb85c;
+  position: absolute;
+  top: 0;
+  border-radius: 5px;
+}
+
+.progress-checkout {
+  height: 10px;
+  background-color: #5cb85c;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+}
+
+.pointer {
+  position: absolute;
+  top: -25px; /* Adjust to align above the progress bar */
+  transform: translateX(-50%);
+  background-color: #007bff;
+  color: #fff;
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.pointer::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #007bff transparent transparent transparent;
+}
+
+.paid-options .option {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.paid-options .option i {
+  font-size: 1.2em;
+  margin-right: 8px;
+}
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(30 62 175);
+}
+#map {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nearby-places h3 {
+  font-size: 1.2em;
+  color: #343a40;
+}
+
+.nearby-places ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nearby-places li {
+  font-size: 1em;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.nearby-places li i {
+  margin-right: 8px;
+  color: #1d8fd6 !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+}
+
+.leaflet-popup-content {
+  margin: 8px !important;
+  text-align: center;
+}
+
+.leaflet-popup-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px !important;
+  font-weight: 600;
+}
+
+.leaflet-popup-content img {
+  border-radius: 4px;
+  max-width: 100px;
+  height: auto;
+}
+.custom-select {
+  appearance: none;
+  background-color: white;
+  border: 1px solid #d1d5db; /* Default border */
+  padding: 10px;
+  padding-right: 30px; /* Space for dropdown arrow */
+  border-radius: 0.375rem;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); /* Dropdown arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px 12px;
+}
+
+.custom-select:focus {
+  border-color: #dc2626; /* Red border on focus */
+  outline: none;
+}
+
+.custom-select option {
+  padding: 10px;
+}
+
+.custom-select option[selected] {
+  background-color: #f8f8f8;
+}
+
+.custom-select option:hover {
+  background-color: #f5f5f5;
+}
+
+.custom-select:hover {
+  border-color: #cbd5e0;
+}
+
+.relative .custom-select:after {
+  content: "\25BC";
+  position: absolute;
+  right: 15px;
+  top: calc(50% - 5px);
+  pointer-events: none;
+}
+
+.relative .custom-select option {
+  padding: 8px 10px;
+}
+
+.relative .custom-select option:hover {
+  background-color: #f5f5f5;
+}
+
+.relative .custom-select option[selected] {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.relative .custom-select[aria-expanded="true"] {
+  border-color: #dc2626;
+}
+.room-card {
+  border-radius: 8px;
+  border: 1px solid #ddd; 
+}
+
+.room-header {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.room-image-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-right: 20px;
+}
+
+.room-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.image-count {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.room-info {
+  flex-grow: 1;
+  padding: 5px;
+
+}
+
+.room-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.room-subtitle {
+  color: gray;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.room-amenities {
+  display: flex;
+  gap: 20px;
+}
+
+.amenity-item {
+  font-size: 0.85rem;
+  color: gray;
+  display: flex;
+  align-items: center;
+}
+
+.amenity-item i {
+  margin-right: 5px;
+}
+
+.rates-table {
+  width: 100%;
+  border-spacing: 0; /* Ensure no extra spacing between table cells */
+  border-collapse: collapse; /* Collapse borders to prevent visible borders between cells */
+  border-radius: 8px;
+
+}
+
+.rates-table td {
+  vertical-align: top;
+  padding: 10px;
+  border: solid 0.7px gray;
+  border-radius: 8px;
+ 
+  border: 1px solid #ddd; /* Outer border for the table */
+  /* Remove the border between table cells */
+}
+.rates-table td {
+  vertical-align: top;
+  padding: 10px;
+
+  border-left: 1px solid #ddd; /* Border between columns */
+  border-right: 1px solid #ddd; /* Border between columns */
+}
+.rate-price,
+.rate-book {
+  background-color: #edf7e9; /* Apply background color to both cells */
+}
+.rate-amenities ul,
+.rate-cancellation ul {
+  list-style-type: none;
+  padding: 0;
+
+}
+
+.valueadds-item {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.valueadds-item i {
+  margin-right: 5px;
+}
+
+.rate-price .price-amount {
+  font-weight: bold;
+  color: green;
+}
+
+
+
+.best-price {
+  color: green;
+  margin-bottom: 5px;
+}
+
+
+.price-included,.price-nights
+{
+  font-size: 12px !important;
+}
+
+
+.book-now-btn {
+  background-color:#205391;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}

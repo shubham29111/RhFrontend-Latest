@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Options } from 'ngx-slider-v2';
 import { RoomsService } from 'src/app/services/roomsApi.service';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-rooms',
@@ -9,68 +11,18 @@ import { RoomsService } from 'src/app/services/roomsApi.service';
   styleUrls: ['./rooms.component.css']
 })
 export class RoomsComponent implements OnInit {
-  constructor(private roomApiService: RoomsService) { }
-  rooms: any = []
+  hotel: any;
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.getAllRooms()
-
+    this.getHotelData();
   }
 
-  getAllRooms() {
-    this.roomApiService.getRooms().subscribe({
-      next: ((res) => this.rooms = res),
-      error: ((error) => this.rooms = error)
-    })
-
+  getHotelData(): void {
+    this.http.get(environment.baseUrl+'/hotels/hotel_ocean_residency')
+      .subscribe((response: any) => {
+        this.hotel = response.response;
+      });
   }
-
-  getSingleRooms() {
-    this.roomApiService.getRooms().subscribe((res) => {
-      this.rooms = res.filter((item:any) => {
-        return item.roomTypeId == 1
-      })
-    })
-    
-    
-  }
-
-  getDoubleRooms() {
-    this.roomApiService.getRooms().subscribe((res) => {
-      this.rooms = res.filter((item:any) => {
-        return item.roomTypeId == 3
-      })
-    })
-    
-    
-  }
-
-  getDeluxeRooms() {
-    this.roomApiService.getRooms().subscribe((res) => {
-      this.rooms = res.filter((item:any) => {
-        return item.roomTypeId == 2
-      })
-    })
-    
-    
-  }
-
-
-
-
-  value: number = 300;
-  highValue: number = 1000;
-  options: Options = {
-    floor: 0,
-    ceil: 1000
-  };
-
-  chooseRooms!:FormGroup
-
-  initForm() {
-    this.chooseRooms = new FormGroup({
-      
-    })
-  }
-
 }

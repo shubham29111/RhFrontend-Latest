@@ -24,6 +24,10 @@ import { TestimonialComponent } from './routing-components/home/testimonial/test
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { DatePickerComponent } from './shared-components/date-picker/date-picker.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { HotelRoomsComponent } from './routing-components/hotel-rooms/hotel-rooms.component';
+import { ImageResizePipe } from './shared-components/pipe/image-resize.pipe';
+import { DatePipe } from '@angular/common';
+import { BookingPopupComponent } from './shared-components/booking-popup/booking-popup.component';
 
 
 
@@ -48,6 +52,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
     BlogsSectionComponent,
     TestimonialComponent,
     DatePickerComponent,
+    HotelRoomsComponent,
+    ImageResizePipe,
+    BookingPopupComponent,
 
    
   ],
@@ -65,7 +72,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     
     
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [DatePipe],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

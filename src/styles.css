@@ -10,8 +10,15 @@
     font-weight: bold;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'ProotUi';
+    src: url('/assets/fonts/gilroy/pt-root-ui_vf.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
   body {
-    font-family: 'Gilroy';
+    font-family: 'ProotUi';
+    font-weight: 400;
   }
  
 

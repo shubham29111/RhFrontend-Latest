@@ -1,0 +1,476 @@
+<div class="hotel-booking-page section-padding">
+  <!-- Hotel Overview Section -->
+  <section class="hotel-card container">
+    <div class="hotel-card-content">
+      <div class="hotel-info">
+        <div class="hotel-header">
+          <div class="hotel-rating" style="font-size: x-small;">
+            <span [innerHTML]="getStars(hotel.star_rating)"></span>
+          </div>
+          <h2 class="hotel-name" style="font-size: 1.5em; color: #1d8fd6; margin: 0;">{{hotel.name}}</h2>
+          <p style="color: #6b6b6b; font-size: 0.9em; margin: 5px 0;">
+            <i class="fas fa-map-marker-alt"></i> {{hotel.address}},
+            <span>{{hotel.postal_code}}</span> .
+            <a href="#" class="map-link" style="color: #1d8fd6; text-decoration: none;">Show on the map</a>
+          </p>
+          <p style="color: #6b6b6b; font-size: 0.9em; margin: 5px 0;">
+            <span class="distance">4.7 km</span> from the city center
+          </p>
+        </div>
+      </div>
+      
+      <div class="hotel-price">
+        <div class="price-amount">from {{hotelPrice | currency:'INR'}}</div>
+        <button type="button" class="show-rooms-btn" data-mdb-ripple-init>Show rooms</button>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Image Gallery Section -->
+  <section class="image-gallery container">
+    <div class="image-container w-auto h-auto">
+      <div class="rounded-md sm:rounded-xl">
+        <div class="relative grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2" style="margin: -16px;">
+          <div class="relative col-span-2 row-span-3 cursor-pointer overflow-hidden rounded-md sm:row-span-2 sm:rounded-xl">
+            <img alt="Hotel Image" class="rounded-md object-cover sm:rounded-xl w-full h-full" 
+                 [src]="getImageUrl(images[0])" />
+            <div class="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 transition-opacity hover:opacity-100"></div>
+          </div>
+          <ng-container *ngFor="let image of images.slice(1, 5); let i = index">
+            <div class="relative overflow-hidden rounded-md sm:rounded-xl">
+              <div class="aspect-h-3 aspect-w-4 sm:aspect-h-5 sm:aspect-w-6">
+                <img alt="Hotel Image" class="rounded-md object-cover sm:rounded-xl w-full h-full" 
+                     [src]="getImageUrl(image)" />
+              </div>
+              <div class="absolute inset-0 cursor-pointer bg-neutral-900 bg-opacity-20 opacity-0 transition-opacity hover:opacity-100"></div>
+            </div>
+          </ng-container>
+          <button
+  class="absolute bottom-3 left-3 z-10 flex items-center justify-center rounded-xl bg-neutral-100 px-4 py-2 text-neutral-500 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-500 transition-all duration-200 md:flex md:items-center md:justify-center"
+  aria-label="Show all photos"
+  (click)="openModal()"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    aria-hidden="true"
+    class="h-5 w-5"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+    ></path>
+  </svg>
+  <span
+    class="ml-2 text-base md:text-lg lg:text-xl font-medium text-neutral-800"
+  >
+    Show all photos
+  </span>
+</button>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" [ngClass]="{'show': isModalOpen}">
+      <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <div class="selected-image-container">
+          <img [src]="selectedImageUrl || getImageUrl(images[0])" alt="Selected Image" class="selected-image">
+        </div>
+        <div class="slider-container">
+          <button class="scroll-left" (click)="scrollLeft()">‹</button>
+          <div class="image-slider">
+            <div class="image-item" *ngFor="let image of images">
+              <img class="h-auto max-w-full rounded-lg cursor-pointer" [src]="getImageUrl(image)" (click)="selectImage(image)" alt="Gallery Image">
+            </div>
+          </div>
+          <button class="scroll-right" (click)="scrollRight()">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mx-auto p-4 hotel-card" >
+    <div class="md:flex md:space-x-6">
+      <!-- Amenities Section -->
+      <div class="amenities flex-1 mb-6 md:mb-0">
+        <h3 class="font-semibold text-lg mb-3">The main amenities of the hotel</h3>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <li class="flex items-center">
+            <i class="fas fa-wifi mr-2"></i> Free Internet
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-parking mr-2"></i> Parking
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-child mr-2"></i> Suitable for children
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-dumbbell mr-2"></i> Fitness centre
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-utensils mr-2"></i> Bar or restaurant
+          </li>
+          <li>
+            <a href="javascript:void(0);" (click)="scrollToAmenities()" class="text-blue-600 hover:underline">What other amenities are there?</a>
+          </li>
+        </ul>
+      </div>
+      <!-- Location Section with Vertical Divider -->
+      <div class="location flex-1 md:border-l-2 md:pl-6 border-neutral-300">
+        <h3 class="font-semibold text-lg mb-3">Location</h3>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <li class="flex items-center">
+            <i class="fas fa-subway mr-2"></i> Uhlandstrasse • 120 m
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-tree mr-2"></i> Savignyplatz • 380 m
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-subway mr-2"></i> Savignyplatz • 460 m
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-landmark mr-2"></i> Ku'damm Eck • 540 m
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-shopping-cart mr-2"></i> Andenbuch Romanische Buchhandlung • 560 m
+          </li>
+          <li>
+            <a href="javascript:void(0);" (click)="scrollToMap()" class="text-blue-600 hover:underline">What other nearby places?</a>
+          </li>          
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  <section class="container check-in-out-card">
+    <div class="check-in">
+        <h4>Check-in</h4>
+        <p><a href="#">{{checkIn}}</a> <span> After {{hotel.check_in_time}}</span></p>
+    </div>
+    <div class="check-out">
+        <h4>Check-out</h4>
+        <p><a href="#">{{checkOut}}</a> <span> Before {{hotel.check_out_time}}</span></p>
+    </div>
+    <div class="change-button">
+      <button (click)="showPopup()">Change</button>
+    </div>
+    
+    <app-booking-popup *ngIf="isPopupVisible" (close)="hidePopup()"></app-booking-popup>
+    
+
+</section>
+
+<section class="available-rooms-card container p-6 bg-white shadow rounded-lg">
+  <h2 class="text-2xl font-semibold mb-2">Available rooms</h2>
+  <p class="text-sm text-gray-600 mb-4">For 1 night, for 2 adults</p>
+  
+  <!-- Filters Section -->
+  <div class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+    <!-- Beds Dropdown -->
+    <div class="relative">
+      <label for="beds" class="block text-sm font-medium text-gray-700">Beds</label>
+      <select id="beds" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option selected>all options</option>
+        <option>double bed</option>
+        <option>separate beds</option>
+      </select>
+    </div>
+    
+    <!-- Meals Dropdown -->
+    <div class="relative">
+      <label for="meals" class="block text-sm font-medium text-gray-700">Meals</label>
+      <select id="meals" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option selected>all options</option>
+        <option>no meal (RO)</option>
+        <option>breakfast (BB)</option>
+        <option>breakfast + lunch or dinner (HB)</option>
+        <option>breakfast, lunch, and dinner (FB)</option>
+        <option>all inclusive (AI)</option>
+      </select>
+    </div>
+  
+    <!-- Payment Dropdown -->
+    <div class="relative">
+      <label for="payment" class="block text-sm font-medium text-gray-700">Payment</label>
+      <select id="payment" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option selected>all options</option>
+        <option>pay now</option>
+        <option>pay at the hotel</option>
+      </select>
+    </div>
+  
+    <!-- Cancellation Policy Dropdown -->
+    <div class="relative">
+      <label for="cancellation" class="block text-sm font-medium text-gray-700">Cancellation policy</label>
+      <select id="cancellation" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option selected>all options</option>
+        <option>with free cancellation</option>
+      </select>
+    </div>
+  </div>
+  
+
+ 
+  <div class="room-card">
+    <!-- Room Header with Image and Title -->
+    <div class="room-header">
+      <div class="room-image-container">
+        <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
+        <div class="image-count">7 photos</div>
+      </div>
+      <div class="room-info">
+        <h3 class="room-title">Deluxe Double room</h3>
+        <p class="room-subtitle">Full double bed</p>
+        <div class="room-amenities">
+          <span class="amenity-item"><i class="fas fa-ruler-combined"></i> 13.9 m<sup>2</sup></span>
+          <span class="amenity-item"><i class="fas fa-bath"></i> Private bathroom</span>
+          <span class="amenity-item"><i class="fas fa-tv"></i> TV</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Room Rates Table -->
+    <table class="rates-table">
+      <tr>
+        <td class="rate-amenities">
+          <ul class="valueadds">
+            <li class="valueadds-item"><i class="fas fa-bed"></i> Double bed</li>
+            <li class="valueadds-item"><i class="fas fa-utensils"></i> Meals are not included</li>
+            <li class="valueadds-item"><i class="fas fa-smoking-ban"></i> Non-smoking</li>
+          </ul>
+        </td>
+        <td class="rate-cancellation">
+          <ul class="valueadds">
+            <li class="valueadds-item"><i class="fas fa-sync-alt"></i> If canceled, the full reservation price will be charged.</li>
+            <li class="valueadds-item"><i class="fas fa-wallet"></i> Pay now</li>
+            <li class="valueadds-item"></li>
+
+          </ul>
+        </td>
+        <td class="rate-price">
+          <div class="price">
+            <span class="price-amount">{{hotelPrice | currency:'INR'}}</span>
+            <p class="price-included text-xs">All taxes included</p>
+            <p class="price-nights text-xs">for a night for 2 guests</p>
+          </div>
+        </td>
+        <td class="rate-book">
+          <div class="best-price">Best price</div>
+          <a href="#" class="book-now-btn">Book now</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+</section>
+
+
+
+
+  <!-- Hotel Details Section -->
+  <section class="hotel-details container    ">
+    <h2>About the Hotel</h2>
+    <ng-container *ngFor="let desc of hotel?.DescriptionStructs">
+      <h3 class="font-semibold pt-2">{{ desc.title }}</h3>
+      <p>{{ desc.DescriptionStructParagraphs[0].paragraphs }}</p>
+    </ng-container>
+  </section>
+
+  <section id="amenities-section" class="amenities-card container">
+    <h2>What other amenities are there ?</h2>
+    <div class="amenities-grid">
+        <div class="amenity-category">
+            <h3><i class="fas fa-concierge-bell"></i> General</h3>
+            <ul>
+                <li>24-hour reception</li>
+                <li>Air conditioning</li>
+                <li>All Spaces Non-Smoking (public and private)</li>
+                <li>Heating</li>
+                <li>Smoke-free property</li>
+                <li>Television in lobby</li>
+            </ul>
+        </div>
+        <div class="amenity-category">
+            <h3><i class="fas fa-bed"></i> Rooms</h3>
+            <ul>
+                <li>Alarm clock</li>
+                <li>Bathtub</li>
+                <li>Cable TV</li>
+                <li>Family room</li>
+                <li>Flat-screen TV</li>
+                <li>Fridge</li>
+                <li>Hairdryer</li>
+                <li>Non-smoking rooms</li>
+                <li>Shower</li>
+                <li>Shower/Bathtub <i class="fas fa-camera"></i></li>
+                <li>Smoke Detector</li>
+                <li>Toiletries</li>
+            </ul>
+        </div>
+        <div class="amenity-category">
+            <h3><i class="fas fa-wheelchair"></i> Accessibility</h3>
+            <ul>
+                <li>Accessibility features</li>
+                <li>Wheelchair Accessible</li>
+            </ul>
+            <h3><i class="fas fa-concierge-bell"></i> Services and amenities</h3>
+            <ul>
+                <li>Iron</li>
+                <li>Laundry <span>(charged separately)</span></li>
+                <li>Telephone</li>
+            </ul>
+        </div>
+        <div class="amenity-category">
+            <h3><i class="fas fa-utensils"></i> Meals</h3>
+            <ul>
+                <li>Breakfast <i class="fas fa-camera"></i></li>
+                <li>Breakfast/lunch to go</li>
+                <li>Coffee/tea for guests</li>
+                <li>Kitchen</li>
+                <li>Microwave oven</li>
+                <li>Vending machine</li>
+            </ul>
+            <h3><i class="fas fa-wifi"></i> Internet</h3>
+            <ul>
+                <li>Free Wi-Fi</li>
+            </ul>
+        </div>
+        <div class="amenity-category">
+            <h3><i class="fas fa-language"></i> Languages Spoken</h3>
+            <ul>
+                <li>English</li>
+            </ul>
+            <h3><i class="fas fa-tree"></i> Recreation</h3>
+            <ul>
+                <li>Barbecue grill(s)</li>
+            </ul>
+            <h3><i class="fas fa-parking"></i> Parking</h3>
+            <ul>
+                <li>Free parking</li>
+                <li>Parking nearby</li>
+            </ul>
+        </div>
+        <div class="amenity-category">
+            <h3><i class="fas fa-medkit"></i> Beauty and wellness</h3>
+            <ul>
+                <li>Doctor</li>
+                <li>First Aid Kit</li>
+            </ul>
+            <h3><i class="fas fa-child"></i> Kids</h3>
+            <ul>
+                <li>Family/Kid Friendly</li>
+            </ul>
+            <h3><i class="fas fa-paw"></i> Pets</h3>
+            <ul>
+                <li>Pets allowed</li>
+            </ul>
+            <h3><i class="fas fa-shield-alt"></i> Health and Safety Measures</h3>
+            <ul>
+                <li>Additional measures against COVID-19</li>
+                <li>Contactless check-in and/or check-out</li>
+                <li>Extra decontamination measures</li>
+                <li>Individually packaged food</li>
+                <li>Personal protection equipment for guests</li>
+                <li>Personal protection equipment for staff</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="policies-card container">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Policies</h2>
+  
+  <div class="policy-section">
+      <h3 class="section-header">Check-in terms and conditions</h3>
+      <div class="check-in-out p-4">
+        <div class="check-time text-lg font-semibold mb-4">
+          <i class="fas fa-clock mr-2"></i> Check-in and check-out
+        </div>
+        <div class="time-details space-y-4">
+          <div class="time-row flex items-center">
+            <span class="time-label w-24 font-medium">Check-in</span>
+            <span class="time-value text-gray-600">After {{hotel.check_in_time}}</span>
+            <div class="progress-container w-full max-w-xs">
+              <div class="progress-background bg-gray-300 rounded-full h-2">
+                <div class="progress-checkin bg-green-500 rounded-full h-2" [style.left.%]="(checkInHour / 24) * 100" [style.width.%]="(100 - (checkInHour / 24) * 100)"></div>
+              </div>
+              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkInHour / 24) * 100">{{hotel.check_in_time}}</div>
+            </div>
+          </div>
+          <div class="time-row flex items-center">
+            <span class="time-label w-24 font-medium">Check-out</span>
+            <span class="time-value text-gray-600">Until {{hotel.check_out_time}}</span>
+            <div class="progress-container w-full max-w-xs">
+              <div class="progress-background bg-gray-300 rounded-full h-2">
+                <div class="progress-checkout bg-green-500 rounded-full h-2" [style.width.%]="(checkOutHour / 24) * 100"></div>
+              </div>
+              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkOutHour / 24) * 100">{{hotel.check_out_time}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="policy-section">
+      <h3 class="section-header">Paid on the spot</h3>
+      <div class="paid-options space-y-4">
+          <div class="option">
+              <i class="fas fa-child text-gray-600 mr-2"></i> <span class="font-semibold">Children</span>
+              <p class="text-gray-600"><strong>Accommodation for children:</strong><br>
+              At the age of 8 years if their parents or guardians are staying in the same room on extra beds</p>
+              <p class="text-gray-600"><strong>Price:</strong><br> Needs to be clarified on the spot</p>
+          </div>
+          <div class="option">
+              <i class="fas fa-bed text-gray-600 mr-2"></i> <span class="font-semibold">Additional bed</span>
+              <p class="text-gray-600"><strong>Maximum number:</strong><br>
+              Needs to be clarified on the spot</p>
+              <p class="text-gray-600"><strong>Price:</strong><br> 35 EUR per guest per night</p>
+          </div>
+      </div>
+  </div>
+</section>
+
+<section id="section-map" class="hotel-location container" style="background-color: white;border-radius: 10px;">
+  <h2 style="    padding-top: 20px;
+">Location</h2>
+  <div id="map" style="height: 400px; width: 100%;"></div>
+  <h2 style="    padding-top: 20px;
+">Nearby Places</h2>
+  <div class="location-details grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Iterate through the categories to display each section dynamically -->
+    <div style="padding:4px;" *ngFor="let category of nearbyPlaceCategories">
+      <div *ngIf="category.places.length > 0">
+        <h3 class="font-semibold text-lg mb-3">{{ category.title }}</h3>
+        <ul class="space-y-2">
+          <li *ngFor="let place of category.places">
+            <i style="color: #1d8fd6;" [ngClass]="category.icon" class="mr-2"></i>
+            {{ place.tags.name || 'Unnamed' }} • {{ place.distance }} km
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+  <!-- Contact Information Section -->
+  <section class="contact-info container   ">
+    <h2>Contact Information</h2>
+    <p>Email: {{ hotel?.email }}</p>
+  </section>
+</div>

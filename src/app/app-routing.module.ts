@@ -6,6 +6,7 @@ import { HotelsComponent } from './routing-components/hotels/hotels.component';
 import { BookedRoomsComponent } from './routing-components/booked-rooms/booked-rooms.component';
 import { RoomDetailsComponent } from './routing-components/rooms/room-details/room-details.component';
 import { NotfoundComponent } from './routing-components/notfound/notfound.component';
+import { HotelRoomsComponent } from './routing-components/hotel-rooms/hotel-rooms.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -13,7 +14,9 @@ const routes: Routes = [
   {path: "roomdetails/:id", component: RoomDetailsComponent},
   {path: "hotels", component: HotelsComponent},
   {path: "bookedrooms", component: BookedRoomsComponent},
+  {path: "hotelrooms", component: HotelRoomsComponent},
   {path: "**", component: NotfoundComponent},
+
 
 ];
 
