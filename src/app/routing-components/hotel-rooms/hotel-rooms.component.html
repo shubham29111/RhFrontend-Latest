@@ -5,13 +5,13 @@
       <div class="hotel-info">
         <div class="hotel-header">
           <div class="hotel-rating" style="font-size: x-small;">
-            <span [innerHTML]="getStars(hotel.star_rating)"></span>
+            <span [innerHTML]="getStars(hotel?.star_rating)"></span>
           </div>
-          <h2 class="hotel-name" style="font-size: 1.5em; color: #1d8fd6; margin: 0;">{{hotel.name}}</h2>
+          <h2 class="hotel-name" style="font-size: 1.5em; color: #1d8fd6; margin: 0;">{{hotel?.name}}</h2>
           <p style="color: #6b6b6b; font-size: 0.9em; margin: 5px 0;">
-            <i class="fas fa-map-marker-alt"></i> {{hotel.address}},
-            <span>{{hotel.postal_code}}</span> .
-            <a href="#" class="map-link" style="color: #1d8fd6; text-decoration: none;">Show on the map</a>
+            <i class="fas fa-map-marker-alt"></i> {{hotel?.address}},
+            <span>{{hotel?.postal_code}}</span> .
+            <a href="javascript:void(0);" (click)="scrollToMap()" class="map-link" style="color: #1d8fd6; text-decoration: none;">Show on the map</a>
           </p>
           <p style="color: #6b6b6b; font-size: 0.9em; margin: 5px 0;">
             <span class="distance">4.7 km</span> from the city center
@@ -127,7 +127,7 @@
       <!-- Location Section with Vertical Divider -->
       <div class="location flex-1 md:border-l-2 md:pl-6 border-neutral-300">
         <h3 class="font-semibold text-lg mb-3">Location</h3>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <li class="flex items-center">
             <i class="fas fa-subway mr-2"></i> Uhlandstrasse • 120 m
           </li>
@@ -146,7 +146,24 @@
           <li>
             <a href="javascript:void(0);" (click)="scrollToMap()" class="text-blue-600 hover:underline">What other nearby places?</a>
           </li>          
-        </ul>
+        </ul> -->
+        <div style="padding: 4px;" *ngFor="let category of nearbyPlaceCategories">
+          <ng-container *ngIf="category.title === 'Shopping Places' || category.title === 'Temples'">
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 space-y-2">
+              <li *ngFor="let place of category.places">
+                <i style="color: #1d8fd6;" [ngClass]="category.icon" class="mr-2"></i>
+                {{ place.tags.name || 'Unnamed' }} • {{ place.distance }} km
+              </li>
+            </ul>
+          
+          </ng-container>
+          
+        </div>  
+        <li class="mt-2">
+          <a href="javascript:void(0);" (click)="scrollToMap()" class="text-blue-600 hover:underline">
+            What other nearby places?
+          </a>
+        </li>        
       </div>
     </div>
   </section>
@@ -156,11 +173,11 @@
   <section class="container check-in-out-card">
     <div class="check-in">
         <h4>Check-in</h4>
-        <p><a href="#">{{checkIn}}</a> <span> After {{hotel.check_in_time}}</span></p>
+        <p><a href="#">{{checkIn}}</a> <span> After {{hotel?.check_in_time}}</span></p>
     </div>
     <div class="check-out">
         <h4>Check-out</h4>
-        <p><a href="#">{{checkOut}}</a> <span> Before {{hotel.check_out_time}}</span></p>
+        <p><a href="#">{{checkOut}}</a> <span> Before {{hotel?.check_out_time}}</span></p>
     </div>
     <div class="change-button">
       <button (click)="showPopup()">Change</button>
@@ -400,22 +417,22 @@
         <div class="time-details space-y-4">
           <div class="time-row flex items-center">
             <span class="time-label w-24 font-medium">Check-in</span>
-            <span class="time-value text-gray-600">After {{hotel.check_in_time}}</span>
+            <span class="time-value text-gray-600">After {{hotel?.check_in_time}}</span>
             <div class="progress-container w-full max-w-xs">
               <div class="progress-background bg-gray-300 rounded-full h-2">
                 <div class="progress-checkin bg-green-500 rounded-full h-2" [style.left.%]="(checkInHour / 24) * 100" [style.width.%]="(100 - (checkInHour / 24) * 100)"></div>
               </div>
-              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkInHour / 24) * 100">{{hotel.check_in_time}}</div>
+              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkInHour / 24) * 100">{{hotel?.check_in_time}}</div>
             </div>
           </div>
           <div class="time-row flex items-center">
             <span class="time-label w-24 font-medium">Check-out</span>
-            <span class="time-value text-gray-600">Until {{hotel.check_out_time}}</span>
+            <span class="time-value text-gray-600">Until {{hotel?.check_out_time}}</span>
             <div class="progress-container w-full max-w-xs">
               <div class="progress-background bg-gray-300 rounded-full h-2">
                 <div class="progress-checkout bg-green-500 rounded-full h-2" [style.width.%]="(checkOutHour / 24) * 100"></div>
               </div>
-              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkOutHour / 24) * 100">{{hotel.check_out_time}}</div>
+              <div class="pointer bg-blue-500 text-white text-xs rounded-full py-1 px-2 mt-1" [style.left.%]="(checkOutHour / 24) * 100">{{hotel?.check_out_time}}</div>
             </div>
           </div>
         </div>

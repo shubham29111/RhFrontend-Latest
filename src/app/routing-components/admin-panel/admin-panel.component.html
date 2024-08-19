@@ -1,0 +1,321 @@
+<div class="admin-panel">
+    <!-- Sidebar -->
+    <aside class="fixed inset-y-0 left-0 bg-white shadow-md max-h-screen w-60">
+      <div class="flex flex-col justify-between h-full">
+        <div class="flex-grow">
+          <div class="px-4 py-6 text-center border-b">
+            <h1 class="text-xl font-bold leading-none"><span class="text-yellow-700">Hotel Admin</span></h1>
+          </div>
+          <div class="p-4">
+            <ul class="space-y-1">
+              <li>
+                <a href="javascript:void(0)" class="flex items-center bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" (click)="showSection('dashboard')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+                  </svg>Dashboard
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('bookings')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                  </svg>Bookings
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('rooms')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                  </svg>Rooms
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('reports')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                  </svg>Reports
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('customers')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                  </svg>Customers
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('payments')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                  </svg>Payments
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('support')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                  </svg>Support
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('settings')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                  </svg>Settings
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="p-4">
+          <button type="button" class="inline-flex items-center justify-center h-9 px-4 rounded-xl bg-gray-900 text-gray-300 hover:text-white text-sm font-semibold transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="" viewBox="0 0 16 16">
+              <path d="M12 1a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2a1 1 0 0 1 1-1h8zm-2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg>
+          </button> <span class="font-bold text-sm ml-2">Logout</span>
+        </div>
+      </div>
+    </aside>
+  
+    <!-- Main Content Area -->
+    <main class="ml-60 pt-16 max-h-screen overflow-auto">
+      <div class="px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+  
+          <!-- Dashboard Section -->
+          <div *ngIf="currentSection === 'dashboard'">
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-4 gap-6 mb-6">
+              <div class="bg-red-100 p-6 rounded-lg shadow-lg text-center">
+                <h2 class="text-2xl font-bold">2.8B</h2>
+                <p>Total Earnings</p>
+              </div>
+              <div class="bg-blue-100 p-6 rounded-lg shadow-lg text-center">
+                <h2 class="text-2xl font-bold">1.5M</h2>
+                <p>Happy Users</p>
+              </div>
+              <div class="bg-purple-100 p-6 rounded-lg shadow-lg text-center">
+                <h2 class="text-2xl font-bold">10K</h2>
+                <p>Employees</p>
+              </div>
+              <div class="bg-green-100 p-6 rounded-lg shadow-lg text-center">
+                <h2 class="text-2xl font-bold">12K</h2>
+                <p>New Bookings</p>
+              </div>
+            </div>
+  
+            <!-- Latest Hotel Bookings -->
+            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
+              <h2 class="text-xl font-bold mb-4">Latest Hotel Bookings</h2>
+              <ul class="space-y-4">
+                <li class="flex items-center justify-between">
+                  <div>
+                    <p class="font-bold">Queens Hotel</p>
+                    <p>Mark Wayne | 3 days ago</p>
+                  </div>
+                  <p class="text-sm text-gray-500">28 - 29 May</p>
+                </li>
+                <li class="flex items-center justify-between">
+                  <div>
+                    <p class="font-bold">Hotel Lavilla</p>
+                    <p>Ena Willis | 10 days ago</p>
+                  </div>
+                  <p class="text-sm text-gray-500">28 May - 01 June</p>
+                </li>
+                <!-- Add more booking items here -->
+              </ul>
+            </div>
+  
+            <!-- Earnings Stats -->
+            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
+              <h2 class="text-xl font-bold mb-4">Earning Stats on All Bookings</h2>
+              <!-- Placeholder for the chart -->
+              <div class="h-48 bg-gray-200 rounded-lg"></div>
+            </div>
+  
+            <!-- Circular Progress -->
+            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
+              <h2 class="text-xl font-bold mb-4">Monthly Increased Amount</h2>
+              <!-- Placeholder for circular progress -->
+              <div class="h-48 w-48 bg-gray-200 rounded-full mx-auto"></div>
+            </div>
+  
+            <!-- Report Generation -->
+            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
+              <h2 class="text-xl font-bold mb-4">Generate Report</h2>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="font-bold">Select Segment:</label>
+                  <select class="w-full p-2 rounded-lg border">
+                    <option>Hotels</option>
+                    <!-- Add more options as needed -->
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="font-bold">Date Range:</label>
+                  <input type="date" class="w-full p-2 rounded-lg border">
+                </div>
+                <div class="col-span-2">
+                  <button class="w-full bg-red-600 text-white p-3 rounded-lg">Generate Report</button>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Top Valued Clients -->
+            <div class="bg-white rounded-lg p-6 shadow-lg">
+              <h2 class="text-xl font-bold mb-4">Top Valued Clients</h2>
+              <div class="grid grid-cols-3 gap-6">
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/100" alt="Client 1" class="rounded-full mx-auto mb-2">
+                  <p class="font-bold">Mark Wayne</p>
+                </div>
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/100" alt="Client 2" class="rounded-full mx-auto mb-2">
+                  <p class="font-bold">Ena Willis</p>
+                </div>
+                <div class="text-center">
+                  <img src="https://via.placeholder.com/100" alt="Client 3" class="rounded-full mx-auto mb-2">
+                  <p class="font-bold">K. Parker</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Bookings Section -->
+          <div *ngIf="currentSection === 'bookings'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Booking Management</h2>
+            <ul class="space-y-4">
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div class="flex justify-between">
+                  <div>Booking ID: B001</div>
+                  <div>Status: Confirmed</div>
+                </div>
+                <div>Hotel: Hotel Sunshine</div>
+                <div>Guest: John Doe</div>
+              </li>
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div class="flex justify-between">
+                  <div>Booking ID: B002</div>
+                  <div>Status: Pending</div>
+                </div>
+                <div>Hotel: Oceanview Resort</div>
+                <div>Guest: Jane Smith</div>
+              </li>
+              <!-- More bookings -->
+            </ul>
+          </div>
+  
+          <!-- Rooms Section -->
+          <div *ngIf="currentSection === 'rooms'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Room Management</h2>
+            <ul class="space-y-4">
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Room 101</div>
+                <div>Hotel: Hotel Sunshine</div>
+                <div>Type: Deluxe Suite</div>
+              </li>
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Room 202</div>
+                <div>Hotel: Oceanview Resort</div>
+                <div>Type: Standard Room</div>
+              </li>
+              <!-- More rooms -->
+            </ul>
+            <button class="mt-4 bg-yellow-600 text-white py-2 px-4 rounded-lg">Add New Room</button>
+          </div>
+  
+          <!-- Reports Section -->
+          <div *ngIf="currentSection === 'reports'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Reports</h2>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                <div class="font-bold text-2xl leading-none">$50,000</div>
+                <div class="mt-2">Monthly Revenue</div>
+              </div>
+              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                <div class="font-bold text-2xl leading-none">75%</div>
+                <div class="mt-2">Occupancy Rate</div>
+              </div>
+              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                <div class="font-bold text-2xl leading-none">100</div>
+                <div class="mt-2">Total Bookings</div>
+              </div>
+              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                <div class="font-bold text-2xl leading-none">20</div>
+                <div class="mt-2">Cancelled Bookings</div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Customers Section -->
+          <div *ngIf="currentSection === 'customers'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Customer Management</h2>
+            <ul class="space-y-4">
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Name: John Doe</div>
+                <div>Role: Customer</div>
+                <div>Email: john&#64;example.com</div>
+              </li>
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Name: Jane Smith</div>
+                <div>Role: Admin</div>
+                <div>Email: jane&#64;example.com</div>
+              </li>
+              <!-- More customers -->
+            </ul>
+          </div>
+  
+          <!-- Payments Section -->
+          <div *ngIf="currentSection === 'payments'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Payment Management</h2>
+            <ul class="space-y-4">
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Transaction ID: T001</div>
+                <div>Amount: $200</div>
+                <div>Status: Completed</div>
+              </li>
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Transaction ID: T002</div>
+                <div>Amount: $150</div>
+                <div>Status: Pending</div>
+              </li>
+              <!-- More payments -->
+            </ul>
+          </div>
+  
+          <!-- Support Section -->
+          <div *ngIf="currentSection === 'support'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Customer Support</h2>
+            <ul class="space-y-4">
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Ticket ID: T001</div>
+                <div>Issue: Booking not confirmed</div>
+                <div>Status: Open</div>
+              </li>
+              <li class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Ticket ID: T002</div>
+                <div>Issue: Payment issue</div>
+                <div>Status: Closed</div>
+              </li>
+              <!-- More support tickets -->
+            </ul>
+          </div>
+  
+          <!-- Settings Section -->
+          <div *ngIf="currentSection === 'settings'" class="bg-white rounded-3xl p-8 mb-5">
+            <h2 class="text-2xl font-bold mb-4">Site Settings</h2>
+            <div class="space-y-4">
+              <div class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Site Title: Hotel Booking Admin</div>
+                <div>Contact Email: support&#64;hotelbooking.com</div>
+              </div>
+              <div class="p-4 bg-white border rounded-xl text-gray-800">
+                <div>Currency: USD</div>
+                <div>Timezone: UTC</div>
+              </div>
+              <!-- More settings -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>

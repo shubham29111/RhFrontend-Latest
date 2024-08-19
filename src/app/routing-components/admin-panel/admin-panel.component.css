@@ -1,0 +1,136 @@
+/* Only the scroll bar */
+::-webkit-scrollbar {
+    width: .5rem;
+    height: .5rem;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.15);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.3);
+}
+.bg-yellow-100 {
+    background-color: #FEF3C7;
+  }
+  
+  .bg-yellow-200 {
+    background-color: #FDE68A;
+  }
+  
+  .bg-yellow-600 {
+    background-color: #D97706;
+  }
+  
+  .bg-purple-100 {
+    background-color: #E9D5FF;
+  }
+  
+  .bg-green-100 {
+    background-color: #D1FAE5;
+  }
+  
+  .text-gray-800 {
+    color: #2D3748;
+  }
+  
+  .text-yellow-700 {
+    color: #B45309;
+  }
+  
+  .hover\\:text-yellow-800:hover {
+    color: #92400E;
+  }
+  
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  .mb-5 {
+    margin-bottom: 1.25rem;
+  }
+  
+  .rounded-xl {
+    border-radius: 1rem;
+  }
+  
+  .font-bold {
+    font-weight: bold;
+  }
+  
+  .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+  }
+  .admin-panel {
+    font-family: Arial, sans-serif;
+  }
+  
+  .bg-red-100 {
+    background-color: #FEE2E2;
+  }
+  
+  .bg-red-600 {
+    background-color: #DC2626;
+  }
+  
+  .bg-blue-100 {
+    background-color: #DBEAFE;
+  }
+  
+  .bg-purple-100 {
+    background-color: #E9D5FF;
+  }
+  
+  .bg-green-100 {
+    background-color: #D1FAE5;
+  }
+  
+  .text-gray-800 {
+    color: #2D3748;
+  }
+  
+  .text-red-900 {
+    color: #7F1D1D;
+  }
+  
+  .p-6 {
+    padding: 1.5rem;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .gap-6 {
+    gap: 1.5rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .font-bold {
+    font-weight: bold;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  

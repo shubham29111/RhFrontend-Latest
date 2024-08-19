@@ -57,6 +57,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     historical: [],
     churches: []
   };
+  displayPlaces: Place[] = [];
+
 
   nearbyPlaceCategories = [
     { title: 'Landmarks', icon: 'fas fa-landmark', places: this.nearbyPlaces['landmarks'] },
@@ -135,22 +137,25 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
-    this.getNearbyPlaces();
+    // this.initMap();
+    // this.getNearbyPlaces();
   }
 
   getHotelData(): void {
     this.http.get(environment.baseUrl + '/hotels/' + this.hotelId)
       .subscribe((response: any) => {
         this.hotel = response.response;
-        this.images = this.hotel.images;
+        this.images = this.hotel?.images;
         if (this.images && this.images.length > 0) {
           this.selectedImageUrl = this.getImageUrl(this.images[0]);
         }
         this.calculateHours();
-        this.hotelLatitude = this.hotel.latitude;
-        this.hotelLongitude = this.hotel.longitude;
+        this.hotelLatitude = this.hotel?.latitude;
+        this.hotelLongitude = this.hotel?.longitude;
         this.getNearbyPlaces();
+        this.initMap();
+    // this.getNearbyPlaces();
+
       });
   }
 
@@ -165,13 +170,13 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     if (imageUrl) {
       return imageUrl.replace('{size}', '640x400');
     }
-    return 'path/to/placeholder-image.jpg';
+    return '';
   }
   getImageUrl2(imageUrl: string): string {
     if (imageUrl) {
       return imageUrl.replace('{size}', '120x120');
     }
-    return 'path/to/placeholder-image.jpg';
+    return '';
   }
 
   selectImage(imageUrl: string): void {
@@ -207,12 +212,16 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < starRating; i++) {
       stars += '⭐';
     }
+    for (let i = starRating; i < 5; i++) {
+      stars += '';
+    }
     return stars;
   }
+  
 
   calculateHours(): void {
-    this.checkInHour = this.timeStringToHour(this.hotel.check_in_time);
-    this.checkOutHour = this.timeStringToHour(this.hotel.check_out_time);
+    this.checkInHour = this.timeStringToHour(this.hotel?.check_in_time);
+    this.checkOutHour = this.timeStringToHour(this.hotel?.check_out_time);
   }
 
   timeStringToHour(time: string): number {
@@ -235,8 +244,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
 
   private initMap(): void {
-    const hotelLatitude = this.hotel.latitude || 40.7128;
-    const hotelLongitude = this.hotel.longitude || -74.0060;
+    const hotelLatitude = this.hotel?.latitude || 40.7128;
+    const hotelLongitude = this.hotel?.longitude || -74.0060;
   
     // Initialize the map centered on the hotel location, with scroll zoom disabled
     this.map = L.map('map', {
@@ -284,8 +293,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   
 
   private getNearbyPlaces(): void {
-    const hotelLatitude = this.hotel.latitude;
-    const hotelLongitude = this.hotel.longitude;
+    const hotelLatitude = this.hotel?.latitude;
+    const hotelLongitude = this.hotel?.longitude;
   
     const overpassQuery = `
       [out:json];
@@ -322,6 +331,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       { title: 'Historical Places', icon: 'fas fa-monument', places: this.nearbyPlaces['historical'] },
       { title: 'Churches', icon: 'fas fa-church', places: this.nearbyPlaces['churches'] }
     ];
+
   }
   
   private categorizeAndLimitResults(elements: Place[]): { [key: string]: Place[] } {
@@ -362,8 +372,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
 
   private calculateDistance(place: Place): number {
-    const hotelLatitude = this.hotel.latitude;
-    const hotelLongitude = this.hotel.longitude;
+    const hotelLatitude = this.hotel?.latitude;
+    const hotelLongitude = this.hotel?.longitude;
 
     const R = 6371; // Radius of the Earth in km
     const dLat = this.deg2rad(place.lat - hotelLatitude);
@@ -393,6 +403,14 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     return 'Unknown Place';
   }
 
+  private populateDisplayPlaces(): void {
+    this.nearbyPlaceCategories.forEach(category => {
+      this.displayPlaces.push(...category.places.slice(0, 5));
+    });
+    console.log(this.displayPlaces);
+    
+  }
+  
   isPopupVisible: boolean = false;
 
   showPopup() {
@@ -402,4 +420,16 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   hidePopup() {
     this.isPopupVisible = false;
   }
+  getIconForPlace(place: Place): string {
+    if (this.nearbyPlaces['landmarks'].includes(place)) return 'fas fa-landmark';
+    if (this.nearbyPlaces['airports'].includes(place)) return 'fas fa-plane-departure';
+    if (this.nearbyPlaces['shopping'].includes(place)) return 'fas fa-shopping-cart';
+    if (this.nearbyPlaces['parks'].includes(place)) return 'fas fa-tree';
+    if (this.nearbyPlaces['theaters'].includes(place)) return 'fas fa-theater-masks';
+    if (this.nearbyPlaces['temples'].includes(place)) return 'fas fa-place-of-worship';
+    if (this.nearbyPlaces['historical'].includes(place)) return 'fas fa-monument';
+    if (this.nearbyPlaces['churches'].includes(place)) return 'fas fa-church';
+    return 'fas fa-map-marker-alt'; // Default icon if none match
+  }
+  
 }

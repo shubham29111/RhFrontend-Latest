@@ -69,7 +69,7 @@ export class HotelsComponent implements OnInit {
     payment_method: [],
     room_amenity: []
   };
-  currency:string="INR"
+  currency:string="";
   
 
 
@@ -98,6 +98,8 @@ export class HotelsComponent implements OnInit {
       this.checkIn=params['checkIn'];
       this.checkOut=params['checkOut'];
     });
+    this.currency = localStorage.getItem('currency') || 'USD';
+
     this.fetchHotels();
     this.loadFilters();
   }
