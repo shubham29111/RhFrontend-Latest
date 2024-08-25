@@ -141,9 +141,13 @@ export class HeaderComponent {
     this.loadGoogleTranslate();
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
-      this.username = JSON.parse(storedUser).username;
+      const user = JSON.parse(storedUser);
+      this.username = user.username;
+  
+      if (user.isAdmin) {
+        this.router.navigate(['/admin']);
+      }
     }
-
   }
 
   ngOnInit(): void {
@@ -363,6 +367,8 @@ logout() {
   sessionStorage.removeItem('user');
   this.username = null;
   console.log('Logged out');
+  this.router.navigate(['']);
+
   window.location.reload();  // Refresh the page
 }
 

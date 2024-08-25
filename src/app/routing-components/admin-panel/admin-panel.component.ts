@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environments';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, registerables } from 'chart.js';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 Chart.register(...registerables);
 
 @Component({
@@ -32,7 +33,7 @@ throw new Error('Method not implemented.');
 
   @ViewChild('earningsChart') earningsChartRef!: ElementRef;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient,private router: Router) {
     Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale);
     // Initialize the form group in the constructor
     this.editUserForm = this.fb.group({
@@ -203,6 +204,7 @@ throw new Error('Method not implemented.');
         default:
             return 'bg-gray-100 text-gray-800';
     }
+    
 }
 
 
@@ -214,4 +216,12 @@ throw new Error('Method not implemented.');
     };
     return paymentMethods[paymentMethodId] || 'Unknown Method';
   }
+
+  logout() {
+    sessionStorage.removeItem('user');
+    console.log('Logged out');
+    this.router.navigate(['']);
+     // Refresh the page
+  }
+  
 }
