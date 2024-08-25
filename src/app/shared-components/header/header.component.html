@@ -14,7 +14,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ selectedCurrency | slice:0:3 }}
         </a>
-        <div class="currencyDropdown dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown" style="width: 300px;">
+        <div class="currencyDropdown dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown" style="width: 240px;">
           <div class="form-group mb-2 sticky-search">
             <input style="top: -10px; 	position: sticky;" type="text" class="form-control" placeholder="Currency search" [(ngModel)]="currencySearch" (input)="filterCurrencies()">
           </div>

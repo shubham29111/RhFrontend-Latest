@@ -1,341 +1,626 @@
-<div class="admin-panel">
-    <!-- Sidebar -->
-    <aside class="fixed inset-y-0 left-0 bg-white shadow-md max-h-screen w-60">
-      <div class="flex flex-col justify-between h-full">
+<div class="admin-panel flex">
+  <!-- Sidebar -->
+  <aside class="bg-white shadow-md w-60">
+     <div class="flex flex-col justify-between h-full">
         <div class="flex-grow">
-          <div class="px-4 py-6 text-center border-b">
-            <h1 class="text-xl font-bold leading-none"><span class="text-yellow-700">Hotel Admin</span></h1>
-          </div>
-          <div class="p-4">
-            <ul class="space-y-1">
-              <li>
-                <a href="javascript:void(0)" class="flex items-center bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" (click)="showSection('dashboard')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
-                  </svg>Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('bookings')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                  </svg>Bookings
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('reports')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                  </svg>Reports
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('customers')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-                  </svg>Customers
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('payments')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                  </svg>Payments
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('support')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                  </svg>Support
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('settings')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
-                  </svg>Settings
-                </a>
-              </li>
-            </ul>
-          </div>
+           <!-- Logo and Title -->
+           <div class="px-4 py-6 text-center border-b bg-blue-100">
+              <a class="flex items-center pb-2 border-b border-b-gray-800">
+                 <h2 class="font-bold text-2xl pl-4">RH <span class="bg-[#f84525] text-white px-2 rounded-md">ADMIN</span></h2>
+              </a>
+           </div>
+
+           <!-- Navigation Menu -->
+           <div class="p-4">
+              <ul class="space-y-2">
+                 <!-- Dashboard Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'dashboard', 'bg-white hover:bg-blue-50': selectedSection !== 'dashboard'}"
+                       (click)="selectSection('dashboard')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+                       </svg>
+                       Dashboard
+                    </a>
+                 </li>
+
+                 <!-- Bookings Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'bookings', 'bg-white hover:bg-blue-50': selectedSection !== 'bookings'}"
+                       (click)="selectSection('bookings')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                       </svg>
+                       Bookings
+                    </a>
+                 </li>
+
+                 <!-- Reports Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'reports', 'bg-white hover:bg-blue-50': selectedSection !== 'reports'}"
+                       (click)="selectSection('reports')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                       </svg>
+                       Reports
+                    </a>
+                 </li>
+
+                 <!-- Users Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'users', 'bg-white hover:bg-blue-50': selectedSection !== 'users'}"
+                       (click)="selectSection('users')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                       </svg>
+                       Users
+                    </a>
+                 </li>
+
+                 <!-- Payments Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'payments', 'bg-white hover:bg-blue-50': selectedSection !== 'payments'}"
+                       (click)="selectSection('payments')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                       </svg>
+                       Payments
+                    </a>
+                 </li>
+
+                 <!-- Support Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'support', 'bg-white hover:bg-blue-50': selectedSection !== 'support'}"
+                       (click)="selectSection('support')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                       </svg>
+                       Tickets
+                    </a>
+                 </li>
+
+                 <!-- Settings Menu Item -->
+                 <!-- <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'settings', 'bg-white hover:bg-blue-50': selectedSection !== 'settings'}"
+                       (click)="selectSection('settings')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"/>
+                       </svg>
+                       Settings
+                    </a>
+                 </li> -->
+
+                 <!-- Logout Menu Item -->
+                 <li>
+                    <a href="javascript:void(0)" 
+                       class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                       [ngClass]="{'bg-blue-300': selectedSection === 'logout', 'bg-white hover:bg-blue-50': selectedSection !== 'logout'}"
+                       (click)="selectSection('logout')">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                          <path d="M12 1a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2a1 1 0 0 1 1-1h8zm-2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                       </svg>
+                       Logout
+                    </a>
+                 </li>
+              </ul>
+           </div>
         </div>
-        <div class="p-4">
-          <button type="button" class="inline-flex items-center justify-center h-9 px-4 rounded-xl bg-gray-900 text-gray-300 hover:text-white text-sm font-semibold transition">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="" viewBox="0 0 16 16">
-              <path d="M12 1a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2a1 1 0 0 1 1-1h8zm-2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-            </svg>
-          </button> <span class="font-bold text-sm ml-2">Logout</span>
-        </div>
-      </div>
-    </aside>
-  
-    <!-- Main Content Area -->
-    <main class="ml-60 pt-16 max-h-screen overflow-auto">
-      <div class="px-6 py-8">
+     </div>
+  </aside>
+
+  <main class="flex-grow pt-16 overflow-auto" style="max-height: 100%;">
+     <div class="px-6 pb-4">
         <div class="max-w-4xl mx-auto">
-  
-          <!-- Dashboard Section -->
-          <div *ngIf="currentSection === 'dashboard'">
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-4 gap-6 mb-6">
-              <div class="bg-red-100 p-6 rounded-lg shadow-lg text-center">
-                <h2 class="text-2xl font-bold">2.8B</h2>
-                <p>Total Earnings</p>
+           <div *ngIf="currentSection === 'dashboard'">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+              <div class="bg-red-500 p-6 rounded-lg shadow-lg text-center text-white">
+                 <i class="fas fa-dollar-sign text-4xl mb-4"></i>
+                 <h2 class="text-3xl font-bold">2.8B</h2>
+                 <p>Total Earnings</p>
               </div>
-              <div class="bg-blue-100 p-6 rounded-lg shadow-lg text-center">
-                <h2 class="text-2xl font-bold">1.5M</h2>
-                <p>Happy Users</p>
+              <div class="bg-blue-500 p-6 rounded-lg shadow-lg text-center text-white">
+                 <i class="fas fa-smile text-4xl mb-4"></i>
+                 <h2 class="text-3xl font-bold">1.5M</h2>
+                 <p>Happy Users</p>
               </div>
-              <div class="bg-purple-100 p-6 rounded-lg shadow-lg text-center">
-                <h2 class="text-2xl font-bold">10K</h2>
-                <p>Employees</p>
+              <div class="bg-purple-500 p-6 rounded-lg shadow-lg text-center text-white">
+                 <i class="fas fa-star text-4xl mb-4"></i>
+                 <h2 class="text-3xl font-bold">10K</h2>
+                 <p>Reviews</p>
               </div>
-              <div class="bg-green-100 p-6 rounded-lg shadow-lg text-center">
-                <h2 class="text-2xl font-bold">12K</h2>
-                <p>New Bookings</p>
+              <div class="bg-green-500 p-6 rounded-lg shadow-lg text-center text-white">
+                 <i class="fas fa-calendar-check text-4xl mb-4"></i>
+                 <h2 class="text-3xl font-bold">12K</h2>
+                 <p>New Bookings</p>
               </div>
-            </div>
-  
+           </div>
+           
+          
             <!-- Latest Hotel Bookings -->
-            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
-              <h2 class="text-xl font-bold mb-4">Latest Hotel Bookings</h2>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-8 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Latest Hotel Bookings</h2>
               <ul class="space-y-4">
                 <li class="flex items-center justify-between">
                   <div>
-                    <p class="font-bold">Queens Hotel</p>
-                    <p>Mark Wayne | 3 days ago</p>
+                    <p class="font-bold text-gray-800 dark:text-white">Queens Hotel</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Mark Wayne | 3 days ago</p>
                   </div>
-                  <p class="text-sm text-gray-500">28 - 29 May</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">28 - 29 May</p>
                 </li>
                 <li class="flex items-center justify-between">
                   <div>
-                    <p class="font-bold">Hotel Lavilla</p>
-                    <p>Ena Willis | 10 days ago</p>
+                    <p class="font-bold text-gray-800 dark:text-white">Hotel Lavilla</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Ena Willis | 10 days ago</p>
                   </div>
-                  <p class="text-sm text-gray-500">28 May - 01 June</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">28 May - 01 June</p>
                 </li>
-                <!-- Add more booking items here -->
               </ul>
             </div>
-  
-            <!-- Earnings Stats -->
-            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
-              <h2 class="text-xl font-bold mb-4">Earning Stats on All Bookings</h2>
-              <!-- Placeholder for the chart -->
-              <div class="h-48 bg-gray-200 rounded-lg"></div>
+          
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Earning Stats on All Bookings</h2>
+              <canvas id="earningsChart" class="h-48"></canvas>
             </div>
-  
-            <!-- Circular Progress -->
-            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
-              <h2 class="text-xl font-bold mb-4">Monthly Increased Amount</h2>
-              <!-- Placeholder for circular progress -->
-              <div class="h-48 w-48 bg-gray-200 rounded-full mx-auto"></div>
+          
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Monthly Increased Amount</h2>
+              <canvas id="monthlyIncreasedChart" class="h-48 w-48 mx-auto"></canvas>
             </div>
-  
-            <!-- Report Generation -->
-            <div class="bg-white rounded-lg p-6 shadow-lg mb-6">
-              <h2 class="text-xl font-bold mb-4">Generate Report</h2>
-              <div class="grid grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label class="font-bold">Select Segment:</label>
-                  <select class="w-full p-2 rounded-lg border">
-                    <option>Hotels</option>
-                    <!-- Add more options as needed -->
-                  </select>
+          
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Recent Activities</h2>
+              <ul class="space-y-4">
+                <li class="flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-gray-800 dark:text-white">New Booking</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">John Doe booked a room at Hotel California</p>
+                  </div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">5 minutes ago</p>
+                </li>
+                <li class="flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-gray-800 dark:text-white">Payment Received</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Jane Smith paid $1,200 for Hotel Plaza</p>
+                  </div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">10 minutes ago</p>
+                </li>
+                <li class="flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-gray-800 dark:text-white">Booking Canceled</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Tom Brown canceled his booking at Hotel BlueSky</p>
+                  </div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">15 minutes ago</p>
+                </li>
+              </ul>
+            </div>
+          
+            <!-- Top Performing Hotels -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Top Performing Hotels</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <img src="https://plus.unsplash.com/premium_photo-1661964071015-d97428970584?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWx8ZW58MHx8MHx8fDA%3D" alt="Hotel 1" class="rounded-lg mx-auto mb-2 shadow-lg">
+                  <p class="font-bold text-gray-800 dark:text-white">Hotel Royal</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ 'Revenue: ' + (500000 | currency:'INR') }}</p>
                 </div>
-                <div class="space-y-2">
-                  <label class="font-bold">Date Range:</label>
-                  <input type="date" class="w-full p-2 rounded-lg border">
+                <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <img src="https://images.unsplash.com/photo-1455587734955-081b22074882?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D" alt="Hotel 2" class="rounded-lg mx-auto mb-2 shadow-lg">
+                  <p class="font-bold text-gray-800 dark:text-white">Grand Resort</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ 'Revenue: ' + (450000 | currency:'INR') }}</p>
                 </div>
-                <div class="col-span-2">
-                  <button class="w-full bg-red-600 text-white p-3 rounded-lg">Generate Report</button>
+                <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <img src="https://images.unsplash.com/photo-1439130490301-25e322d88054?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGhvdGVsfGVufDB8fDB8fHww" alt="Hotel 3" class="rounded-lg mx-auto mb-2 shadow-lg">
+                  <p class="font-bold text-gray-800 dark:text-white">Luxury Suites</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ 'Revenue: ' + (400000 | currency:'INR') }}</p>
                 </div>
               </div>
             </div>
-  
+          
             <!-- Top Valued Clients -->
-            <div class="bg-white rounded-lg p-6 shadow-lg">
-              <h2 class="text-xl font-bold mb-4">Top Valued Clients</h2>
-              <div class="grid grid-cols-3 gap-6">
-                <div class="text-center">
-                  <img src="https://via.placeholder.com/100" alt="Client 1" class="rounded-full mx-auto mb-2">
-                  <p class="font-bold">Mark Wayne</p>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Top Valued Clients</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <div class="w-32 h-32 mx-auto mb-2 rounded-full overflow-hidden shadow-lg">
+                      <img src="https://imgs.search.brave.com/OoUPUeaM-NuE52WLvsyUlWmvhnU_dtqDYqysmGesyik/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdG9y/eWJsb2stY2RuLnBo/b3Rvcm9vbS5jb20v/Zi8xOTE1NzYvMTIw/MHg4MDAvOTcyOGZh/MTViZC9yb3VuZF9w/cm9maWxfcGljdHVy/ZV9hZnRlcl8ud2Vi/cA" alt="Client 1" class="w-full h-full object-cover">
+                  </div>
+                  <p class="font-bold text-gray-800 dark:text-white">Ena Willis</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">VIP Client</p>
+              </div>
+              
+              <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                <div class="w-32 h-32 mx-auto mb-2 rounded-full overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bWFufGVufDB8fDB8fHww" alt="Client 2" class="w-full h-full object-cover">
                 </div>
-                <div class="text-center">
-                  <img src="https://via.placeholder.com/100" alt="Client 2" class="rounded-full mx-auto mb-2">
-                  <p class="font-bold">Ena Willis</p>
-                </div>
-                <div class="text-center">
-                  <img src="https://via.placeholder.com/100" alt="Client 3" class="rounded-full mx-auto mb-2">
-                  <p class="font-bold">K. Parker</p>
-                </div>
+                <p class="font-bold text-gray-800 dark:text-white">Mark Wanys</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Loyalty Member</p>
+            </div>
+            
+            <div class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+              <div class="w-32 h-32 mx-auto mb-2 rounded-full overflow-hidden shadow-lg">
+                  <img src="https://images.unsplash.com/photo-1592827095305-68f21edefb82?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fG1hbnxlbnwwfHwwfHx8MA%3D%3D" alt="Client 3" class="w-full h-full object-cover">
+              </div>
+              <p class="font-bold text-gray-800 dark:text-white">K. Parker</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Frequent Traveler</p>
+          </div>
+          
               </div>
             </div>
           </div>
-          <!-- Bookings Section -->
-          <div *ngIf="currentSection === 'bookings'" class="overflow-x-auto">
-            <table class="min-w-full bg-purple-900 text-white rounded-lg">
-              <thead>
-                <tr>
-                  <th class="py-3 px-5 text-left">HOTEL</th>
-                  <th class="py-3 px-5 text-left">BOOKING ID</th>
-                  <th class="py-3 px-5 text-left">STATUS</th>
-                  <th class="py-3 px-5 text-left">GUEST</th>
-                  <th class="py-3 px-5 text-left">CHECK-IN</th>
-                  <th class="py-3 px-5 text-left">CHECK-OUT</th>
-                  <th class="py-3 px-5 text-left">COMPLETION</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let booking of bookings" class="border-b border-gray-700">
-                  <td class="py-4 px-5 flex items-center">
-                    <img [src]="booking.hotelIcon" alt="Hotel Icon" class="w-10 h-10 mr-3 rounded-full" />
-                    {{ booking.hotel }}
-                  </td>
-                  <td class="py-4 px-5">{{ booking.id }}</td>
-                  <td class="py-4 px-5">
-                    <span class="flex items-center">
-                      <span [class]="booking.statusColor + ' rounded-full h-3 w-3 mr-2'"></span>
-                      {{ booking.status }}
-                    </span>
-                  </td>
-                  <td class="py-4 px-5">{{ booking.guest }}</td>
-                  <td class="py-4 px-5">{{ booking.checkIn }}</td>
-                  <td class="py-4 px-5">{{ booking.checkOut }}</td>
-                  <td class="py-4 px-5">
-                    <div class="flex items-center">
-                      <span class="mr-2">{{ booking.completion }}%</span>
-                      <div class="w-full bg-gray-700 rounded-full h-2">
-                        <div [style.width]="booking.completion + '%'" [class]="booking.completionColor + ' h-2 rounded-full'"></div>
-                      </div>
+          
+
+           <!-- Bookings Section -->
+           <div *ngIf="currentSection === 'bookings'" class="container px-4 mx-auto">
+              <h2 class="text-2xl font-bold mb-4">Booking Management</h2>
+              <div class="flex flex-col">
+                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                             <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                   <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">HOTEL</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">BOOKING ID</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">STATUS</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">GUEST</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CHECK-IN</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CHECK-OUT</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">COMPLETION</th>
+                                </tr>
+                             </thead>
+                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                <tr *ngFor="let booking of bookings" class="border-b border-gray-700">
+                                   <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap" style=" padding-right: 50px !important;">
+                                      <div class="inline-flex items-center">
+                                         <img [src]="'https://imgs.search.brave.com/rADgHaE2BOnjAjMAlYpywEjFokAX8ZVxELVfZy566Cg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9jYXJ0b29uLWRy/YXdpbmctaG90ZWwt/d2l0aC1wYWxtLXRy/ZWVzLWJhY2tncm91/bmRfMTE0OTMzMS0y/NTUzOC5qcGc_c2l6/ZT02MjYmZXh0PWpw/Zw'" alt="Hotel Icon" class="w-10 h-10 mr-3 rounded-full" />
+                                        {{booking.Hotel.name}}
+                                      </div>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.bookingId }}</td>
+                                   <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                      <span class="flex items-center">
+                                      <span [class]="getStatusColor(booking.bookingStatus) + ' rounded-full h-3 w-3 mr-2'"></span>
+                                      {{ booking.bookingStatus }}
+                                      </span>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                      <div class="flex items-center gap-x-2">
+                                         <img class="object-cover w-8 h-8 rounded-full" src="https://img.freepik.com/premium-photo/casual-cloth-man-avatar-icon-modern-profile-picture_1029469-184156.jpg?ga=GA1.1.394777938.1724602890&semt=ais_hybrid" alt="{{ booking.guestName }}">
+                                         <div>
+                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ booking.guestName }}</h2>
+                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ booking.guestEmail }}</p>
+                                         </div>
+                                      </div>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkInDate | date: 'MMM d, y' }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkOutDate | date: 'MMM d, y' }}</td>
+                                   <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                      <div class="flex items-center">
+                                         <span class="mr-2">100%</span> <!-- Assuming completion percentage is 100% for confirmed bookings -->
+                                         <div class="w-full bg-gray-700 rounded-full h-2">
+                                            <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                         </div>
+                                      </div>
+                                   </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        
-        
-  
-          <!-- Reports Section -->
-          <div *ngIf="currentSection === 'reports'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Reports</h2>
-            <table class="min-w-full bg-white border rounded-xl text-gray-800">
-                <thead>
-                    <tr>
-                        <th class="py-2">Metric</th>
-                        <th class="py-2">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="py-2">Monthly Revenue</td>
-                        <td class="py-2">$50,000</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2">Occupancy Rate</td>
-                        <td class="py-2">75%</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2">Total Bookings</td>
-                        <td class="py-2">100</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2">Cancelled Bookings</td>
-                        <td class="py-2">20</td>
-                    </tr>
-                </tbody>
-            </table>
+                 </div>
+              </div>
+           </div>
+
+           <!-- Reports Section -->
+           <div *ngIf="currentSection === 'reports'" class="container px-4 mx-auto">
+              <div class="bg-white dark:bg-gray-900 rounded-3xl mb-5">
+                 <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Reports</h2>
+                    <button (click)="downloadReport()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none">
+                    Download Report
+                    </button>
+                 </div>
+                 <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-6">
+                    <h3 class="text-lg font-medium text-gray-700 dark:text-gray-300">Summary</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Total revenue, bookings, and other key metrics for the selected period.</p>
+                 </div>
+                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-xl">
+                             <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Metric</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Value</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Target</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Difference</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Comments</th>
+                                </tr>
+                             </thead>
+                             <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 flex items-center">
+                                      <svg class="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M16.707 5.707a1 1 0 00-1.414-1.414L9 10.586 5.707 7.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l7-7z" />
+                                      </svg>
+                                      Monthly Revenue
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">{{ 50000 | currency: 'USD' }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">{{ 45000 | currency: 'USD' }}</td>
+                                   <td class="px-4 py-4 text-sm text-green-500 dark:text-green-400">+ {{ 5000 | currency: 'USD' }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">Exceeded target</td>
+                                </tr>
+                                <tr>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 flex items-center">
+                                      <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-14a6 6 0 110 12 6 6 0 010-12z" />
+                                      </svg>
+                                      Occupancy Rate
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">75%</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">80%</td>
+                                   <td class="px-4 py-4 text-sm text-red-500 dark:text-red-400">- 5%</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">Slightly below target</td>
+                                </tr>
+                                <tr>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 flex items-center">
+                                      <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 102 0V7zm-1 6a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
+                                      </svg>
+                                      Total Bookings
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">100</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">90</td>
+                                   <td class="px-4 py-4 text-sm text-green-500 dark:text-green-400">+ 10</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">On track</td>
+                                </tr>
+                                <tr>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 flex items-center">
+                                      <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+                                      </svg>
+                                      Cancelled Bookings
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">20</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">15</td>
+                                   <td class="px-4 py-4 text-sm text-red-500 dark:text-red-400">+ 5</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">Higher than expected</td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+
+           <!-- User Section -->
+           <div *ngIf="currentSection === 'users'" class="container px-4 mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">User Management</h2>
+
+              <div class="flex flex-col">
+                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-lg">
+                             <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Full Name</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Admin</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Created Date</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Active</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Actions</th>
+                                </tr>
+                             </thead>
+                             <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr *ngFor="let user of customers" class="hover:bg-gray-100 dark:hover:bg-gray-800">
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.fullname }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.email }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                      <span class="px-2 py-1 rounded-full text-xs font-medium"
+                                         [ngClass]="{
+                                         'bg-green-100 text-green-800': user.isAdmin,
+                                         'bg-red-100 text-red-800': !user.isAdmin
+                                         }">
+                                      {{ user.isAdmin ? 'Yes' : 'No' }}
+                                      </span>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.createdDate | date: 'MMM d, y, h:mm a' }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                      <span class="px-2 py-1 rounded-full text-xs font-medium"
+                                         [ngClass]="{
+                                         'bg-green-100 text-green-800': user.active,
+                                         'bg-red-100 text-red-800': !user.active
+                                         }">
+                                      {{ user.active ? 'Active' : 'Inactive' }}
+                                      </span>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                      <button (click)="openEditModal(user)" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">
+                                      Edit
+                                      </button>
+                                      <button class="ml-4 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">
+                                      Delete
+                                      </button>
+                                   </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+
+              <!-- Edit User Modal -->
+              <div *ngIf="isEditModalOpen" class="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-75">
+                 <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-96">
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Edit User</h2>
+                    <form [formGroup]="editUserForm">
+                       <div class="mb-4">
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+                          <input type="text" formControlName="fullname" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                       </div>
+                       <div class="mb-4">
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                          <input type="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                       </div>
+                       <div class="mb-4">
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin</label>
+                          <input type="checkbox" formControlName="isAdmin" class="mt-1 block w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                       </div>
+                       <div class="mb-4">
+                          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Active</label>
+                          <input type="checkbox" formControlName="active" class="mt-1 block w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                       </div>
+                       <div class="flex justify-end">
+                          <button type="button" (click)="saveUser()" class="mr-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          Save
+                          </button>
+                          <button type="button" (click)="closeEditModal()" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
+                          Cancel
+                          </button>
+                       </div>
+                    </form>
+                 </div>
+              </div>
+           </div>
+
+           <!-- Payments Section -->
+           <div *ngIf="currentSection === 'payments'" class="container px-4 mx-auto">
+              <h2 class="text-2xl font-bold mb-4">Payment Management</h2>
+              <div class="flex flex-col">
+                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
+                       <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                             <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                   <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Booking ID</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Total Price</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Currency</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Payment Status</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Payment Method</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Transaction ID</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Booking Date</th>
+                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Special Requests</th>
+                                </tr>
+                             </thead>
+                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                <tr *ngFor="let payment of bookings" class="border-b border-gray-700">
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.bookingId }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.totalPrice | currency:payment.currencyCode }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.currencyCode }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                      <span class="px-3 py-1 rounded-full text-xs font-medium"
+                                         [ngClass]="{
+                                         'bg-green-100 text-green-800': payment.paymentStatus === 'paid',
+                                         'bg-red-100 text-red-800': payment.paymentStatus === 'failed',
+                                         'bg-yellow-100 text-yellow-800': payment.paymentStatus === 'pending'
+                                         }">
+                                      {{ payment.paymentStatus | titlecase }}
+                                      </span>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                      <div class="flex items-center">
+                                         <svg class="w-5 h-5 mr-2" [ngClass]="{
+                                            'text-indigo-500': payment.paymentMethodId === 1,
+                                            'text-blue-500': payment.paymentMethodId === 2,
+                                            'text-green-500': payment.paymentMethodId === 3
+                                            }" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Payment method icon paths -->
+                                         </svg>
+                                         {{ getPaymentMethod(payment.paymentMethodId) }}
+                                      </div>
+                                   </td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.transactionId }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.bookingDate | date: 'MMM d, y, h:mm a' }}</td>
+                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ payment.specialRequests || 'None' }}</td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+
+           <!-- Support Section -->
+           <div *ngIf="currentSection === 'support'" class="container px-4 mx-auto">
+            <div class="bg-white dark:bg-gray-900 rounded-3xl mb-5">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Customer Support</h2>
+                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                                <thead class="bg-gray-50 dark:bg-gray-800">
+                                    <tr>
+                                        <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
+                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
+                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
+                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
+                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                    <tr *ngFor="let ticket of supportTickets" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                            <span class="px-3 py-1 rounded-full text-xs font-medium"
+                                                [ngClass]="{
+                                                    'bg-green-100 text-green-800': ticket.status === 'Resolved',
+                                                    'bg-red-100 text-red-800': ticket.status === 'Open',
+                                                    'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
+                                                }">
+                                                {{ ticket.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-  
-          <!-- Customers Section -->
-          <div *ngIf="currentSection === 'customers'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Customer Management</h2>
-            <table class="min-w-full bg-white border rounded-xl text-gray-800">
-                <thead>
+
+           <!-- Settings Section -->
+           <div *ngIf="currentSection === 'settings'" class="bg-white rounded-3xl  mb-5">
+              <h2 class="text-2xl font-bold mb-4">Site Settings</h2>
+              <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                 <thead>
                     <tr>
-                        <th class="py-2">Name</th>
-                        <th class="py-2">Role</th>
-                        <th class="py-2">Email</th>
+                       <th class="py-2">Setting</th>
+                       <th class="py-2">Value</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let customer of customers">
-                        <td class="py-2">{{customer.name}}</td>
-                        <td class="py-2">{{customer.role}}</td>
-                        <td class="py-2">{{customer.email}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-  
-          <!-- Payments Section -->
-          <div *ngIf="currentSection === 'payments'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Payment Management</h2>
-            <table class="min-w-full bg-white border rounded-xl text-gray-800">
-                <thead>
-                    <tr>
-                        <th class="py-2">Transaction ID</th>
-                        <th class="py-2">Amount</th>
-                        <th class="py-2">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let payment of payments">
-                        <td class="py-2">{{payment.id}}</td>
-                        <td class="py-2">{{payment.amount}}</td>
-                        <td class="py-2">{{payment.status}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-  
-          <!-- Support Section -->
-          <div *ngIf="currentSection === 'support'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Customer Support</h2>
-            <table class="min-w-full bg-white border rounded-xl text-gray-800">
-                <thead>
-                    <tr>
-                        <th class="py-2">Ticket ID</th>
-                        <th class="py-2">Issue</th>
-                        <th class="py-2">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let ticket of supportTickets">
-                        <td class="py-2">{{ticket.id}}</td>
-                        <td class="py-2">{{ticket.issue}}</td>
-                        <td class="py-2">{{ticket.status}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-  
-          <!-- Settings Section -->
-          <div *ngIf="currentSection === 'settings'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Site Settings</h2>
-            <table class="min-w-full bg-white border rounded-xl text-gray-800">
-                <thead>
-                    <tr>
-                        <th class="py-2">Setting</th>
-                        <th class="py-2">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
+                 </thead>
+                 <tbody>
                     <tr *ngFor="let setting of siteSettings">
-                        <td class="py-2">{{setting.name}}</td>
-                        <td class="py-2">{{setting.value}}</td>
+                       <td class="py-2">{{setting.name}}</td>
+                       <td class="py-2">{{setting.value}}</td>
                     </tr>
-                </tbody>
-            </table>
+                 </tbody>
+              </table>
+           </div>
         </div>
-        
-        </div>
-      </div>
-    </main>
-  </div>
+     </div>
+  </main>
+</div>

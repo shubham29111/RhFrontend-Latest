@@ -1,214 +1,217 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { environment } from 'src/environments/environments';
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, registerables } from 'chart.js';
+import { FormBuilder, FormGroup } from '@angular/forms';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
-export class AdminPanelComponent {
+export class AdminPanelComponent implements OnInit {
+saveUser() {
+throw new Error('Method not implemented.');
+}
   currentSection: string = 'dashboard'; // Set the default section to 'dashboard'
-
-  showSection(section: string) {
-    this.currentSection = section; // Update the currentSection when a menu item is clicked
-  }
-  bookings = [
-    {
-      id: 'B001',
-      status: 'pending',
-      statusColor: 'bg-orange-500',
-      hotel: 'Hotel Sunshine',
-      hotelIcon: 'path-to-icon/hotel-sunshine.png',
-      guest: 'John Doe',
-      checkIn: '2024-08-01',
-      checkOut: '2024-08-05',
-      completion: 60,
-      completionColor: 'bg-red-500',
-    },
-    {
-      id: 'B002',
-      status: 'completed',
-      statusColor: 'bg-green-500',
-      hotel: 'Oceanview Resort',
-      hotelIcon: 'path-to-icon/oceanview-resort.png',
-      guest: 'Jane Smith',
-      checkIn: '2024-08-02',
-      checkOut: '2024-08-06',
-      completion: 100,
-      completionColor: 'bg-green-500',
-    },
-    {
-      id: 'B003',
-      status: 'delayed',
-      statusColor: 'bg-orange-500',
-      hotel: 'Mountain View Inn',
-      hotelIcon: 'path-to-icon/mountain-view-inn.png',
-      guest: 'Alice Johnson',
-      checkIn: '2024-08-03',
-      checkOut: '2024-08-07',
-      completion: 73,
-      completionColor: 'bg-red-500',
-    },
-    {
-      id: 'B004',
-      status: 'on schedule',
-      statusColor: 'bg-green-500',
-      hotel: 'City Lights Hotel',
-      hotelIcon: 'path-to-icon/city-lights-hotel.png',
-      guest: 'Robert Brown',
-      checkIn: '2024-08-04',
-      checkOut: '2024-08-08',
-      completion: 90,
-      completionColor: 'bg-green-500',
-    },
-    {
-      id: 'B005',
-      status: 'completed',
-      statusColor: 'bg-green-500',
-      hotel: 'Seaside Retreat',
-      hotelIcon: 'path-to-icon/seaside-retreat.png',
-      guest: 'Emily Davis',
-      checkIn: '2024-08-05',
-      checkOut: '2024-08-09',
-      completion: 100,
-      completionColor: 'bg-green-500',
-    },
-    {
-      id: 'B006',
-      status: 'pending',
-      statusColor: 'bg-orange-500',
-      hotel: 'Grand Palace',
-      hotelIcon: 'path-to-icon/grand-palace.png',
-      guest: 'Michael Wilson',
-      checkIn: '2024-08-06',
-      checkOut: '2024-08-10',
-      completion: 45,
-      completionColor: 'bg-red-500',
-    },
-    {
-      id: 'B007',
-      status: 'completed',
-      statusColor: 'bg-green-500',
-      hotel: 'Royal Hotel',
-      hotelIcon: 'path-to-icon/royal-hotel.png',
-      guest: 'Sarah Taylor',
-      checkIn: '2024-08-07',
-      checkOut: '2024-08-11',
-      completion: 100,
-      completionColor: 'bg-green-500',
-    },
-    {
-      id: 'B008',
-      status: 'on schedule',
-      statusColor: 'bg-green-500',
-      hotel: 'Lakeside Lodge',
-      hotelIcon: 'path-to-icon/lakeside-lodge.png',
-      guest: 'David Anderson',
-      checkIn: '2024-08-08',
-      checkOut: '2024-08-12',
-      completion: 88,
-      completionColor: 'bg-green-500',
-    },
-    {
-      id: 'B009',
-      status: 'delayed',
-      statusColor: 'bg-orange-500',
-      hotel: 'Urban Stay',
-      hotelIcon: 'path-to-icon/urban-stay.png',
-      guest: 'Jessica Martinez',
-      checkIn: '2024-08-09',
-      checkOut: '2024-08-13',
-      completion: 73,
-      completionColor: 'bg-red-500',
-    },
-    {
-      id: 'B010',
-      status: 'completed',
-      statusColor: 'bg-green-500',
-      hotel: 'Country Inn',
-      hotelIcon: 'path-to-icon/country-inn.png',
-      guest: 'Daniel Harris',
-      checkIn: '2024-08-10',
-      checkOut: '2024-08-14',
-      completion: 100,
-      completionColor: 'bg-green-500',
-    },
-  ];
-  rooms = [
-    { number: '101', hotel: 'Hotel Sunshine', type: 'Deluxe Suite' },
-    { number: '102', hotel: 'Oceanview Resort', type: 'Standard Room' },
-    { number: '201', hotel: 'Mountain View Inn', type: 'Single Room' },
-    { number: '202', hotel: 'City Lights Hotel', type: 'Double Room' },
-    { number: '301', hotel: 'Seaside Retreat', type: 'Executive Suite' },
-    { number: '302', hotel: 'Grand Palace', type: 'Presidential Suite' },
-    { number: '401', hotel: 'Royal Hotel', type: 'Luxury Room' },
-    { number: '402', hotel: 'Lakeside Lodge', type: 'Cottage' },
-    { number: '501', hotel: 'Urban Stay', type: 'Penthouse' },
-    { number: '502', hotel: 'Country Inn', type: 'Queen Room' },
-  ];
-
+  bookings: any[] = [];
+  customers: any[] = [];
+  payments: any[] = [];
+  supportTickets: any[] = [];
+  siteSettings: any[] = [];
+  isEditModalOpen = false;
+  editUserForm: FormGroup; // Ensure it's not undefined
   reports = [
-    { metric: 'Monthly Revenue', value: '$50,000' },
-    { metric: 'Occupancy Rate', value: '75%' },
-    { metric: 'Total Bookings', value: '100' },
-    { metric: 'Cancelled Bookings', value: '20' },
-    { metric: 'Annual Revenue', value: '$600,000' },
-    { metric: 'Daily Bookings', value: '15' },
-    { metric: 'Available Rooms', value: '85' },
-    { metric: 'Active Customers', value: '200' },
-    { metric: 'Revenue per Room', value: '$500' },
-    { metric: 'Average Stay Length', value: '3 days' },
+    { metric: 'Monthly Revenue', value: '$50,000', target: '$45,000', difference: '+ $5,000', comments: 'Exceeded target' },
+    { metric: 'Occupancy Rate', value: '75%', target: '80%', difference: '- 5%', comments: 'Slightly below target' },
+    { metric: 'Total Bookings', value: '100', target: '90', difference: '+ 10', comments: 'On track' },
+    { metric: 'Cancelled Bookings', value: '20', target: '15', difference: '+ 5', comments: 'Higher than expected' }
   ];
+  selectedSection: string = 'dashboard';
 
-  customers = [
-    { name: 'John Doe', role: 'Customer', email: 'john@example.com' },
-    { name: 'Jane Smith', role: 'Admin', email: 'jane@example.com' },
-    { name: 'Alice Johnson', role: 'Customer', email: 'alice@example.com' },
-    { name: 'Robert Brown', role: 'Customer', email: 'robert@example.com' },
-    { name: 'Emily Davis', role: 'Customer', email: 'emily@example.com' },
-    { name: 'Michael Wilson', role: 'Admin', email: 'michael@example.com' },
-    { name: 'Sarah Taylor', role: 'Customer', email: 'sarah@example.com' },
-    { name: 'David Anderson', role: 'Customer', email: 'david@example.com' },
-    { name: 'Jessica Martinez', role: 'Customer', email: 'jessica@example.com' },
-    { name: 'Daniel Harris', role: 'Admin', email: 'daniel@example.com' },
-  ];
+  @ViewChild('earningsChart') earningsChartRef!: ElementRef;
 
-  payments = [
-    { id: 'T001', amount: '$200', status: 'Completed' },
-    { id: 'T002', amount: '$150', status: 'Pending' },
-    { id: 'T003', amount: '$300', status: 'Failed' },
-    { id: 'T004', amount: '$450', status: 'Completed' },
-    { id: 'T005', amount: '$100', status: 'Refunded' },
-    { id: 'T006', amount: '$250', status: 'Pending' },
-    { id: 'T007', amount: '$350', status: 'Completed' },
-    { id: 'T008', amount: '$400', status: 'Failed' },
-    { id: 'T009', amount: '$500', status: 'Completed' },
-    { id: 'T010', amount: '$600', status: 'Pending' },
-  ];
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale);
+    // Initialize the form group in the constructor
+    this.editUserForm = this.fb.group({
+      fullname: [''],
+      email: [''],
+      isAdmin: [false],
+      active: [true],
+    });
+  }
 
-  supportTickets = [
-    { id: 'T001', issue: 'Booking not confirmed', status: 'Open' },
-    { id: 'T002', issue: 'Payment issue', status: 'Closed' },
-    { id: 'T003', issue: 'Room not as described', status: 'In Progress' },
-    { id: 'T004', issue: 'Website error during booking', status: 'Open' },
-    { id: 'T005', issue: 'Late check-in', status: 'Closed' },
-    { id: 'T006', issue: 'Booking cancellation request', status: 'Open' },
-    { id: 'T007', issue: 'Incorrect charge on credit card', status: 'In Progress' },
-    { id: 'T008', issue: 'Room service complaint', status: 'Closed' },
-    { id: 'T009', issue: 'Reservation modification', status: 'Open' },
-    { id: 'T010', issue: 'Discount code not working', status: 'Closed' },
-  ];
+  ngOnInit(): void {
+    this.loadBookings();
+    this.loadSupportTickets();
+    this.loadCustomers();
+  }
 
-  siteSettings = [
-    { name: 'Site Title', value: 'Hotel Booking Admin' },
-    { name: 'Contact Email', value: 'support@hotelbooking.com' },
-    { name: 'Currency', value: 'USD' },
-    { name: 'Timezone', value: 'UTC' },
-    { name: 'Default Language', value: 'English' },
-    { name: 'Booking Cancellation Policy', value: '24 hours before check-in' },
-    { name: 'Max Guests Per Room', value: '4' },
-    { name: 'Default Room Rate', value: '$150' },
-    { name: 'Tax Rate', value: '12%' },
-    { name: 'Support Phone Number', value: '+1 800 123 4567' },
-  ];
+  ngAfterViewInit(): void {
+    this.renderEarningsChart();
+    this.renderMonthlyIncreasedChart();
+  }
 
+  openEditModal(user: any) {
+    this.isEditModalOpen = true;
+    this.editUserForm.patchValue(user); // No need for non-null assertion now
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+    this.editUserForm.reset(); // Reset form after closing modal
+  }
+
+  selectSection(section: string) {
+    this.selectedSection = section;
+    this.currentSection = section;
+  }
+
+  loadBookings() {
+    this.http.get<any>(environment.baseUrl + '/book').subscribe(data => {
+      console.log(data.response);
+      this.bookings = data.response;
+    }, error => {
+      console.error('Error loading bookings', error);
+    });
+  }
+
+  downloadReport() {
+    const csvData = this.generateCSV(this.reports);
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.setAttribute('download', 'report.csv');
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
+
+  generateCSV(data: any[]): string {
+    const headers = 'Metric,Value,Target,Difference,Comments\n';
+    const rows = data.map(row => `${row.metric},${row.value},${row.target},${row.difference},${row.comments}`).join('\n');
+    return headers + rows;
+  }
+
+  loadCustomers() {
+    this.http.get<any>(environment.baseUrl + '/users').subscribe(data => {
+      console.log(data);
+      this.customers = data.response;
+    }, error => {
+      console.error('Error loading customers', error);
+    });
+  }
+
+  loadPayments() {
+    this.http.get<any>(environment.baseUrl + '/book').subscribe(data => {
+      this.payments = data;
+    }, error => {
+      console.error('Error loading payments', error);
+    });
+  }
+
+  loadSupportTickets() {
+    this.http.get<any>(environment.baseUrl + '/customer-support').subscribe(data => {
+      this.supportTickets = data.response;
+    }, error => {
+      console.error('Error loading support tickets', error);
+    });
+  }
+
+  loadSiteSettings() {
+    this.http.get<any>(environment.baseUrl + '/site-settings').subscribe(data => {
+      this.siteSettings = data;
+    }, error => {
+      console.error('Error loading site settings', error);
+    });
+  }
+
+  getStatusColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'bg-green-500';
+      case 'pending':
+        return 'bg-yellow-500';
+      case 'cancelled':
+        return 'bg-red-500';
+      case 'refunded':
+        return 'bg-gray-500';
+      default:
+        return 'bg-gray-300';
+    }
+  }
+
+  renderEarningsChart() {
+    const ctx = document.getElementById('earningsChart') as HTMLCanvasElement;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Earnings',
+          data: [12000, 19000, 30000, 5000, 20000, 30000, 45000],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  renderMonthlyIncreasedChart() {
+    const ctx = document.getElementById('monthlyIncreasedChart') as HTMLCanvasElement;
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Increase',
+          data: [15000, 25000, 20000, 30000, 40000, 35000, 45000],
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+  getStatusClass(status: string): string {
+    switch (status) {
+        case 'Resolved':
+            return 'bg-green-100 text-green-800';
+        case 'Open':
+            return 'bg-red-100 text-red-800';
+        case 'Pending':
+            return 'bg-yellow-100 text-yellow-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
+    }
+}
+
+
+  getPaymentMethod(paymentMethodId: number): string {
+    const paymentMethods: { [key: number]: string } = {
+      1: 'Credit Card',
+      2: 'PayPal',
+      3: 'Bank Transfer',
+    };
+    return paymentMethods[paymentMethodId] || 'Unknown Method';
+  }
 }

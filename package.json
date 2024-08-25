@@ -30,6 +30,7 @@
     "@types/leaflet": "^1.9.12",
     "bootstrap": "^5.3.3",
     "bootstrap-datepicker": "^1.10.0",
+    "chart.js": "^4.4.4",
     "david-ui-angular": "^1.1.0",
     "detect-passive-events": "^2.0.3",
     "flowbite": "^2.4.1",

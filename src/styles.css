@@ -131,12 +131,13 @@
 .input-box
 
 {
+    background: none;
     border: none;
 	margin-left: 10px;
     height: 40px;
 }
 .input-box:focus {
-    outline: none;
+    outline: none !important;
     border: none;
     box-shadow: none;
   }
@@ -168,3 +169,21 @@
     transition: color 0.3s;
   }
  
+  /* Remove the default focus outline */
+:focus {
+    outline: none;
+}
+
+:focus {
+    outline: 2px solid #4A90E2; 
+    outline-offset: 2px; 
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    outline: none; 
+    border: none; 
+    
+}

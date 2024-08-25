@@ -62,10 +62,7 @@
     margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1rem * var(--tw-space-y-reverse));
   }
-  .admin-panel {
-    font-family: Arial, sans-serif;
-  }
-  
+
   .bg-red-100 {
     background-color: #FEE2E2;
   }
@@ -132,5 +129,20 @@
   
   .mb-4 {
     margin-bottom: 1rem;
+  }
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .bg-blue-300 {
+    background-color: #90cdf4;
+  }
+  
+  .bg-blue-50 {
+    background-color: #ebf8ff;
+  }
+  
+  .text-blue-900 {
+    color: #2a4365;
   }
   
