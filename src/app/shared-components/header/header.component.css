@@ -71,6 +71,10 @@ body > .skiptranslate > iframe.skiptranslate {
 	width: 200%;
 
 }
+.navbar-nav .dropdown-menu {
+	z-index: 1050 !important; /* Ensure the dropdown menu is above other elements */
+	position: absolute !important; /* Make sure it is positioned absolutely */
+  }
 
 .navbar .dropdown-menu .nav-tabs {
 	border-bottom: 0;
@@ -187,6 +191,58 @@ body {
 	position: absolute;
 
   }
+  .alert {
+	padding: 10px 20px;
+	margin-bottom: 15px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 1.5;
+  }
+  
+  .alert-danger {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+  }
+  
+  .alert-danger strong {
+	font-weight: bold;
+  }
+  
+  .alert-danger a {
+	color: #a94442;
+	text-decoration: underline;
+  }
+  
+  .custom-dropdown {
+	width: 150px;
+  }
+  
+  .custom-dropdown .dropdown-item {
+	padding: 10px 15px;
+	font-size: 14px;
+	color: #555;
+	display: flex;
+	align-items: center;
+  }
+  
+  .custom-dropdown .dropdown-item:hover {
+	background-color: #f8f9fa;
+	color: #007bff;
+  }
+  
+  .custom-dropdown .dropdown-item i {
+	margin-right: 10px;
+	font-size: 16px;
+	color: #007bff;
+  }
+  
+  .custom-dropdown .dropdown-divider {
+	margin: 8px 0;
+	border-top: 1px solid #e9ecef;
+  }
+  
   
   .currencyDropdown .form-control {
 	border-radius: 0;
@@ -226,4 +282,67 @@ body {
 	font-size: 1rem;
 	font-weight: bold;
   }
+  
+  .position-relative {
+	position: relative;
+  }
+  
+  .toggle-password {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	cursor: pointer;
+	font-size: 18px;
+	color: #888;
+  }
+  
+  .toggle-password:hover {
+	color: #333;
+  }
+  @keyframes bounce {
+	0%, 100% {
+	  transform: translateY(0);
+	}
+	50% {
+	  transform: translateY(-15px);
+	}
+  }
+  
+  .animate-bounce {
+	animation: bounce 1.5s infinite;
+  }
+  
+  .flex {
+	display: flex;
+  }
+  
+  .space-x-1 > :not(:last-child) {
+	margin-right: 4px; /* Adjusted spacing for smaller dots */
+  }
+  
+  .justify-center {
+	justify-content: center;
+  }
+  
+  .items-center {
+	align-items: center;
+  }
+  
+  .h-2 {
+	height: 0.5rem; /* Smaller dot size */
+  }
+  
+  .w-2 {
+	width: 0.5rem; /* Smaller dot size */
+  }
+  
+  .bg-black {
+	background-color: black;
+  }
+  
+  .rounded-full {
+	border-radius: 9999px;
+  }
+  
   

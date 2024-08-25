@@ -24,7 +24,7 @@
               <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">
                 {{ currency | slice: 0: 3 }}
               </a>
-                          </li>
+            </li>
           </ul>
           <h6 class="dropdown-header">All currencies</h6>
           <ul class="list-unstyled">
@@ -40,12 +40,22 @@
         </a>
         <div id="google_translate_element"></div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="avatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <li class="nav-item dropdown" (click)="toggleDropdown()">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="avatarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
           <i class="fa fa-user nav-icon" aria-hidden="true"></i>
-          <span class="nav-text"> Log in</span>
+          <span class="nav-text">
+            {{ username ? username : 'Log in' }}
+          </span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
+        <div *ngIf="!username" class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
           <ul class="nav nav-tabs" id="loginSignupTabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
@@ -56,22 +66,51 @@
           </ul>
           <div class="tab-content p-3" id="loginSignupTabsContent">
             <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-              <form autocomplete="off">
+              <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
                 <div class="form-group">
-                  <div class="custom-input" tabindex="0">
-                      <label class="custom-label">
-                          <div class="input-title">Username</div>
-                          <input type="text" class="input-box" id="loginUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                      </label>
+                  <div class="custom-input position-relative" tabindex="0">
+                    <label class="custom-label">
+                      <div class="input-title">Username</div>
+                      <input
+                        type="text"
+                        class="input-box"
+                        id="loginUsername"
+                        name="loginUsername"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
+                    </label>
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="custom-input" tabindex="0">
+                  <div class="custom-input position-relative" tabindex="0">
                     <label class="custom-label">
-                        <div class="input-title">Password</div>
-                        <input type="password" class="input-box" id="loginPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                      <div class="input-title">Password</div>
+                      <input
+                        type="password"
+                        class="input-box"
+                        id="loginPassword"
+                        name="loginPassword"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
+                      <i
+                        class="fa fa-eye position-absolute toggle-password"
+                        (click)="togglePasswordVisibility('loginPassword')"
+                      ></i>
                     </label>
                   </div>
+                </div>
+                <div *ngIf="loginErrorMessage" class="alert alert-danger">
+                  {{ loginErrorMessage }}
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                 <div class="text-center mt-2">
@@ -80,41 +119,142 @@
               </form>
             </div>
             <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-              <form autocomplete="off">
+              <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)">
                 <div class="form-group">
-                  <div class="custom-input" tabindex="0">
+                  <div class="custom-input position-relative" tabindex="0">
                     <label class="custom-label">
-                        <div class="input-title">Username</div>
-                        <input type="text" class="input-box" id="signupUsername" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                      <div class="input-title">Full Name</div>
+                      <input
+                        type="text"
+                        class="input-box"
+                        id="signupFullname"
+                        name="signupFullname"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
                     </label>
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="custom-input" tabindex="0">
+                  <div class="custom-input position-relative" tabindex="0">
                     <label class="custom-label">
-                        <div class="input-title">Password</div>
-                        <input type="password" class="input-box" id="signupPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                      <div class="input-title">Username</div>
+                      <input
+                        type="text"
+                        class="input-box"
+                        id="signupUsername"
+                        name="signupUsername"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
                     </label>
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="custom-input" tabindex="0">
+                  <div class="custom-input position-relative" tabindex="0">
                     <label class="custom-label">
-                        <div class="input-title">Confirm Password</div>
-                        <input type="password" class="input-box" id="signupConfirmPassword" required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                      <div class="input-title">Email</div>
+                      <input
+                        type="email"
+                        class="input-box"
+                        id="signupEmail"
+                        name="signupEmail"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
                     </label>
                   </div>
+                </div>
+                <div class="form-group">
+                  <div class="custom-input position-relative" tabindex="0">
+                    <label class="custom-label">
+                      <div class="input-title">Password</div>
+                      <input
+                        type="password"
+                        class="input-box"
+                        id="signupPassword"
+                        name="signupPassword"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
+                      <i
+                        class="fa fa-eye position-absolute toggle-password"
+                        (click)="togglePasswordVisibility('signupPassword')"
+                      ></i>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="custom-input position-relative" tabindex="0">
+                    <label class="custom-label">
+                      <div class="input-title">Confirm Password</div>
+                      <input
+                        type="password"
+                        class="input-box"
+                        id="signupConfirmPassword"
+                        name="signupConfirmPassword"
+                        required
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        ngModel
+                      />
+                      <i
+                        class="fa fa-eye position-absolute toggle-password"
+                        (click)="togglePasswordVisibility('signupConfirmPassword')"
+                      ></i>
+                    </label>
+                  </div>
+                </div>
+                <div *ngIf="signupErrorMessage" class="alert alert-danger">
+                  {{ signupErrorMessage }}
                 </div>
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="termsCheckbox" required>
-                  <label class="form-check-label" for="termsCheckbox">I accept the <a href="#">Terms & Conditions</a></label>
+                  <input type="checkbox" class="form-check-input" id="termsCheckbox" required />
+                  <label class="form-check-label" for="termsCheckbox">
+                    I accept the <a href="#">Terms & Conditions</a>
+                  </label>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Sign up</button>
               </form>
             </div>
           </div>
         </div>
+        <div *ngIf="username" class="dropdown-menu dropdown-menu-right custom-dropdown" aria-labelledby="avatarDropdown">
+          <a class="dropdown-item d-flex align-items-center" href="/profile">
+            <i class="fa fa-user mr-2"></i> My Profile
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="/contacts">
+            <i class="fa fa-address-book mr-2"></i> My Contacts
+          </a>
+          <a class="dropdown-item d-flex align-items-center" href="/settings">
+            <i class="fa fa-cog mr-2"></i> Account Settings
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" (click)="logout()">
+            <i class="fa fa-sign-out-alt mr-2"></i> Log Out
+          </a>
+        </div>
       </li>
+      
+      
     </ul>
   </div>
 </nav>

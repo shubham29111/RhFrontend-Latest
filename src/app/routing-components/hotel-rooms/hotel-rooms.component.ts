@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environments';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as L from 'leaflet';
+import { flatMap } from 'rxjs';
 
 interface Place {
   lat: number;
@@ -36,6 +37,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   images: string[] = [];
   selectedImageUrl: string = '';
   isModalOpen: boolean = false;
+  loading:boolean=false
   hotelId: string = '';
   hotelPrice: any;
   guests: any;
@@ -142,6 +144,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
 
   getHotelData(): void {
+    this.loading=true;
     this.http.get(environment.baseUrl + '/hotels/' + this.hotelId)
       .subscribe((response: any) => {
         this.hotel = response.response;
@@ -149,12 +152,15 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         if (this.images && this.images.length > 0) {
           this.selectedImageUrl = this.getImageUrl(this.images[0]);
         }
+        this.loading=false;
+
         this.calculateHours();
         this.hotelLatitude = this.hotel?.latitude;
         this.hotelLongitude = this.hotel?.longitude;
         this.getNearbyPlaces();
         this.initMap();
     // this.getNearbyPlaces();
+
 
       });
   }
@@ -244,6 +250,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
 
   private initMap(): void {
+
     const hotelLatitude = this.hotel?.latitude || 40.7128;
     const hotelLongitude = this.hotel?.longitude || -74.0060;
   
@@ -289,6 +296,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     L.control.zoom({
       position: 'topright'   // Position the zoom control in the top-right corner
     }).addTo(this.map);
+
   }
   
 

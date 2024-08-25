@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
+import { environment } from 'src/environments/environments';
 declare const $: any;
 declare var google: any;
 declare global {
@@ -21,11 +23,18 @@ export class HeaderComponent {
   currencyPanelVisible = false;
   loginPanelVisible = false;
   loginUser = false;
+  username: string | null = null;
+  loginErrorMessage: string | null = null;
+  signupErrorMessage: string | null = null;
+  dropdownOpen: boolean = false;
+
   userName = '';
   selectedLanguage: string = 'en';
   translations: any = translations;
   selectedCurrency = 'INR';
   currencySearch = '';
+  loading: boolean = false;
+
   
   popularCurrencies = [
     'USD US Dollar, $',
@@ -128,8 +137,12 @@ export class HeaderComponent {
   filteredAllCurrencies = [...this.allCurrencies];
 
 
-  constructor(private router: Router,private http: HttpClient,private translationService: TranslationService) {
+  constructor(private router: Router,private http: HttpClient,private translationService: TranslationService,) {
     this.loadGoogleTranslate();
+    const storedUser = sessionStorage.getItem('user');
+    if (storedUser) {
+      this.username = JSON.parse(storedUser).username;
+    }
 
   }
 
@@ -269,5 +282,120 @@ updateUrlWithCurrency(currency: string): void {
     queryParamsHandling: 'merge',
   });
 }
-  
+
+onLogin(form: NgForm) {
+  this.loading = true;
+
+  const loginData = {
+    username: form.value.loginUsername,
+    password: form.value.loginPassword,
+  };
+
+  this.http.post(`${environment.baseUrl}/signin`, loginData).subscribe(
+    (response: any) => {
+      this.loading = false;
+
+      if (response.statusCode === 200) {
+        // Clear any previous error message
+        this.loginErrorMessage = null;
+
+        // Extract the relevant data
+        const userData = response.response;
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        this.username = userData.username;  // Update the username
+        console.log('Login successful', userData);
+        window.location.reload();
+
+      } else {
+        this.loading = false;
+
+        this.loginErrorMessage = response.errorMessage || 'An error occurred during login.';
+        console.error('Login failed', response.errorMessage);
+      }
+    },
+    (error) => {
+      this.loginErrorMessage = error.error.message || 'An error occurred during login.';
+      console.error('Login failed', error);
+    }
+  );
+}
+
+onSignup(form: NgForm) {
+  this.loading = true;
+
+  const signupData = {
+    fullname: form.value.signupFullname,
+    username: form.value.signupUsername,
+    password: form.value.signupPassword,
+    email: form.value.signupEmail,
+  };
+
+  this.http.post(`${environment.baseUrl}/signup`, signupData).subscribe(
+    (response: any) => {
+      this.loading = false;
+
+      if (response.statusCode === 200) {
+        // Clear any previous error message
+        this.signupErrorMessage = null;
+
+        // Extract the relevant data
+        const userData = response.response;
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        this.username = userData.username;  // Update the username
+        console.log('Signup successful', userData);
+        window.location.reload();
+
+      } else {
+        this.loading = false;
+
+        this.signupErrorMessage = response.errorMessage || 'An error occurred during signup.';
+        console.error('Signup failed', response.errorMessage);
+      }
+    },
+    (error) => {
+      this.signupErrorMessage = error.error.message || 'An error occurred during signup.';
+      console.error('Signup failed', error);
+    }
+  );
+}
+
+logout() {
+  sessionStorage.removeItem('user');
+  this.username = null;
+  console.log('Logged out');
+  window.location.reload();  // Refresh the page
+}
+
+togglePasswordVisibility(inputId: string) {
+  const passwordInput = document.getElementById(inputId) as HTMLInputElement;
+  const icon = passwordInput.nextElementSibling as HTMLElement;
+
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    passwordInput.type = 'password';
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+toggleDropdown() {
+  this.dropdownOpen = !this.dropdownOpen;
+  if (!this.dropdownOpen && !this.username) {
+    this.clearForms();
+  }
+}
+clearForms() {
+  const loginForm = document.getElementById('loginForm') as HTMLFormElement;
+  const signupForm = document.getElementById('signupForm') as HTMLFormElement;
+
+  if (loginForm) {
+    loginForm.reset();
+  }
+  if (signupForm) {
+    signupForm.reset();
+  }
+}
+
 }
