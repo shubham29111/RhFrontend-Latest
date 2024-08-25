@@ -21,6 +21,7 @@ export class BannerComponent implements OnInit {
   showDropdownMenu: boolean = false;
   programmaticChange: boolean = false;
   region: any;
+  
 
   constructor(private http: HttpClient, private router: Router,private translationService: TranslationService) {}
   ngOnInit(): void {

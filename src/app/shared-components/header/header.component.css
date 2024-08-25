@@ -172,3 +172,58 @@ body {
     top: 0px !important;
 }
 
+.currencyDropdown {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	min-width: 200px;
+	overflow-y: auto;
+    height: 470%;
+  }
+  
+  .sticky-search {
+    top: 0;
+	background-color: white;
+	z-index: 999999999999999;
+	position: absolute;
+
+  }
+  
+  .currencyDropdown .form-control {
+	border-radius: 0;
+	border: 1px solid #ccc;
+  }
+  
+  .currencyDropdown .dropdown-header {
+	font-size: 0.85rem;
+	color: #6c757d;
+  }
+  
+  .currencyDropdown .dropdown-item {
+	padding: 0.25rem 1.5rem;
+	font-size: 0.9rem;
+  }
+  
+  .currencyDropdown .dropdown-item:hover {
+	background-color: #f8f9fa;
+  }
+  
+  .currencyDropdown .list-unstyled {
+	padding-left: 0;
+	margin-bottom: 0;
+  }
+  
+  .nav-link {
+	display: flex;
+	align-items: center;
+	color: #000;
+  }
+  
+  .nav-link svg {
+	margin-right: 5px;
+  }
+  
+  .nav-link .nav-text {
+	font-size: 1rem;
+	font-weight: bold;
+  }
+  

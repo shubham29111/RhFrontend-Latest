@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
 declare const $: any;
@@ -17,16 +18,117 @@ declare global {
 })
 export class HeaderComponent {
 
-  selectedCurrency = 'USD';
   currencyPanelVisible = false;
   loginPanelVisible = false;
   loginUser = false;
   userName = '';
   selectedLanguage: string = 'en';
   translations: any = translations;
+  selectedCurrency = 'INR';
+  currencySearch = '';
+  
+  popularCurrencies = [
+    'USD US Dollar, $',
+    'EUR Euro, €',
+    'GBP British Pound Sterling, £',
+    'UAH Ukrainian Hryvnia'
+  ];
+  
+  allCurrencies = [
+    'AED UAE Dirham',
+    'AFN Afghani',
+    'ALL Lek',
+    'AMD Armenian Dram',
+    'ANG Netherlands Antillean Guilder',
+    'ARS Argentine Peso',
+    'AUD Australian Dollar',
+    'AZN Azerbaijani Manat',
+    'BDT Bangladeshi Taka',
+    'BGN Bulgarian Lev',
+    'BHD Bahraini Dinar',
+    'BND Brunei Dollar',
+    'BRL Brazilian Real',
+    'CAD Canadian Dollar',
+    'CHF Swiss Franc',
+    'CLP Chilean Peso',
+    'CNY Chinese Yuan',
+    'COP Colombian Peso',
+    'CZK Czech Koruna',
+    'DKK Danish Krone',
+    'DZD Algerian Dinar',
+    'EGP Egyptian Pound',
+    'FJD Fijian Dollar',
+    'GBP British Pound Sterling',
+    'GEL Georgian Lari',
+    'GHS Ghanaian Cedi',
+    'HKD Hong Kong Dollar',
+    'HUF Hungarian Forint',
+    'IDR Indonesian Rupiah',
+    'ILS Israeli New Shekel',
+    'INR Indian Rupee',
+    'IRR Iranian Rial',
+    'ISK Icelandic Króna',
+    'JMD Jamaican Dollar',
+    'JOD Jordanian Dinar',
+    'JPY Japanese Yen',
+    'KES Kenyan Shilling',
+    'KRW South Korean Won',
+    'KWD Kuwaiti Dinar',
+    'KZT Kazakhstani Tenge',
+    'LBP Lebanese Pound',
+    'LKR Sri Lankan Rupee',
+    'LYD Libyan Dinar',
+    'MAD Moroccan Dirham',
+    'MDL Moldovan Leu',
+    'MGA Malagasy Ariary',
+    'MKD Macedonian Denar',
+    'MMK Myanmar Kyat',
+    'MNT Mongolian Tugrik',
+    'MUR Mauritian Rupee',
+    'MXN Mexican Peso',
+    'MYR Malaysian Ringgit',
+    'NAD Namibian Dollar',
+    'NGN Nigerian Naira',
+    'NOK Norwegian Krone',
+    'NPR Nepalese Rupee',
+    'NZD New Zealand Dollar',
+    'OMR Omani Rial',
+    'PEN Peruvian Sol',
+    'PGK Papua New Guinean Kina',
+    'PHP Philippine Peso',
+    'PKR Pakistani Rupee',
+    'PLN Polish Zloty',
+    'PYG Paraguayan Guarani',
+    'QAR Qatari Rial',
+    'RON Romanian Leu',
+    'RSD Serbian Dinar',
+    'RUB Russian Ruble',
+    'SAR Saudi Riyal',
+    'SEK Swedish Krona',
+    'SGD Singapore Dollar',
+    'THB Thai Baht',
+    'TRY Turkish Lira',
+    'TWD New Taiwan Dollar',
+    'TZS Tanzanian Shilling',
+    'UAH Ukrainian Hryvnia',
+    'UGX Ugandan Shilling',
+    'USD US Dollar',
+    'UYU Uruguayan Peso',
+    'UZS Uzbekistani Som',
+    'VND Vietnamese Dong',
+    'XAF Central African CFA Franc',
+    'XOF West African CFA Franc',
+    'YER Yemeni Rial',
+    'ZAR South African Rand',
+    'ZMW Zambian Kwacha',
+  ];
+  
+
+  filteredPopularCurrencies = [...this.popularCurrencies];
+  filteredAllCurrencies = [...this.allCurrencies];
 
 
-  constructor(private http: HttpClient,private translationService: TranslationService) {
+  constructor(private router: Router,private http: HttpClient,private translationService: TranslationService) {
     this.loadGoogleTranslate();
 
   }
@@ -143,6 +245,29 @@ const avatarDropdown = document.getElementById('avatarDropdown');
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
   
+}
+filterCurrencies(): void {
+  const searchTerm = this.currencySearch.toLowerCase();
+  this.filteredPopularCurrencies = this.popularCurrencies.filter(currency =>
+    currency.toLowerCase().includes(searchTerm)
+  );
+  this.filteredAllCurrencies = this.allCurrencies.filter(currency =>
+    currency.toLowerCase().includes(searchTerm) && !this.popularCurrencies.includes(currency)
+  );
+}
+
+changeCurrency(currency: string): void {
+  const currencyCode = currency.split(' ')[0]; // Get the first 3 letters of the currency code
+  this.selectedCurrency = currencyCode;
+  localStorage.setItem('currency', currencyCode);
+  this.updateUrlWithCurrency(currencyCode);
+}
+
+updateUrlWithCurrency(currency: string): void {
+  this.router.navigate([], {
+    queryParams: { currency },
+    queryParamsHandling: 'merge',
+  });
 }
   
 }

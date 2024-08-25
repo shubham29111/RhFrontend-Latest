@@ -11,6 +11,30 @@
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
       </li>
       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ selectedCurrency | slice:0:3 }}
+        </a>
+        <div class="currencyDropdown dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown" style="width: 300px;">
+          <div class="form-group mb-2 sticky-search">
+            <input style="top: -10px; 	position: sticky;" type="text" class="form-control" placeholder="Currency search" [(ngModel)]="currencySearch" (input)="filterCurrencies()">
+          </div>
+          <h6 class="dropdown-header">Popular currencies</h6>
+          <ul class="list-unstyled mb-2">
+            <li *ngFor="let currency of filteredPopularCurrencies">
+              <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">
+                {{ currency | slice: 0: 3 }}
+              </a>
+                          </li>
+          </ul>
+          <h6 class="dropdown-header">All currencies</h6>
+          <ul class="list-unstyled">
+            <li *ngFor="let currency of filteredAllCurrencies">
+              <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">{{ currency | slice:0:3 }}</a>
+            </li>
+          </ul>
+        </div>
+      </li>      
+      <li class="nav-item dropdown">
         <a class="down-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-globe nav-icon" aria-hidden="true"></i>
         </a>

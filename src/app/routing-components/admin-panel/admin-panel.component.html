@@ -23,13 +23,6 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('rooms')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
-                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-                  </svg>Rooms
-                </a>
-              </li>
-              <li>
                 <a href="javascript:void(0)" class="flex bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4" (click)="showSection('reports')">
                   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
                     <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
@@ -181,140 +174,167 @@
             </div>
           </div>
           <!-- Bookings Section -->
-          <div *ngIf="currentSection === 'bookings'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Booking Management</h2>
-            <ul class="space-y-4">
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div class="flex justify-between">
-                  <div>Booking ID: B001</div>
-                  <div>Status: Confirmed</div>
-                </div>
-                <div>Hotel: Hotel Sunshine</div>
-                <div>Guest: John Doe</div>
-              </li>
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div class="flex justify-between">
-                  <div>Booking ID: B002</div>
-                  <div>Status: Pending</div>
-                </div>
-                <div>Hotel: Oceanview Resort</div>
-                <div>Guest: Jane Smith</div>
-              </li>
-              <!-- More bookings -->
-            </ul>
+          <div *ngIf="currentSection === 'bookings'" class="overflow-x-auto">
+            <table class="min-w-full bg-purple-900 text-white rounded-lg">
+              <thead>
+                <tr>
+                  <th class="py-3 px-5 text-left">HOTEL</th>
+                  <th class="py-3 px-5 text-left">BOOKING ID</th>
+                  <th class="py-3 px-5 text-left">STATUS</th>
+                  <th class="py-3 px-5 text-left">GUEST</th>
+                  <th class="py-3 px-5 text-left">CHECK-IN</th>
+                  <th class="py-3 px-5 text-left">CHECK-OUT</th>
+                  <th class="py-3 px-5 text-left">COMPLETION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let booking of bookings" class="border-b border-gray-700">
+                  <td class="py-4 px-5 flex items-center">
+                    <img [src]="booking.hotelIcon" alt="Hotel Icon" class="w-10 h-10 mr-3 rounded-full" />
+                    {{ booking.hotel }}
+                  </td>
+                  <td class="py-4 px-5">{{ booking.id }}</td>
+                  <td class="py-4 px-5">
+                    <span class="flex items-center">
+                      <span [class]="booking.statusColor + ' rounded-full h-3 w-3 mr-2'"></span>
+                      {{ booking.status }}
+                    </span>
+                  </td>
+                  <td class="py-4 px-5">{{ booking.guest }}</td>
+                  <td class="py-4 px-5">{{ booking.checkIn }}</td>
+                  <td class="py-4 px-5">{{ booking.checkOut }}</td>
+                  <td class="py-4 px-5">
+                    <div class="flex items-center">
+                      <span class="mr-2">{{ booking.completion }}%</span>
+                      <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div [style.width]="booking.completion + '%'" [class]="booking.completionColor + ' h-2 rounded-full'"></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-  
-          <!-- Rooms Section -->
-          <div *ngIf="currentSection === 'rooms'" class="bg-white rounded-3xl p-8 mb-5">
-            <h2 class="text-2xl font-bold mb-4">Room Management</h2>
-            <ul class="space-y-4">
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Room 101</div>
-                <div>Hotel: Hotel Sunshine</div>
-                <div>Type: Deluxe Suite</div>
-              </li>
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Room 202</div>
-                <div>Hotel: Oceanview Resort</div>
-                <div>Type: Standard Room</div>
-              </li>
-              <!-- More rooms -->
-            </ul>
-            <button class="mt-4 bg-yellow-600 text-white py-2 px-4 rounded-lg">Add New Room</button>
-          </div>
+        
+        
   
           <!-- Reports Section -->
           <div *ngIf="currentSection === 'reports'" class="bg-white rounded-3xl p-8 mb-5">
             <h2 class="text-2xl font-bold mb-4">Reports</h2>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
-                <div class="font-bold text-2xl leading-none">$50,000</div>
-                <div class="mt-2">Monthly Revenue</div>
-              </div>
-              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
-                <div class="font-bold text-2xl leading-none">75%</div>
-                <div class="mt-2">Occupancy Rate</div>
-              </div>
-              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
-                <div class="font-bold text-2xl leading-none">100</div>
-                <div class="mt-2">Total Bookings</div>
-              </div>
-              <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
-                <div class="font-bold text-2xl leading-none">20</div>
-                <div class="mt-2">Cancelled Bookings</div>
-              </div>
-            </div>
-          </div>
+            <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                <thead>
+                    <tr>
+                        <th class="py-2">Metric</th>
+                        <th class="py-2">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2">Monthly Revenue</td>
+                        <td class="py-2">$50,000</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2">Occupancy Rate</td>
+                        <td class="py-2">75%</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2">Total Bookings</td>
+                        <td class="py-2">100</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2">Cancelled Bookings</td>
+                        <td class="py-2">20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
   
           <!-- Customers Section -->
           <div *ngIf="currentSection === 'customers'" class="bg-white rounded-3xl p-8 mb-5">
             <h2 class="text-2xl font-bold mb-4">Customer Management</h2>
-            <ul class="space-y-4">
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Name: John Doe</div>
-                <div>Role: Customer</div>
-                <div>Email: john&#64;example.com</div>
-              </li>
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Name: Jane Smith</div>
-                <div>Role: Admin</div>
-                <div>Email: jane&#64;example.com</div>
-              </li>
-              <!-- More customers -->
-            </ul>
-          </div>
+            <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                <thead>
+                    <tr>
+                        <th class="py-2">Name</th>
+                        <th class="py-2">Role</th>
+                        <th class="py-2">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of customers">
+                        <td class="py-2">{{customer.name}}</td>
+                        <td class="py-2">{{customer.role}}</td>
+                        <td class="py-2">{{customer.email}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
   
           <!-- Payments Section -->
           <div *ngIf="currentSection === 'payments'" class="bg-white rounded-3xl p-8 mb-5">
             <h2 class="text-2xl font-bold mb-4">Payment Management</h2>
-            <ul class="space-y-4">
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Transaction ID: T001</div>
-                <div>Amount: $200</div>
-                <div>Status: Completed</div>
-              </li>
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Transaction ID: T002</div>
-                <div>Amount: $150</div>
-                <div>Status: Pending</div>
-              </li>
-              <!-- More payments -->
-            </ul>
-          </div>
+            <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                <thead>
+                    <tr>
+                        <th class="py-2">Transaction ID</th>
+                        <th class="py-2">Amount</th>
+                        <th class="py-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let payment of payments">
+                        <td class="py-2">{{payment.id}}</td>
+                        <td class="py-2">{{payment.amount}}</td>
+                        <td class="py-2">{{payment.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
   
           <!-- Support Section -->
           <div *ngIf="currentSection === 'support'" class="bg-white rounded-3xl p-8 mb-5">
             <h2 class="text-2xl font-bold mb-4">Customer Support</h2>
-            <ul class="space-y-4">
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Ticket ID: T001</div>
-                <div>Issue: Booking not confirmed</div>
-                <div>Status: Open</div>
-              </li>
-              <li class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Ticket ID: T002</div>
-                <div>Issue: Payment issue</div>
-                <div>Status: Closed</div>
-              </li>
-              <!-- More support tickets -->
-            </ul>
-          </div>
+            <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                <thead>
+                    <tr>
+                        <th class="py-2">Ticket ID</th>
+                        <th class="py-2">Issue</th>
+                        <th class="py-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of supportTickets">
+                        <td class="py-2">{{ticket.id}}</td>
+                        <td class="py-2">{{ticket.issue}}</td>
+                        <td class="py-2">{{ticket.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
   
           <!-- Settings Section -->
           <div *ngIf="currentSection === 'settings'" class="bg-white rounded-3xl p-8 mb-5">
             <h2 class="text-2xl font-bold mb-4">Site Settings</h2>
-            <div class="space-y-4">
-              <div class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Site Title: Hotel Booking Admin</div>
-                <div>Contact Email: support&#64;hotelbooking.com</div>
-              </div>
-              <div class="p-4 bg-white border rounded-xl text-gray-800">
-                <div>Currency: USD</div>
-                <div>Timezone: UTC</div>
-              </div>
-              <!-- More settings -->
-            </div>
-          </div>
+            <table class="min-w-full bg-white border rounded-xl text-gray-800">
+                <thead>
+                    <tr>
+                        <th class="py-2">Setting</th>
+                        <th class="py-2">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let setting of siteSettings">
+                        <td class="py-2">{{setting.name}}</td>
+                        <td class="py-2">{{setting.value}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
         </div>
       </div>
     </main>

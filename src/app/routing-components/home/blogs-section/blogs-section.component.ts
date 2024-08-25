@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 interface BlogPost {
   link: string;
   imageSrc: string;
-  categoryLink: string;
   category: string;
   date: string;
   title: string;
@@ -17,28 +16,25 @@ interface BlogPost {
 export class BlogsSectionComponent {
   posts: BlogPost[] = [
     {
-      link: 'https://blog.zenhotels.com/best-travel-pillow/?ref=zenhotels-mainpage',
+      link: '/blog/12',
       imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-      categoryLink: 'https://blog.zenhotels.com/best-travel-pillow/?ref=zenhotels-mainpage',
       category: 'Travel Tips',
-      date: '6/27/2024',
-      title: '8 Best Travel Pillows of 2024'
+      date: '2024-08-01',
+      title: 'Top 10 Tips for Booking the Best Hotel'
     },
     {
-      link: 'https://blog.zenhotels.com/best-time-to-visit-hawaii/?ref=zenhotels-mainpage',
+      link: '/blog/13',
       imageSrc: 'https://cdn.worldota.net/t/x220/blog/f6/7f/f67f2d841e5dd805b76c46f372a9a985ff78a67f.PNG',
-      categoryLink: 'https://blog.zenhotels.com/best-time-to-visit-hawaii/?ref=zenhotels-mainpage',
       category: 'Places to Travel',
-      date: '6/20/2024',
-      title: 'Best Time to Visit Hawaii'
+      date: '2024-07-25',
+      title: 'How to Choose a Family-Friendly Hotel'
     },
     {
-      link: 'https://blog.zenhotels.com/best-things-to-do-in-tokyo/?ref=zenhotels-mainpage',
+      link: '/blog/14',
       imageSrc: 'https://cdn.worldota.net/t/x220/blog/18/c8/18c83cadec73bf09791cdd18c668fc991b0e8e8a.PNG',
-      categoryLink: 'https://blog.zenhotels.com/best-things-to-do-in-tokyo/?ref=zenhotels-mainpage',
       category: 'Places to Travel',
-      date: '6/12/2024',
-      title: '25 Best Things to Do in Tokyo'
+      date: '2024-07-20',
+      title: 'Luxury Hotel Booking Guide'
     }
   ];
 
@@ -51,21 +47,27 @@ export class BlogsSectionComponent {
     setTimeout(() => {
       const newPosts: BlogPost[] = [
         {
-          link: 'https://blog.zenhotels.com/example-post-1',
+          link: '/blog/15',
           imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-          categoryLink: 'https://blog.zenhotels.com/example-category-1',
           category: 'Example Category 1',
-          date: '7/1/2024',
-          title: 'Example Post Title 1'
+          date: '2024-07-15',
+          title: 'Budget Travel: Finding Affordable Hotels'
         },
         {
-          link: 'https://blog.zenhotels.com/example-post-2',
+          link: '/blog/16',
           imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-          categoryLink: 'https://blog.zenhotels.com/example-category-2',
           category: 'Example Category 2',
-          date: '7/2/2024',
-          title: 'Example Post Title 2'
+          date: '2024-07-10',
+          title: 'Top Destinations for Hotel Stays in 2024'
+        },
+        {
+          link: '/blog/17',
+          imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
+          category: 'Example Category 2',
+          date: '2024-06-15',
+          title: 'Luxury Hotels You Must Visit in 2024'
         }
+
       ];
 
       this.posts = [...this.posts, ...newPosts];

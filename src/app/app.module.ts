@@ -28,6 +28,8 @@ import { HotelRoomsComponent } from './routing-components/hotel-rooms/hotel-room
 import { ImageResizePipe } from './shared-components/pipe/image-resize.pipe';
 import { DatePipe } from '@angular/common';
 import { BookingPopupComponent } from './shared-components/booking-popup/booking-popup.component';
+import { AdminPanelComponent } from './routing-components/admin-panel/admin-panel.component';
+import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
 
 
 
@@ -55,6 +57,8 @@ import { BookingPopupComponent } from './shared-components/booking-popup/booking
     HotelRoomsComponent,
     ImageResizePipe,
     BookingPopupComponent,
+    AdminPanelComponent,
+    BlogSectionComponent
 
    
   ],
