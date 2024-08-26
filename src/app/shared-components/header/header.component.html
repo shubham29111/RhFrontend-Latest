@@ -40,7 +40,7 @@
         </a>
         <div id="google_translate_element"></div>
       </li>
-     <li class="nav-item dropdown" (click)="toggleDropdown()">
+     <li *ngIf="!hideLogin" class="nav-item dropdown" (click)="toggleDropdown()">
   <a
     class="nav-link dropdown-toggle"
     href="#"

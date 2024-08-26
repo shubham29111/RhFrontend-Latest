@@ -45,10 +45,18 @@ throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
-    this.loadBookings();
-    this.loadSupportTickets();
-    this.loadCustomers();
+    const userJson = sessionStorage.getItem('user');
+    const user = userJson ? JSON.parse(userJson) : null;
+  
+    if (!user || !user.isAdmin) {
+      this.router.navigate(['/notfound']);
+    } else {
+      this.loadBookings();
+      this.loadSupportTickets();
+      this.loadCustomers();
+    }
   }
+  
 
   ngAfterViewInit(): void {
     this.renderEarningsChart();
@@ -220,8 +228,10 @@ throw new Error('Method not implemented.');
   logout() {
     sessionStorage.removeItem('user');
     console.log('Logged out');
-    this.router.navigate(['']);
-     // Refresh the page
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 2000); 
   }
+  
   
 }

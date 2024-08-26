@@ -1,0 +1,15 @@
+.h-screen {
+    height: 180vh;
+}
+.to-purple-700 {
+    --tw-gradient-to: #4fb1da var(--tw-gradient-to-position);
+}
+.bg-indigo-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(51 113 184);
+}
+input:focus {
+    outline: none; /* Removes the blue outline */
+    box-shadow: none; /* Removes the blue border shadow */
+  }
+  

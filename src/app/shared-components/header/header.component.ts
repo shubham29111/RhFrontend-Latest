@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
 import { environment } from 'src/environments/environments';
@@ -132,6 +132,8 @@ export class HeaderComponent {
     'ZMW Zambian Kwacha',
   ];
   
+  hideLogin: boolean = false;
+
 
   filteredPopularCurrencies = [...this.popularCurrencies];
   filteredAllCurrencies = [...this.allCurrencies];
@@ -154,7 +156,20 @@ export class HeaderComponent {
     this.translationService.getLanguage().subscribe(language => {
       this.selectedLanguage = language;
     });
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkUrlForAdminLogin();
+      }
+    });
 
+  }
+
+  private checkUrlForAdminLogin(): void {
+    if (this.router.url.includes('admin')) {
+      this.hideLogin = true;
+    } else {
+      this.hideLogin = false;
+    }
   }
 
   translateLanguage(language: string) {

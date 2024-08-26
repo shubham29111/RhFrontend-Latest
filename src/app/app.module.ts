@@ -30,6 +30,8 @@ import { DatePipe } from '@angular/common';
 import { BookingPopupComponent } from './shared-components/booking-popup/booking-popup.component';
 import { AdminPanelComponent } from './routing-components/admin-panel/admin-panel.component';
 import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
+import { AdminLoginComponent } from './routing-components/admin-login/admin-login.component';
+import { NotFoundPageComponent } from './routing-components/not-found-page/not-found-page.component';
 
 
 
@@ -58,7 +60,9 @@ import { BlogSectionComponent } from './routing-components/blog-section/blog-sec
     ImageResizePipe,
     BookingPopupComponent,
     AdminPanelComponent,
-    BlogSectionComponent
+    BlogSectionComponent,
+    AdminLoginComponent,
+    NotFoundPageComponent
 
    
   ],
