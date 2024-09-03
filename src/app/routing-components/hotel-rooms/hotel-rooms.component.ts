@@ -258,8 +258,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.map = L.map('map', {
       center: [hotelLatitude, hotelLongitude],
       zoom: 16,
-      scrollWheelZoom: false,  // Disable scroll zooming
-      zoomControl: false       // Disable default zoom controls
+      scrollWheelZoom: false,  
+      zoomControl: false      
     });
   
     // Add the OpenStreetMap tile layer

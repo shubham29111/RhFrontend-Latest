@@ -32,6 +32,7 @@ import { AdminPanelComponent } from './routing-components/admin-panel/admin-pane
 import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
 import { AdminLoginComponent } from './routing-components/admin-login/admin-login.component';
 import { NotFoundPageComponent } from './routing-components/not-found-page/not-found-page.component';
+import { LoadingComponent } from './routing-components/loading/loading.component';
 
 
 
@@ -62,7 +63,8 @@ import { NotFoundPageComponent } from './routing-components/not-found-page/not-f
     AdminPanelComponent,
     BlogSectionComponent,
     AdminLoginComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    LoadingComponent
 
    
   ],

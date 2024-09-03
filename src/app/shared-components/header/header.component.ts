@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
 import { environment } from 'src/environments/environments';
@@ -139,7 +140,7 @@ export class HeaderComponent {
   filteredAllCurrencies = [...this.allCurrencies];
 
 
-  constructor(private router: Router,private http: HttpClient,private translationService: TranslationService,) {
+  constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,) {
     this.loadGoogleTranslate();
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
@@ -249,17 +250,6 @@ const avatarDropdown = document.getElementById('avatarDropdown');
     });
   }
 
-
-  changeLanguage(langCode: string) {
-    if (typeof google !== 'undefined' && google.translate && google.translate.TranslateElement) {
-      const translateElement = new google.translate.TranslateElement();
-      const control = translateElement.getControl();
-      if (control) {
-        control.setLanguage(langCode);
-      }
-    }
-  }
-
   loadGoogleTranslate() {
     const googleTranslateScript = document.createElement('script');
     googleTranslateScript.src =
@@ -268,16 +258,81 @@ const avatarDropdown = document.getElementById('avatarDropdown');
     googleTranslateScript.defer = true;
     document.head.appendChild(googleTranslateScript);
     window.googleTranslateElementInit = this.googleTranslateElementInit.bind(this);
-  }
-
-  googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en', 
-      includedLanguages: 'en,ru,az', 
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
   
-}
+    // Request location access from the user
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.handleLocationSuccess(position);
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          this.setDefaultLanguage('en'); // Fallback to English if there's an error
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+      this.setDefaultLanguage('en'); // Fallback to English if geolocation is not supported
+    }
+  }
+  
+  googleTranslateElementInit(): void {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,ru,az',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false  // Prevents automatic display of the selected language
+    }, 'google_translate_element');
+  }
+  
+  handleLocationSuccess(position: GeolocationPosition) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+  
+    // Here you can use a service like OpenCage, Google Maps API, or any other service to convert latitude/longitude to a country code.
+    // For simplicity, let's assume a function getCountryCodeByLatLng exists that returns a country code based on latitude and longitude.
+    
+    this.getCountryCodeByLatLng(latitude, longitude)
+      .then((countryCode) => {
+        const defaultLanguage = this.getLanguageByCountry(countryCode);
+        this.setDefaultLanguage(defaultLanguage);
+      })
+      .catch((error) => {
+        console.error('Error getting country code:', error);
+        this.setDefaultLanguage('en'); // Fallback to English if there's an error
+      });
+  }
+  
+  getCountryCodeByLatLng(latitude: number, longitude: number): Promise<string> {
+    // Here you would implement a service call to get the country code from the latitude and longitude
+    // For example, using OpenCage API, Google Maps Geocoding API, etc.
+    // This is a placeholder for the actual implementation
+    return new Promise((resolve, reject) => {
+      // Example: resolve('US');
+      // Example: reject('Error');
+    });
+  }
+  
+  getLanguageByCountry(country: string): string {
+    const countryLanguageMap: { [key: string]: string } = {
+      'US': 'en',
+      'RU': 'ru',
+      'AZ': 'az',
+      // Add more countries and their corresponding languages here
+    };
+    return countryLanguageMap[country] || 'en'; // Default to English if country not mapped
+  }
+  
+  setDefaultLanguage(language: string) {
+    setTimeout(() => {
+      const select = document.querySelector('#google_translate_element select') as HTMLSelectElement;
+      if (select) {
+        select.value = language;
+        select.dispatchEvent(new Event('change'));
+      }
+    }, 1000); 
+  }
+  
 filterCurrencies(): void {
   const searchTerm = this.currencySearch.toLowerCase();
   this.filteredPopularCurrencies = this.popularCurrencies.filter(currency =>
@@ -379,12 +434,16 @@ onSignup(form: NgForm) {
 }
 
 logout() {
+  this.loadingService.show();
+
   sessionStorage.removeItem('user');
   this.username = null;
   console.log('Logged out');
   this.router.navigate(['']);
 
-  window.location.reload();  // Refresh the page
+  window.location.reload(); 
+  this.loadingService.hide();
+
 }
 
 togglePasswordVisibility(inputId: string) {

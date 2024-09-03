@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environments';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, registerables } from 'chart.js';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
 Chart.register(...registerables);
 
 @Component({
@@ -33,7 +34,7 @@ throw new Error('Method not implemented.');
 
   @ViewChild('earningsChart') earningsChartRef!: ElementRef;
 
-  constructor(private fb: FormBuilder, private http: HttpClient,private router: Router) {
+  constructor(private fb: FormBuilder, private http: HttpClient,private router: Router,private loadingService: LoadingService) {
     Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale);
     // Initialize the form group in the constructor
     this.editUserForm = this.fb.group({
@@ -226,12 +227,19 @@ throw new Error('Method not implemented.');
   }
 
   logout() {
+    this.loadingService.show();
+
     sessionStorage.removeItem('user');
     console.log('Logged out');
     setTimeout(() => {
-      this.router.navigate(['']);
+      this.router.navigate(['']).then(() => {
+        location.reload();
+      });
+      this.loadingService.hide();
+
     }, 2000); 
   }
+  
   
   
 }

@@ -136,7 +136,7 @@ export class HotelsComponent implements OnInit {
   }
    loadFilters() {
     const queryParams = this.buildQueryParams(false);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionIds=[${this.regionId}]&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}${queryParams}`).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}${queryParams}`).subscribe(
       (data) => {
         this.updateFilterCounts(data.response);
       },
@@ -411,11 +411,9 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       }
     });
   
-    // Associate the styled map with the MapTypeId and set it to display
     this.map.mapTypes.set('styled_map', styledMapType);
     this.map.setMapTypeId('styled_map');
   
-    // Initialize the markers object if not already done
     if (!this.markers) {
       this.markers = {};
     }
@@ -428,11 +426,9 @@ manipulateHotelData(hotels: any[]): Hotel[] {
         title: hotel.name
       });
   
-      // Store the marker in the markers object using the hotel ID as the key
       this.markers[hotel.hotel_id] = marker;
     });
   
-    // Add a flag or marker at the center of the city and zoom in on it
     this.addCityCenterMarker(mapCenter);
   }
   
@@ -461,31 +457,26 @@ manipulateHotelData(hotels: any[]): Hotel[] {
           title: hotel.name
         });
   
-        // Create the content for the InfoWindow
         const contentString = `
-     <div class="custom-info-window" style="display: flex; align-items: center; width: 300px; overflow: hidden;">
-          <div class="info-window-content" style="flex: 1; padding-right: 10px;">
-            <h3 style="margin: 0; font-size: 16px; color: #333;">${hotel.name}</h3>
-            <p style="margin: 5px 0; font-size: 14px; color: #666;"><strong>Price: ${hotel.price}</strong></p>
-          </div>
-          <div class="info-window-image" style="flex-shrink: 0;">
-            <img src="${hotel.images[0]}" alt="${hotel.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
-          </div>
+        <div style="padding:10px;">
+          <h3 style="margin: 0; font-size: 16px;">${hotel.name}</h3>
+          <p style="margin: 5px 0; font-size: 14px;"><strong>Price: ${hotel.price}</strong></p>
+          <img src="${hotel.images[0]}" alt="${hotel.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
         </div>
       `;
-  
-        const infoWindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-        
-          marker.addListener('mouseover', () => {
-          infoWindow.open(this.map, marker);
-        });
-  
-        // Close the InfoWindow when the mouse leaves the marker
-        marker.addListener('mouseout', () => {
-          infoWindow.close();
-        });
+      
+      const infoWindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      
+      marker.addListener('mouseover', () => {
+        infoWindow.open(this.map, marker);
+      });
+      
+      marker.addListener('mouseout', () => {
+        infoWindow.close();
+      });
+      
       } else {
         console.warn(`Hotel ${hotel.name} does not have valid latitude/longitude`);
       }

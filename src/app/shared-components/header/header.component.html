@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav *ngIf="!hideLogin" class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img class="navbar-logo" src="assets/RhTravel-Color-Logo.png" alt="RH Travel Logo">
@@ -34,13 +34,15 @@
           </ul>
         </div>
       </li>      
+      <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
+      </div>
       <li class="nav-item dropdown">
         <a class="down-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-globe nav-icon" aria-hidden="true"></i>
         </a>
         <div id="google_translate_element"></div>
       </li>
-     <li *ngIf="!hideLogin" class="nav-item dropdown" (click)="toggleDropdown()">
+     <li  class="nav-item dropdown" (click)="toggleDropdown()">
   <a
     class="nav-link dropdown-toggle"
     href="#"

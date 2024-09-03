@@ -190,7 +190,7 @@
                           <div class="bottom-0 right-0 p-2 flex items-center justify-between">
                                    <div class="flex space-x-4">
                                        <div>
-                                        <span class="text-lg font-bold text-green-600">{{ hotel.price | currency:'INR' }}</span>
+                                        <span class="text-lg font-bold text-green-600">{{ hotel.price | currency:'USD' }}</span>
                                         <p class="text-xs text-gray-600">for a night for 2 guests</p>
                                       </div>
                                    </div>
@@ -203,15 +203,12 @@
                                    </div>
                                </div>
                            </div>
-       
-       
-                       
                    </div>
                </div>
            </div>
        </div>
        
-     <div class="flex justify-between mt-4">
+     <div *ngIf="hotels.length>0" class="flex justify-between mt-4">
         <a (click)="prevPage()"
         class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-white bg-[rgb(27,155,208)] border border-gray-300 rounded-lg hover:bg-white hover:text-[rgb(27,155,208)] dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
         [class.cursor-not-allowed]="currentPage === 1" [class.opacity-50]="currentPage === 1"

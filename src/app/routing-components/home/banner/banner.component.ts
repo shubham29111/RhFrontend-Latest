@@ -21,6 +21,8 @@ export class BannerComponent implements OnInit {
   showDropdownMenu: boolean = false;
   programmaticChange: boolean = false;
   region: any;
+  type: any;
+
   
 
   constructor(private http: HttpClient, private router: Router,private translationService: TranslationService) {}
@@ -73,12 +75,14 @@ getTranslation(key: string): string {
   }
 
 
-  selectSuggestion(suggestion: any) {
+  selectSuggestion(suggestion: any,type: 'hotel' | 'region') {
     this.region=suggestion;
+    this.type=type;
     this.location = suggestion.name;
     this.suggestions = { regions: [], hotels: [] };
     this.showDropdownMenu = false; 
     this.programmaticChange = true; 
+    
   }
   toggleCheckInDropdown() {
     this.isCheckInDropdownVisible = !this.isCheckInDropdownVisible;
@@ -132,10 +136,23 @@ getTranslation(key: string): string {
     const totalAdults = this.rooms.reduce((sum, room) => sum + room.adults, 0);
     const totalChildren = this.rooms.reduce((sum, room) => sum + room.children, 0);
     const guests = totalAdults + totalChildren;
-
+if (this.type="hotel")
+{
+  this.router.navigate(['/hotels'], {
+    queryParams: {
+      location: this.location,
+      type: this.type,
+      regionId: this.region.id,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut,
+      guests
+    }
+  });
+}
     this.router.navigate(['/hotels'], {
       queryParams: {
         location: this.location,
+        type: this.type,
         regionId: this.region.id,
         checkIn: this.checkIn,
         checkOut: this.checkOut,

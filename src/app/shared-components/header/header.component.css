@@ -72,7 +72,7 @@ body > .skiptranslate > iframe.skiptranslate {
 
 }
 .navbar-nav .dropdown-menu {
-	z-index: 1050 !important; /* Ensure the dropdown menu is above other elements */
+	z-index: 999999 !important; /* Ensure the dropdown menu is above other elements */
 	position: absolute !important; /* Make sure it is positioned absolutely */
   }
 
@@ -159,14 +159,14 @@ body > .skiptranslate > iframe.skiptranslate {
 		display: block !important;
 	}
 
-	.dropdown-menu {
+	/* .dropdown-menu {
 		position: absolute;
 		top: 100%;
 		left: 0;
 		right: 0;
 		margin-top: 0.125rem;
 		border-top: none;
-	}
+	} */
 }
 .goog-te-banner-frame {
     display: none !important;
@@ -187,7 +187,7 @@ body {
   .sticky-search {
     top: 0;
 	background-color: white;
-	z-index: 999999999999999;
+	z-index: 999999999999999 !important;
 	position: absolute;
 
   }

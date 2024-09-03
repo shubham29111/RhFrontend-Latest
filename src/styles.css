@@ -187,3 +187,28 @@ button:focus {
     border: none; 
     
 }
+.info-window-container {
+    padding: 10px;
+    max-width: 200px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .info-window-title {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .info-window-price {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .info-window-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
