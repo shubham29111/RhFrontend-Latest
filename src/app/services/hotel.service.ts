@@ -1,11 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HotelService {
+   getCurrencyDetails=new BehaviorSubject<any>(null)
+  
+  constructor(private http:HttpClient) { }
 
-  constructor() { }
+  setCurrencyDetails(currency:string){
+     this.getCurrencyDetails.next(currency)
+  }
+  getCurrencyDetailsObseravble():Observable<any>{
+    return this.getCurrencyDetails.asObservable()
+  }
+
+
+  getCountry(latitude:number,longitude:number){
+    var api_url = 'https://api.opencagedata.com/geocode/v1/json'
+    var api_key = 'e53fa3f53610419fa192a08bd7055ad3';
+
+    // reverse geocoding example (coordinates to address)
+    var query = latitude + ',' + longitude;
+    var request_url = api_url
+      + '?'
+      + 'key=' + api_key
+      + '&q=' + encodeURIComponent(query)
+      + '&pretty=1'
+      + '&no_annotations=1';
+    return this.http.get(request_url)
+  }
+
+  getCountryCurrency(countryCode:string){
+    return this.http.get(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+  }
 
   getHotels() {
     return [

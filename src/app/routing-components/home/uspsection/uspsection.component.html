@@ -5,20 +5,37 @@
     </h1>
   </div>
   <div class="container">
-    <div class="row row-cols-1 row-cols-md-3 g-3">
-      <div class="mt-5 d-flex justify-content-center" *ngFor="let item of cards">
-        <div class="card shadow">
-          <div class="card-items text-center">
-            <div class="cover shadow-lg dark:shadow-black/30">
+    <div class="row row-cols-1 ">
+   
+      <div class="   w-100 d-flex   flex-wrap" >
+        <ng-container *ngFor="let item of cards;let i=index;">
+        <div  class="card shadow p-2 my-2 mx-5" style="height: 400px;">
+          <div class="card-items text-center" >
+            <div class="cover shadow-lg dark:shadow-black/30" >
+             
               <i *ngIf="item.icon.startsWith('fa')" [ngClass]="item.icon"></i>
-              <img *ngIf="!item.icon.startsWith('fa')" [src]="item.icon" alt="{{item.title}}">
+              <img *ngIf="!item.icon.startsWith('fa')" [src]="item.icon" alt="{{item.title}}" >
             </div>
             <div class="card-body">
-              <h3>{{item.title}}</h3>
+              <h3>{{item.title}}{{i}}</h3>
               <p>{{item.desc}}</p>
             </div>
           </div>
         </div>
+          <div  class="card shadow p-2 my-2 mx-5" style="height: 400px;">
+          <div class="card-items text-center" >
+            <div class="cover shadow-lg dark:shadow-black/30" >
+             
+              <i *ngIf="item.icon.startsWith('fa')" [ngClass]="item.icon"></i>
+              <img *ngIf="!item.icon.startsWith('fa')" [src]="item.icon" alt="{{item.title}}" >
+            </div>
+            <div class="card-body">
+              <h3>{{item.title}}{{i}}</h3>
+              <p>{{item.desc}}</p>
+            </div>
+          </div>
+        </div>
+        </ng-container>
       </div>
     </div>
   </div>

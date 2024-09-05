@@ -15,9 +15,9 @@ export class BookingPopupComponent implements OnInit {
   @Input() checkOutDate: string = '';
   @Input() region: any;
 
-  @Input() isVisible: boolean = true;
+  @Input() isVisible: boolean = false;
 
-  @Output() close = new EventEmitter<void>(); 
+  @Output() close = new EventEmitter<Boolean>(); 
    formattedDateRange: string = '';
 
   suggestions: { regions: any[], hotels: any[] } = { regions: [], hotels: [] };
@@ -36,7 +36,12 @@ export class BookingPopupComponent implements OnInit {
   onLocationChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const query = inputElement.value;
-  
+    if(query==""){
+      this.suggestions.regions=[]
+      this.suggestions.hotels=[]
+      return
+    }
+   
     if (this.programmaticChange) {
       this.programmaticChange = false;
       return;
@@ -63,6 +68,7 @@ export class BookingPopupComponent implements OnInit {
 
   selectSuggestion(suggestion: any) {
     this.region = suggestion;
+    console.log(this.region)
     this.location = suggestion.name;
     this.suggestions = { regions: [], hotels: [] };
     this.showDropdownMenu = false;
@@ -96,20 +102,23 @@ export class BookingPopupComponent implements OnInit {
   onSubmit() {
     // Ensure the date range is updated before submitting
     this.updateFormattedDateRange();
-
+     this.isVisible = false;
+    this.close.emit(false)
     this.router.navigate(['/hotels'], {
       queryParams: {
         location: this.location,
         regionId: this.region?.id,
         checkIn: this.checkInDate,
         checkOut: this.checkOutDate,
-        guests: this.getGuestsPlaceholder()
+        guests: 1
       }
     });
+   
   }
 
   closePopup() {
-      this.isVisible = false;;  
+      this.isVisible = false;
+      this.close.emit(this.isVisible)
   }
 
   getGuestsPlaceholder(): string {
@@ -129,6 +138,8 @@ export class BookingPopupComponent implements OnInit {
 
   clearLocation() {
     this.location = '';
+    this.suggestions.regions=[]
+    this.suggestions.hotels=[]
     this.region = null;
   }
 

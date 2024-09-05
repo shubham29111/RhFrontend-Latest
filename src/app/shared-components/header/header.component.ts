@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { count } from 'rxjs';
+import { HotelService } from 'src/app/services/hotel.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
@@ -140,7 +142,9 @@ export class HeaderComponent {
   filteredAllCurrencies = [...this.allCurrencies];
 
 
-  constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,) {
+  constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,
+   private hotelService: HotelService
+  ) {
     this.loadGoogleTranslate();
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
@@ -268,6 +272,11 @@ const avatarDropdown = document.getElementById('avatarDropdown');
         (error) => {
           console.error('Error getting location:', error);
           this.setDefaultLanguage('en'); // Fallback to English if there's an error
+        },
+        {
+          enableHighAccuracy: true, // Use GPS for more accurate location data
+          timeout: 10000,           // 10 seconds timeout
+          maximumAge: 0             // Prevents cache, always fetches new location data
         }
       );
     } else {
@@ -289,6 +298,7 @@ const avatarDropdown = document.getElementById('avatarDropdown');
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
   
+    console.log(latitude)
     // Here you can use a service like OpenCage, Google Maps API, or any other service to convert latitude/longitude to a country code.
     // For simplicity, let's assume a function getCountryCodeByLatLng exists that returns a country code based on latitude and longitude.
     
@@ -303,15 +313,43 @@ const avatarDropdown = document.getElementById('avatarDropdown');
       });
   }
   
-  getCountryCodeByLatLng(latitude: number, longitude: number): Promise<string> {
-    // Here you would implement a service call to get the country code from the latitude and longitude
-    // For example, using OpenCage API, Google Maps Geocoding API, etc.
-    // This is a placeholder for the actual implementation
+  async getCountryCodeByLatLng(latitude: number, longitude: number): Promise<string> {
+    
+  
+    // forward geocoding example (address to coordinate)
+    // var query = 'Philipsbornstr. 2, 30165 Hannover, Germany';
+    // note: query needs to be URI encoded (see below)
+     var data:any
+   
+      await this.hotelService.getCountry(latitude,longitude).subscribe(
+        (res:any)=>{
+          data=res
+          console.log(res.results[0].components.country_code.toUpperCase())
+        this.getCurrencyByCountry(res.results[0].components.country_code.toUpperCase())
+        }
+      )
+      console.log(data)
     return new Promise((resolve, reject) => {
       // Example: resolve('US');
       // Example: reject('Error');
     });
   }
+
+
+  getCurrencyByCountry(countryCode:string){
+    console.log(countryCode)
+     this.hotelService.getCountryCurrency(countryCode).subscribe(
+      (currencyRes:any)=>{
+        console.log()
+        localStorage.setItem('currencySymbol', currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].symbol)
+        this.selectedCurrency=(currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[0].slice(0,2) + currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[1].slice(0,1)).toUpperCase()
+        console.log(currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[0].slice(0,2) + currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].symbol)
+        localStorage.setItem('currency',this.selectedCurrency)
+      }
+     )
+  }
+
+ 
   
   getLanguageByCountry(country: string): string {
     const countryLanguageMap: { [key: string]: string } = {
@@ -344,10 +382,12 @@ filterCurrencies(): void {
 }
 
 changeCurrency(currency: string): void {
+
   const currencyCode = currency.split(' ')[0]; // Get the first 3 letters of the currency code
   this.selectedCurrency = currencyCode;
-  localStorage.setItem('currency', currencyCode);
-  this.updateUrlWithCurrency(currencyCode);
+  console.log(this.selectedCurrency)
+   this.hotelService.setCurrencyDetails(this.selectedCurrency)
+  // this.updateUrlWithCurrency(currencyCode);
 }
 
 updateUrlWithCurrency(currency: string): void {

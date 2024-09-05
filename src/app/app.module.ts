@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NgSelectModule, NgLabelTemplateDirective, NgOptionTemplateDirective, NgSelectComponent } from '@ng-select/ng-select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared-components/header/header.component';
@@ -33,6 +33,8 @@ import { BlogSectionComponent } from './routing-components/blog-section/blog-sec
 import { AdminLoginComponent } from './routing-components/admin-login/admin-login.component';
 import { NotFoundPageComponent } from './routing-components/not-found-page/not-found-page.component';
 import { LoadingComponent } from './routing-components/loading/loading.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PaginationComponent } from './shared-components/pagination/pagination.component';
 
 
 
@@ -64,7 +66,8 @@ import { LoadingComponent } from './routing-components/loading/loading.component
     BlogSectionComponent,
     AdminLoginComponent,
     NotFoundPageComponent,
-    LoadingComponent
+    LoadingComponent,
+    PaginationComponent
 
    
   ],
@@ -76,7 +79,10 @@ import { LoadingComponent } from './routing-components/loading/loading.component
     NgxSliderModule,
     ReactiveFormsModule,
     SlickCarouselModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    NgSelectModule,
+    NgbModule,
+    
    
       
     

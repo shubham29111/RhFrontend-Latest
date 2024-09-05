@@ -26,7 +26,7 @@
   overflow-y: auto;
 }
 
-.map-overlay {
+/* .map-overlay {
   flex-grow: 1;
   padding-top: 28px;
   transition: width 0.3s, min-width 0.3s;
@@ -34,9 +34,9 @@
   opacity: 0.5;
   min-width: 150px;
   overflow: hidden;
-}
+} */
 
-.map-overlay.show {
+/* .map-overlay.show {
   min-width: 50px;
   opacity: 1;
 }
@@ -44,13 +44,13 @@
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  height: 100vh; /* Ensure it takes the full viewport height */
-  z-index: 10; /* Ensure it stays above other elements */
-}
+  height: 100vh; 
+  z-index: 10; 
+} */
 
 
-.overlay {
-  /* position: absolute; */
+/* .overlay {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -58,7 +58,7 @@
   background: rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s;
   opacity: 1;
-}
+} */
 
 .map-overlay.show .overlay {
   opacity: 0;
@@ -68,7 +68,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 10;
+  /* z-index: 10; */
   background-color: #007bff;
   color: #ffffff;
   border: none;
@@ -89,7 +89,7 @@
   width: 100%;
 }
 
-.hotel-card.compact {
+/* .hotel-card.compact {
   max-width: 350px;
   border-radius: 15px;
   overflow: hidden;
@@ -97,7 +97,7 @@
   flex-direction: column;
   height: 18rem !important;
 
-}
+} */
 .text-header
 {
   font-size: 1.2rem;
@@ -125,11 +125,11 @@
   .rh-container {
     flex-direction: row;
   }
-  .hotel-card.compact {
+  /* .hotel-card.compact {
     flex-direction: column;
     height: 24rem;
  
-  }
+  } */
   .filter-bar {
     width: 230px;
   }
@@ -149,7 +149,7 @@
     display: block;
   }
 }
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .hotel-card.compact {
     flex-direction: column;
     height: 24rem;
@@ -208,7 +208,7 @@
   .main-hotel-listing.shrink {
     width: 100%;
   }
-}
+} */
 
 .sort-by {
   position: relative;
@@ -466,3 +466,14 @@
 }
 /* Hide the close button on the InfoWindow */
 .gm-style-iw + button {display: none;}
+.change-button {
+  background-color:#205391;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: medium;
+  margin-top: 2px;
+
+}

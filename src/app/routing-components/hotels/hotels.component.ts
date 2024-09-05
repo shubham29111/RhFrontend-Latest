@@ -4,6 +4,11 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { environment } from 'src/environments/environments';
 import { Hotel } from './hotel.model';
 import staticFilters from './static-filters';
+import { HotelService } from 'src/app/services/hotel.service';
+import src from 'daisyui';
+import { popup } from 'leaflet';
+import {  ViewChild } from '@angular/core';
+import { BookingPopupComponent } from 'src/app/shared-components/booking-popup/booking-popup.component';
 
 interface FilterItem {
   type: string | null;
@@ -31,6 +36,11 @@ declare var google: any;
   styleUrls: ['./hotels.component.css']
 })
 export class HotelsComponent implements OnInit {
+  currentPage:number=1
+  @ViewChild('comp') bookComponent:any
+  isPopupVisible=false
+  itemsPerPage: number=5
+  totalItems: number=0
   hotels: Hotel[] = [];
   hotel: Hotel | undefined;
   regionId: any = [];
@@ -44,13 +54,12 @@ export class HotelsComponent implements OnInit {
   loaders: number[] = Array(10).fill(0);
   currentImageIndex: number = 0;
   map: any;
-  currentPage: number = 1;
-  itemsPerPage: number = 10;
   showFilterModal: boolean = false;
   showMapModal: boolean = false;
-  totalItems: number = 0;
   selectedOption: string = 'Price (high to low)';
   dropdownOpen: boolean = false;
+  pagination:any
+  paginationData:any
   guests:any;
   checkIn:any;
   checkOut:any;
@@ -69,7 +78,7 @@ export class HotelsComponent implements OnInit {
     payment_method: [],
     room_amenity: []
   };
-  currency:string="";
+  currency: any 
   
 
 
@@ -88,7 +97,21 @@ export class HotelsComponent implements OnInit {
     'kitchen': 'fa-kitchen-set'
   };
 
-  constructor(private route: ActivatedRoute, private http: HttpClient,private router:Router) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient,private router:Router,private hotelService:HotelService
+  ) {
+ 
+  }
+
+  showPopup(){
+    this.isPopupVisible=true
+  }
+  hidePopup($event:any){
+    this.isPopupVisible=$event
+    console.log("This",this.bookComponent.isVisible,this.isPopupVisible)
+    this.bookComponent.isVisible=false
+    
+    
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -97,11 +120,29 @@ export class HotelsComponent implements OnInit {
       this.guests=params['guests'];
       this.checkIn=params['checkIn'];
       this.checkOut=params['checkOut'];
-    });
-    this.currency = localStorage.getItem('currency') || 'USD';
+      this.currency =localStorage.getItem('currency') || null;
+      this.isPopupVisible=false
+      this.fetchHotels()
 
-    this.fetchHotels();
-    this.loadFilters();
+    });
+    this.currency =localStorage.getItem('currency') || null;
+    this.hotelService.getCurrencyDetailsObseravble().subscribe(
+      (res)=>{
+        console.log(res)
+        if(res){
+         
+        this.isLoading=true
+        this.currency=res
+        this.fetchHotels()
+        }
+      
+      }
+
+    )
+   
+
+    
+    
   }
 
   ngAfterViewInit(): void {
@@ -124,6 +165,12 @@ export class HotelsComponent implements OnInit {
         this.hotel = this.hotels.length > 0 ? this.hotels[0] : undefined;
         this.regionName = this.hotel ? this.hotel.region_name : 'No region found';
         console.log(this.hotels);
+        this.pagination=this.paginate()
+        console.log(this.pagination)
+    this.paginationData=this.hotels.slice(
+      this.pagination.startIndex,this.pagination.lastIndex
+    )
+        
         
         this.isLoading = false; 
         this.preloadImages();
@@ -135,6 +182,7 @@ export class HotelsComponent implements OnInit {
     );
   }
    loadFilters() {
+    console.log(this.currency)
     const queryParams = this.buildQueryParams(false);
     this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}${queryParams}`).subscribe(
       (data) => {
@@ -177,7 +225,7 @@ export class HotelsComponent implements OnInit {
     }    
     if (includePagination) {
       params.append('page', this.currentPage.toString());
-      params.append('limit', this.itemsPerPage.toString());
+      params.append('limit', String(10));
     }
     return `${params.toString()}`;
   }
@@ -273,9 +321,9 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       hotelName.forEach(hotelNam => hotelNam.classList.add('text-header'));
       hotelCards.forEach(hotelCard => hotelCard.classList.add('compact'));
       hotelAmenities.forEach(hotelAmenitie => hotelAmenitie.classList.add('hidee'));
-
+      this.initMap()
     } 
-    this.initMap()
+   
 
   }
   listView()
@@ -428,7 +476,7 @@ manipulateHotelData(hotels: any[]): Hotel[] {
   
       this.markers[hotel.hotel_id] = marker;
     });
-  
+    this.addMarkers()
     this.addCityCenterMarker(mapCenter);
   }
   
@@ -458,7 +506,7 @@ manipulateHotelData(hotels: any[]): Hotel[] {
         });
   
         const contentString = `
-        <div style="padding:10px;">
+        <div style="width: 200px; height: 100px;">
           <h3 style="margin: 0; font-size: 16px;">${hotel.name}</h3>
           <p style="margin: 5px 0; font-size: 14px;"><strong>Price: ${hotel.price}</strong></p>
           <img src="${hotel.images[0]}" alt="${hotel.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
@@ -576,6 +624,20 @@ manipulateHotelData(hotels: any[]): Hotel[] {
         this.map.setZoom(15); // Optional: Zoom in to give a closer look
       }
     }
+  }
+
+  onPageChange($event:any){
+    this.currentPage = $event;
+    this.pagination=this.paginate()
+    this.paginationData=this.hotels.slice(
+      this.pagination.startIndex,this.pagination.lastIndex
+    )
+  }
+  paginate() {
+    return {
+      startIndex: (this.currentPage - 1) * this.itemsPerPage,
+      lastIndex: (this.currentPage - 1) * this.itemsPerPage + this.itemsPerPage,
+    };
   }
   
 }

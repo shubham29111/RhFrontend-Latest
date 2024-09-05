@@ -136,12 +136,14 @@ getTranslation(key: string): string {
     const totalAdults = this.rooms.reduce((sum, room) => sum + room.adults, 0);
     const totalChildren = this.rooms.reduce((sum, room) => sum + room.children, 0);
     const guests = totalAdults + totalChildren;
+    
 if (this.type="hotel")
 {
   this.router.navigate(['/hotels'], {
     queryParams: {
       location: this.location,
       type: this.type,
+      currency:localStorage.getItem('currency'),
       regionId: this.region.id,
       checkIn: this.checkIn,
       checkOut: this.checkOut,

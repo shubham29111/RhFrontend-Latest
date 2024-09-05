@@ -11,7 +11,16 @@
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <ng-select 
+        (change)="changeCurrency($event)"
+        [(ngModel)]="selectedCurrency"
+        [style.width]="'130px'" placeholder="Currency" >
+        <ng-container  *ngFor="let currency of filteredAllCurrencies">
+          <ng-option [value]="currency">{{currency | slice:0:3}}</ng-option>
+        </ng-container>
+           >
+</ng-select>
+        <!-- <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ selectedCurrency | slice:0:3 }}
         </a>
         <div class="currencyDropdown dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown" style="width: 240px;">
@@ -23,8 +32,8 @@
             <li *ngFor="let currency of filteredPopularCurrencies">
               <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">
                 {{ currency | slice: 0: 3 }}
-              </a>
-            </li>
+              </a>-->
+            <!-- </li> 
           </ul>
           <h6 class="dropdown-header">All currencies</h6>
           <ul class="list-unstyled">
@@ -32,7 +41,7 @@
               <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">{{ currency | slice:0:3 }}</a>
             </li>
           </ul>
-        </div>
+        </div> -->
       </li>      
       <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
       </div>

@@ -1,46 +1,83 @@
-<div class="popup-overlay" (click)="closePopup()">
-    <div class="popup-content" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="closePopup()">×</button>
-      <h2>Hotels available in {{ location }} for {{ formattedDateRange }}</h2>
-  
-      <div class="destination-section">
-        <label>Destination</label>
-        <input type="text" [(ngModel)]="location" (input)="onLocationChange($event)" placeholder="Enter location" />
-        <button class="remove-destination-btn" (click)="clearLocation()">×</button>
-  
-        <div class="dropdown-menu" *ngIf="showDropdownMenu">
-          <div *ngIf="suggestions.regions.length" class="dropdown-section">
-            <div class="dropdown-header">Regions</div>
-            <ul>
-              <li *ngFor="let region of suggestions.regions" (click)="selectSuggestion(region)">
-                {{ region.name }}, {{ region.country_code }}
-              </li>
-            </ul>
-          </div>
-          <div *ngIf="suggestions.hotels.length" class="dropdown-section">
-            <div class="dropdown-header">Hotels</div>
-            <ul>
-              <li *ngFor="let hotel of suggestions.hotels" (click)="selectSuggestion(hotel)">
-                {{ hotel.name }}, {{ hotel.region_id }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Rest of the popup component... -->
-      <div class="date-section">
-        <div class="check-in">
-          <label>Check-in</label>
-          <input type="date" [(ngModel)]="checkInDate" (change)="updateFormattedDateRange()" required />
-        </div>
-        <div class="check-out">
-          <label>Check-out</label>
-          <input type="date" [(ngModel)]="checkOutDate" (change)="updateFormattedDateRange()" required />
-        </div>
-      </div>
-  
-      <button class="search-btn" (click)="onSubmit()">Search</button>
+<div class="popup-overlay" (click)="closePopup()"  >
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closePopup()">×</button>
+    <h2>Hotels available in {{ location }} for {{ formattedDateRange }}</h2>
+    <div class="dropdown-parent">
+    <!-- Destination Section -->
+    <div class="destination-section">
+     <div class="input-element" style=" border: 1px solid #ccc;width: calc(100% - 30px);padding:2px ;"> 
+      <label for="location">Destination</label>
+      <input
+        type="text"
+        id="location"
+        [(ngModel)]="location"
+        (input)="onLocationChange($event)"
+        placeholder="Enter location"
+        style="border: none;outline: none;"
+      />
     </div>
+      <button class="remove-destination-btn" (click)="clearLocation()" >×</button>
+
+      <!-- Dropdown Menu -->
+     
+       
+      </div>
+    </div>
+    
+    <!-- Regions Section -->
+    <div *ngIf="suggestions.regions.length" class="dropdown-section">
+      <div class="dropdown-header">Regions</div>
+      <ul>
+        <li
+          *ngFor="let region of suggestions.regions"
+          (click)="selectSuggestion(region)"
+        >
+          {{ region.name }}, {{ region.country_code }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hotels Section -->
+    <div *ngIf="suggestions.hotels.length" class="dropdown-menu">
+      <div class="dropdown-header">Hotels</div>
+      <ul>
+        <li
+          *ngFor="let hotel of suggestions.hotels"
+          (click)="selectSuggestion(hotel)"
+        >
+          {{ hotel.name }}, {{ hotel.region_id }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Date Section -->
+    <div class="date-section d-flex">
+      <div class="check-in input-element"  style=" border: 1px solid #ccc;width: calc(50% - 30px);padding:2px ;"> 
+        <label for="check-in">Check-in</label>
+        <input
+          type="date"
+          id="check-in"
+          [(ngModel)]="checkInDate"
+          (change)="updateFormattedDateRange()"
+          required
+          style="border: none;outline: none !important;width: calc(100% - 30px) "
+        />
+      </div>
+      <div class="check-out input-element"  style=" border: 1px solid #ccc;width: calc(50% - 30px);padding:2px ;margin-left: 5px;">
+        <label for="check-out">Check-out</label>
+        <input
+          type="date"
+          id="check-out"
+          [(ngModel)]="checkOutDate"
+          (change)="updateFormattedDateRange()"
+          style="border: none;"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Search Button -->
+    <button class="search-btn" (click)="onSubmit()">Search</button>
   </div>
-  
+</div>
+

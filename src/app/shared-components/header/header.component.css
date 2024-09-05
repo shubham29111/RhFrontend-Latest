@@ -346,3 +346,24 @@ body {
   }
   
   
+  /* .custom-ng-select-width {
+	width:"400px  !important";
+	border:2px red solid
+  } */
+  :host ::ng-deep .ng-select .ng-select-container {
+    z-index: 1050; /* Adjust the z-index as needed */
+}
+
+:host ::ng-deep .ng-select .ng-select-dropdown {
+    z-index: 1050  !important; /* Ensures the dropdown is above other elements */
+	
+}
+
+:host ::ng-deep .ng-select .ng-option {
+	z-index: 1050 !important; /* Option items in the dropdown, if necessary */
+}
+  
+  :host ::ng-deep .ng-select .ng-select-container .ng-placeholder {
+	color: black !important;
+	font-size: 15px;
+  }
