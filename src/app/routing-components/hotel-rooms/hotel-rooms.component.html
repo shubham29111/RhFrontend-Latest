@@ -220,24 +220,24 @@
   
     <!-- Room Rates Table -->
     <table class="rates-table">
-      <tr *ngFor="let rate of room.value[0].rates">
+      <tr *ngFor="let rateOption of room.value">
         <td class="rate-amenities">
           <ul class="valueadds">
-            <li class="valueadds-item"><i class="fas fa-bed"></i> {{ room.value[0].roomDetails.size }}</li>
-            <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rate.mealPlan }}</li>
-            <li class="valueadds-item" *ngFor="let amenity of room.value[0].roomDetails.amenities">
+            <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
+            <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
+            <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
               <i class="fas fa-check"></i> {{ amenity }}
             </li>
           </ul>
         </td>
         <td class="rate-cancellation">
           <ul class="valueadds">
-            <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rate.cancellationPolicy }}</li>
+            <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rateOption.rates[0].cancellationPolicy }}</li>
           </ul>
         </td>
         <td class="rate-price">
           <div class="price">
-            <span class="price-amount">{{ storedPrice | currency:rate.currency }}</span>
+            <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
             <p class="price-included text-xs">All taxes included</p>
             <p class="price-nights text-xs">for a night for 2 guests</p>
           </div>
@@ -313,22 +313,22 @@
       </div>
   </div>
   
-  <div class="policy-section">
-      <h3 class="section-header">Paid on the spot</h3>
-      <div class="paid-options space-y-4">
-          <div class="option">
-              <i class="fas fa-child text-gray-600 mr-2"></i> <span class="font-semibold">Children</span>
-              <p class="text-gray-600"><strong>Accommodation for children:</strong><br>
-              At the age of 8 years if their parents or guardians are staying in the same room on extra beds</p>
-              <p class="text-gray-600"><strong>Price:</strong><br> Needs to be clarified on the spot</p>
-          </div>
-          <div class="option">
-              <i class="fas fa-bed text-gray-600 mr-2"></i> <span class="font-semibold">Additional bed</span>
-              <p class="text-gray-600"><strong>Maximum number:</strong><br>
-              Needs to be clarified on the spot</p>
-              <p class="text-gray-600"><strong>Price:</strong><br> 35 EUR per guest per night</p>
-          </div>
+  <div class="policy-card" *ngFor="let policy of policyStructs">
+    <h2 class="policy-header">{{ policy.title }}</h2>
+    
+    <div class="policy-info" *ngFor="let paragraph of policy.PolicyStructParagraphs">
+      <div class="policy-icon" *ngIf="policy.title === 'Children and information about extra beds'">
+        <i class="fas fa-bed"></i>
       </div>
+      <div class="policy-details">
+        <h3 *ngIf="policy.title === 'Children and information about extra beds'">Additional bed</h3>
+        <div class="policy-row" *ngIf="policy.title === 'Children and information about extra beds'">
+          <span class="policy-label">Price</span>
+          <span class="policy-value">{{ paragraph.paragraphs }}</span>
+        </div>
+        <p *ngIf="policy.title !== 'Children and information about extra beds'">{{ paragraph.paragraphs }}</p>
+      </div>
+    </div>
   </div>
 </section>
 

@@ -82,6 +82,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   };
   displayPlaces: Place[] = [];
   mainAmenities: string[] = [];
+  policyStructs: any[] = [];
+
 
 
 
@@ -191,6 +193,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
           this.selectedImageUrl = this.getImageUrl(this.images[0]);
         }
         this.extractMainAmenities();
+        this.policyStructs = this.hotel?.PolicyStructs || [];
 
         this.loading=false;
 
@@ -239,18 +242,17 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         rooms: 1,
         adults: 2
       };
-
+  
       this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
         .subscribe({
           next: (response: any) => {
             console.log('Hotel prices:', response);
             this.availableRooms = response.response;
-            console.log(this.availableRooms);
-            
-            if (this.availableRooms && this.availableRooms['Deluxe Double room (full double bed)']) {
-              this.storedPrice = this.availableRooms['Deluxe Double room (full double bed)'][0].rates[0].price;
-              console.log('Stored Price:', this.storedPrice);  
-            }          },
+  
+            // Find the lowest price across all rooms
+            this.storedPrice = this.getLowestPriceAcrossAllRooms(this.availableRooms);
+            console.log('Stored Lowest Price:', this.storedPrice);
+          },
           error: (error: any) => {
             console.error('Error fetching hotel prices:', error);
           }
@@ -258,6 +260,37 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     });
   }
   
+
+  // Helper method to find the lowest price for a room
+  getLowestPriceAcrossAllRooms(rooms: { [key: string]: RoomRate[] }): number {
+    let lowestPrice = Infinity;
+  
+    for (let roomKey in rooms) {
+      const roomRates = rooms[roomKey];
+      const roomLowestPrice = this.getLowestPrice(roomRates);
+      if (roomLowestPrice < lowestPrice) {
+        lowestPrice = roomLowestPrice;
+      }
+    }
+  
+    return lowestPrice === Infinity ? 0 : lowestPrice;
+  }
+  
+  // Existing method to find the lowest price for a single room
+  getLowestPrice(roomRates: any): number {
+    let lowestPrice = Infinity;
+  
+    roomRates.forEach((rate: any) => {
+      rate.rates.forEach((rateDetails: any) => {
+        const price = parseFloat(rateDetails.price);
+        if (price < lowestPrice) {
+          lowestPrice = price;
+        }
+      });
+    });
+  
+    return lowestPrice === Infinity ? 0 : lowestPrice;
+  }
 
 
   private formatDate(date: string): string {

@@ -794,6 +794,8 @@ h3 {
 .room-card {
   border-radius: 8px;
   border: 1px solid #ddd; 
+  margin-bottom: 25px;
+
 }
 
 .room-header {
@@ -964,4 +966,60 @@ h3 {
   100% {
     transform: translateX(100%);
   }
+}
+.policy-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  margin-bottom: 20px;
+}
+
+.policy-header {
+  background-color: #f0f0f0;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.policy-info {
+  display: flex;
+  padding: 15px;
+}
+
+.policy-icon {
+  font-size: 24px;
+  color: #666;
+  margin-right: 15px;
+}
+
+.policy-details h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.policy-row {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.policy-label {
+  width: 150px;
+  color: #666;
+  font-size: 14px;
+}
+
+.policy-value {
+  color: #333;
+  font-size: 14px;
+}
+
+.policy-details p {
+  color: #333;
+  font-size: 14px;
+  margin: 0;
 }
