@@ -233,6 +233,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   
   
   fetchHotelPrices() {
+    this.loading=true;
     this.route.queryParams.subscribe(params => {
       const requestBody = {
         hotelId: this.hotelId,
@@ -249,7 +250,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
             console.log('Hotel prices:', response);
             this.availableRooms = response.response;
   
-            // Find the lowest price across all rooms
+              this.loading=false;
             this.storedPrice = this.getLowestPriceAcrossAllRooms(this.availableRooms);
             console.log('Stored Lowest Price:', this.storedPrice);
           },

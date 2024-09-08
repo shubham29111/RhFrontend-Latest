@@ -176,26 +176,37 @@ body {
 
 /* Typography */
 h1 {
-  font-size: 40px;
-  margin-bottom: 10px;
+  font-size: 2.25rem; /* 36px */
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
   color: #1a237e; /* Dark Blue */
 }
 
 h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.3;
+  margin-bottom: 1rem;
   color: #1c8dc2; 
 }
 
+h3 {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  color: #000000;
+}
+
 p {
-  font-size: 18px;
+  font-size: 1rem; /* 16px */
+  line-height: 1.5;
   color: #686868;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .hotel-address, .hotel-phone {
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 0.9375rem; /* 15px */
+  line-height: 1.4;
+  margin-bottom: 0.3125rem;
 }
 
 /* Image Gallery */
@@ -221,8 +232,9 @@ p {
 
 
 .booking-section h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+  margin-bottom: 1.25rem;
 }
 
 .form-group {
@@ -231,15 +243,16 @@ p {
 
 .form-group label {
   display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  margin-bottom: 0.3125rem;
   color: #fff;
 }
 
 .form-group input {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1rem; /* 16px */
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -248,7 +261,8 @@ p {
 .btn-book {
   color: #fff;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -268,8 +282,9 @@ p {
 }
 
 .amenities-card h2 {
-  font-size: 1.5em;
-  margin-bottom: 20px;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+  margin-bottom: 1.25rem;
 }
 
 .amenities-grid {
@@ -283,10 +298,9 @@ p {
 }
 
 .amenity-category h3 {
-  font-size: 1.1em;
-  margin-bottom: 10px;
-  font-weight: lighter;
-  color: #000000;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 500;
+  margin-bottom: 0.625rem;
   display: flex;
   align-items: center;
 }
@@ -306,7 +320,8 @@ p {
 
 .amenity-category ul li {
   list-style-type: circle;
-
+  font-size: 0.9375rem; /* 15px */
+  line-height: 1.5;
   margin-bottom: 8px;
 
 }
@@ -326,17 +341,17 @@ p {
 }
 
 .contact-info p {
-  font-size: 20px;
+  font-size: 1.125rem; /* 18px */
 }
 
 /* Additional Styles for UI Enhancements */
 .hotel-rating .stars {
   color: #ffeb3b; /* Yellow for stars */
-  font-size: 22px;
+  font-size: 1.25rem; /* 20px */
 }
 
 .hotel-rating .rating-text {
-  font-size: 20px;
+  font-size: 1rem; /* 16px */
   color: #1a237e; /* Dark Blue */
 }
 
@@ -362,12 +377,12 @@ p {
 
 .card h2 {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 1.5rem; /* 24px */
   color: #ffeb3b;
 }
 
 .card p {
-  font-size: 20px;
+  font-size: 1.125rem; /* 18px */
   color: #ffeb3b;
 }
 .hotel-card {
@@ -396,13 +411,13 @@ p {
 }
 
 .hotel-name {
-  font-size: 1.8em;
-  font-weight: bold;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
   margin: 0;
 }
 
 .hotel-address, .hotel-distance {
-  font-size: 20px;
+  font-size: 0.9375rem; /* 15px */
   color: #000000;
 }
 
@@ -417,14 +432,14 @@ p {
 }
 
 .price-label {
-  font-size: 21px;
+  font-size: 1rem; /* 16px */
   color: #999;
 }
 
 .price-amount {
-  font-size: 1.2em;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 700;
   color: #175401;
-  font-weight: bold;
   margin: 0;
 }
 
@@ -434,7 +449,8 @@ p {
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
 }
@@ -458,7 +474,7 @@ p {
 }
 
 h3 {
-  font-size: 1.2em;
+  font-size: 1.25rem; /* 20px */
   margin-bottom: 15px;
   color: #000000;
 }
@@ -472,7 +488,7 @@ h3 {
 }
 
 .grid-layout li {
-  font-size: 1em;
+  font-size: 1rem; /* 16px */
   color: #495057;
   display: flex;
   align-items: center;
@@ -513,13 +529,14 @@ h3 {
 
 .check-in h4, .check-out h4 {
   margin: 0;
-  font-size: 17px;
+  font-size: 1rem; /* 16px */
+  font-weight: 600;
   color: #000000;
 }
 
 .check-in p, .check-out p {
   margin: 5px 0 0;
-  font-size: 15px;
+  font-size: 0.9375rem; /* 15px */
   color: #000000;
 }
 
@@ -545,7 +562,8 @@ h3 {
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
-  font-size: medium;
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 600;
 
 }
 .bg-blue-500
@@ -564,13 +582,13 @@ h3 {
 }
 
 .section-header {
-  font-size: 1.25em;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
   margin-bottom: 15px;
   color: #343a40;
   background-color: #e9ecef;
   padding: 12px 15px;
   border-radius: 8px;
-  font-weight: bold;
 }
 
 .check-in-out {
@@ -582,7 +600,8 @@ h3 {
 
 .check-time {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
   margin-bottom: 10px;
   padding-left: 7px;
   margin: -15px;
@@ -652,7 +671,7 @@ h3 {
   background-color: #007bff;
   color: #fff;
   padding: 2px 8px;
-  font-size: 12px;
+  font-size: 0.75rem; /* 12px */
   border-radius: 3px;
   white-space: nowrap;
   text-align: center;
@@ -692,7 +711,7 @@ h3 {
 }
 
 .nearby-places h3 {
-  font-size: 1.2em;
+  font-size: 1.25rem; /* 20px */
   color: #343a40;
 }
 
@@ -702,7 +721,7 @@ h3 {
 }
 
 .nearby-places li {
-  font-size: 1em;
+  font-size: 1rem; /* 16px */
   color: #666;
   display: flex;
   align-items: center;
@@ -723,7 +742,7 @@ h3 {
 
 .leaflet-popup-content h3 {
   margin: 0 0 8px 0;
-  font-size: 16px !important;
+  font-size: 1rem !important; /* 16px */
   font-weight: 600;
 }
 
