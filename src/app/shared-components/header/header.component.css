@@ -178,6 +178,71 @@ body {
     top: 0px !important;
 }
 
+.currency-select,
+.language-select {
+  width: 200px;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  border-radius: 20px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+::ng-deep .ng-select:hover .ng-select-container {
+  border-color: #80bdff;
+}
+
+::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+::ng-deep .ng-select .ng-value-container {
+  padding-left: 15px;
+}
+
+::ng-deep .ng-dropdown-panel {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+::ng-deep .ng-option {
+  padding: 8px 15px;
+  transition: background-color 0.2s ease;
+}
+
+::ng-deep .ng-option:hover {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .ng-option.ng-option-selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.flag-icon {
+  margin-right: 8px;
+  width: 20px;
+  height: 15px;
+  display: inline-block;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.language-dropdown,
+.currency-dropdown {
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .currency-select,
+  .language-select {
+    width: 150px;
+  }
+}
+
 .currencyDropdown {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
@@ -633,4 +698,35 @@ body {
     height: 5px;
     margin: 0 1px;
   }
+}
+
+.currency-select {
+  width: 200px;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  border-radius: 20px;
+}
+
+::ng-deep .ng-select .ng-value-container {
+  padding-left: 10px;
+}
+
+::ng-deep .ng-dropdown-panel {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+::ng-deep .ng-option {
+  padding: 8px 10px;
+}
+
+.flag-icon {
+  margin-right: 8px;
+  width: 20px;
+  height: 15px;
+  display: inline-block;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
 }
