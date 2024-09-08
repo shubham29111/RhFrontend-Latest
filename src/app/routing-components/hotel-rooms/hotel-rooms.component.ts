@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as L from 'leaflet';
 import { flatMap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HotelService } from 'src/app/services/hotel.service';
 
 interface Place {
   lat: number;
@@ -22,6 +24,22 @@ interface Place {
   };
   distance?: number;
 }
+
+// Update or add this interface
+interface RoomRate {
+  roomDetails: {
+    roomType: string;
+    size: string;
+    amenities: string[];
+  };
+  rates: {
+    price: number;
+    currency: string;
+    cancellationPolicy: string;
+    mealPlan: string;
+  }[];
+}
+
 
 @Component({
   selector: 'app-hotel-rooms',
@@ -41,6 +59,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   hotelId: string = '';
   hotelPrice: any;
   guests: any;
+  availableRooms: { [key: string]: RoomRate[] } = {};
+
   checkIn: any;
   checkOut: any;
   checkInHour: number = 0;
@@ -48,6 +68,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   availablePercentage: number = 0;
   map: any;
   hotelLatitude: number = 0;
+  storedPrice: number = 0;
   hotelLongitude: number = 0;
   nearbyPlaces: { [key: string]: Place[] } = {
     landmarks: [],
@@ -122,7 +143,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
     // Add the remaining images here
   ];
-  constructor(private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute) {}
+  currency: any;
+  constructor(  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -134,6 +156,20 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.checkIn = this.datePipe.transform(checkInDate, 'dd MMM yyyy, EEE');
       this.checkOut = this.datePipe.transform(checkOutDate, 'dd MMM yyyy, EEE');
     });
+    this.currency =localStorage.getItem('currency') || null;
+    this.hotelService.getCurrencyDetailsObseravble().subscribe(
+      (res)=>{
+        console.log(res)
+        if(res){
+         
+        this.loading=true
+        this.currency=res
+        this.fetchHotelPrices()
+        }
+      
+      }
+
+    )
     this.getHotelData();
     this.getReviewsData();
   }
@@ -158,12 +194,53 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.hotelLatitude = this.hotel?.latitude;
         this.hotelLongitude = this.hotel?.longitude;
         this.getNearbyPlaces();
+        this.fetchHotelPrices();
         this.initMap();
+        
+
     // this.getNearbyPlaces();
 
 
       });
   }
+
+  
+  
+  fetchHotelPrices() {
+    this.route.queryParams.subscribe(params => {
+      const requestBody = {
+        hotelId: this.hotelId,
+        currency: this.currency,
+        checkIn: params['checkIn'],
+        checkOut: params['checkOut'],
+        rooms: 1,
+        adults: 2
+      };
+
+      this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
+        .subscribe({
+          next: (response: any) => {
+            console.log('Hotel prices:', response);
+            this.availableRooms = response.response;
+            console.log(this.availableRooms);
+            
+            if (this.availableRooms && this.availableRooms['Deluxe Double room (full double bed)']) {
+              this.storedPrice = this.availableRooms['Deluxe Double room (full double bed)'][0].rates[0].price;
+              console.log('Stored Price:', this.storedPrice);  
+            }          },
+          error: (error: any) => {
+            console.error('Error fetching hotel prices:', error);
+          }
+        });
+    });
+  }
+
+
+  private formatDate(date: string): string {
+    // Assuming date is in format 'dd MMM yyyy, EEE'
+    return this.datePipe.transform(new Date(date), 'yyyy-MM-dd') || '';
+  }
+
 
   getReviewsData(): void {
     this.http.get(environment.baseUrl + '/userreviews?hotelId=' + this.hotelId)
@@ -253,7 +330,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
     const hotelLatitude = this.hotel?.latitude || 40.7128;
     const hotelLongitude = this.hotel?.longitude || -74.0060;
-  
     // Initialize the map centered on the hotel location, with scroll zoom disabled
     this.map = L.map('map', {
       center: [hotelLatitude, hotelLongitude],
@@ -438,6 +514,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     if (this.nearbyPlaces['historical'].includes(place)) return 'fas fa-monument';
     if (this.nearbyPlaces['churches'].includes(place)) return 'fas fa-church';
     return 'fas fa-map-marker-alt'; // Default icon if none match
+  }
+  scrollToAvailableRooms(): void {
+    const element = document.getElementById('available-rooms-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
   
 }
