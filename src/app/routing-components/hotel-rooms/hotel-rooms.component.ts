@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 import { flatMap } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 interface Place {
   lat: number;
@@ -84,8 +85,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   mainAmenities: string[] = [];
   policyStructs: any[] = [];
 
-
-
+  filterForm: FormGroup;
+  filteredRooms: { [key: string]: RoomRate[] } = {};
 
   nearbyPlaceCategories = [
     { title: 'Landmarks', icon: 'fas fa-landmark', places: this.nearbyPlaces['landmarks'] },
@@ -98,57 +99,15 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     { title: 'Churches', icon: 'fas fa-church', places: this.nearbyPlaces['churches'] }
   ];
 
-  imageList = [
-    {
-      height: 683,
-      src: "https://cdn.worldota.net/t/{size}/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg",
-      width: 1024
-    },
-    {
-      height: 683,
-      src: "https://cdn.worldota.net/t/{size}/content/a1/d1/a1d19f66417383095f2cb112997ef36a91f58ea1.jpeg",
-      width: 1024
-    },
-    {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/a1/d1/a1d19f66417383095f2cb112997ef36a91f58ea1.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/a1/d1/a1d19f66417383095f2cb112997ef36a91f58ea1.jpeg",
-      "width": 1024
-  },
-  {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/b3/4b/b34b4ee519eaf54a60b941695da2c7645ce7eebe.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/b3/4b/b34b4ee519eaf54a60b941695da2c7645ce7eebe.jpeg",
-      "width": 1024
-  },
-  {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/5e/b1/5eb139203d4d35604e496caec1a9ddab84e6f334.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/5e/b1/5eb139203d4d35604e496caec1a9ddab84e6f334.jpeg",
-      "width": 1024
-  },
-  {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/af/e5/afe5b36176afa78bf90ca8935ed44ede933f8a6f.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/af/e5/afe5b36176afa78bf90ca8935ed44ede933f8a6f.jpeg",
-      "width": 1024
-  },
-  {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/c8/b3/c8b30c199408ea8c153aa275f2e45558a8001fd6.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/c8/b3/c8b30c199408ea8c153aa275f2e45558a8001fd6.jpeg",
-      "width": 1024
-  },
-  {
-      "height": 683,
-      "src": "https://cdn.worldota.net/t/{size}/content/2b/14/2b14d391b6e1a6559509521257c5603f56374ecf.jpeg",
-      "src_secure": "https://cdn.worldota.net/t/{size}/content/2b/14/2b14d391b6e1a6559509521257c5603f56374ecf.jpeg",
-      "width": 1024
-  }
-    // Add the remaining images here
-  ];
   currency: any;
-  constructor(  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    this.filterForm = this.formBuilder.group({
+      beds: ['all'],
+      meals: ['all'],
+      payment: ['all'],
+      cancellation: ['all']
+    });
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -176,12 +135,49 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     )
     this.getHotelData();
     this.getReviewsData();
+
+    // Add this line to initialize filteredRooms with all rooms
+    this.filteredRooms = this.availableRooms;
+
+    this.filterForm.valueChanges.subscribe(() => {
+      this.applyFilters();
+    });
   }
 
   ngAfterViewInit(): void {
     // this.initMap();
     // this.getNearbyPlaces();
   }
+
+  applyFilters(): void {
+    if (this.isDefaultFilter()) {
+      this.filteredRooms = {...this.availableRooms};
+    } else {
+      this.filteredRooms = {};
+      for (const [roomType, roomRates] of Object.entries(this.availableRooms)) {
+        const filteredRates = roomRates.filter(rate => {
+          return (
+            (!this.filterForm.value.beds || this.filterForm.value.beds === 'all' || 
+             rate.roomDetails.size?.includes(this.filterForm.value.beds) ||
+             rate.roomDetails.amenities.some(a => a.toLowerCase().includes(this.filterForm.value.beds))) &&
+            (!this.filterForm.value.meals || this.filterForm.value.meals === 'all' || 
+             rate.rates.some(r => r.mealPlan.toLowerCase().includes(this.filterForm.value.meals))) &&
+            (!this.filterForm.value.payment || this.filterForm.value.payment === 'all') &&
+            (!this.filterForm.value.cancellation || this.filterForm.value.cancellation === 'all' ||
+             rate.rates.some(r => r.cancellationPolicy.toLowerCase().includes(this.filterForm.value.cancellation)))
+          );
+        });
+        if (filteredRates.length > 0) {
+          this.filteredRooms[roomType] = filteredRates;
+        }
+      }
+    }
+  }
+
+  isDefaultFilter(): boolean {
+    return Object.values(this.filterForm.value).every(value => !value || value === 'all');
+  }
+
 
   getHotelData(): void {
     this.loading=true;
@@ -249,6 +245,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
           next: (response: any) => {
             console.log('Hotel prices:', response);
             this.availableRooms = response.response;
+            this.filteredRooms = {...this.availableRooms}; // Set filteredRooms here
   
               this.loading=false;
             this.storedPrice = this.getLowestPriceAcrossAllRooms(this.availableRooms);
@@ -596,3 +593,4 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
   
 }
+

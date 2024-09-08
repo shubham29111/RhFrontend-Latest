@@ -155,99 +155,101 @@
   <p class="text-sm text-gray-600 mb-4">For 1 night, for 2 adults</p>
   
   <!-- Filters Section -->
-  <div class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+  <form [formGroup]="filterForm" class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
     <!-- Beds Dropdown -->
     <div class="relative">
       <label for="beds" class="block text-sm font-medium text-gray-700">Beds</label>
-      <select id="beds" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option selected>all options</option>
-        <option>double bed</option>
-        <option>separate beds</option>
+      <select id="beds" formControlName="beds" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option value="all">all options</option>
+        <option value="double">double bed</option>
+        <option value="separate">separate beds</option>
       </select>
     </div>
     
     <!-- Meals Dropdown -->
     <div class="relative">
       <label for="meals" class="block text-sm font-medium text-gray-700">Meals</label>
-      <select id="meals" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option selected>all options</option>
-        <option>no meal (RO)</option>
-        <option>breakfast (BB)</option>
-        <option>breakfast + lunch or dinner (HB)</option>
-        <option>breakfast, lunch, and dinner (FB)</option>
-        <option>all inclusive (AI)</option>
+      <select id="meals" formControlName="meals" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option value="all">all options</option>
+        <option value="no meal">no meal (RO)</option>
+        <option value="breakfast">breakfast (BB)</option>
+        <option value="half board">breakfast + lunch or dinner (HB)</option>
+        <option value="full board">breakfast, lunch, and dinner (FB)</option>
+        <option value="all inclusive">all inclusive (AI)</option>
       </select>
     </div>
   
     <!-- Payment Dropdown -->
     <div class="relative">
       <label for="payment" class="block text-sm font-medium text-gray-700">Payment</label>
-      <select id="payment" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option selected>all options</option>
-        <option>pay now</option>
-        <option>pay at the hotel</option>
+      <select id="payment" formControlName="payment" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option value="all">all options</option>
+        <option value="pay now">pay now</option>
+        <option value="pay at hotel">pay at the hotel</option>
       </select>
     </div>
   
     <!-- Cancellation Policy Dropdown -->
     <div class="relative">
       <label for="cancellation" class="block text-sm font-medium text-gray-700">Cancellation policy</label>
-      <select id="cancellation" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option selected>all options</option>
-        <option>with free cancellation</option>
+      <select id="cancellation" formControlName="cancellation" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+        <option value="all">all options</option>
+        <option value="free cancellation">with free cancellation</option>
       </select>
     </div>
-  </div>
+  </form>
   
 
-  <div class="room-card" *ngFor="let room of availableRooms | keyvalue">
-    <!-- Room Header with Image and Title -->
-    <div class="room-header">
-      <div class="room-image-container">
-        <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
-        <div class="image-count">7 photos</div>
-      </div>
-      <div class="room-info">
-        <h3 class="room-title">{{ room.key }}</h3>
-        <p class="room-subtitle">{{ room.value[0].roomDetails.size }}</p>
-        <div class="room-amenities">
-          <span class="amenity-item" *ngFor="let amenity of room.value[0].roomDetails.amenities">
-            <i class="fas fa-check"></i> {{ amenity }}
-          </span>
+  <div *ngFor="let roomType of filteredRooms | keyvalue">
+    <div class="room-card">
+      <!-- Room Header with Image and Title -->
+      <div class="room-header">
+        <div class="room-image-container">
+          <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
+          <div class="image-count">7 photos</div>
+        </div>
+        <div class="room-info">
+          <h3 class="room-title">{{ roomType.key }}</h3>
+          <p class="room-subtitle">{{ roomType.value[0].roomDetails.size }}</p>
+          <div class="room-amenities">
+            <span class="amenity-item" *ngFor="let amenity of roomType.value[0].roomDetails.amenities">
+              <i class="fas fa-check"></i> {{ amenity }}
+            </span>
+          </div>
         </div>
       </div>
+    
+      <!-- Room Rates Table -->
+      <table class="rates-table">
+        <tr *ngFor="let rateOption of roomType.value">
+          <td class="rate-amenities">
+            <ul class="valueadds">
+              <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
+              <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
+              <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
+                <i class="fas fa-check"></i> {{ amenity }}
+              </li>
+            </ul>
+          </td>
+          <td class="rate-cancellation">
+            <ul class="valueadds">
+              <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rateOption.rates[0].cancellationPolicy }}</li>
+            </ul>
+          </td>
+          <td class="rate-price">
+            <div class="price">
+              <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
+              <p class="price-included text-xs">All taxes included</p>
+              <p class="price-nights text-xs">for a night for 2 guests</p>
+            </div>
+          </td>
+          <td class="rate-book">
+            <div class="best-price">Best price</div>
+            <a href="#" class="book-now-btn">Book now</a>
+          </td>
+        </tr>
+      </table>
     </div>
-  
-    <!-- Room Rates Table -->
-    <table class="rates-table">
-      <tr *ngFor="let rateOption of room.value">
-        <td class="rate-amenities">
-          <ul class="valueadds">
-            <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
-            <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
-            <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
-              <i class="fas fa-check"></i> {{ amenity }}
-            </li>
-          </ul>
-        </td>
-        <td class="rate-cancellation">
-          <ul class="valueadds">
-            <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rateOption.rates[0].cancellationPolicy }}</li>
-          </ul>
-        </td>
-        <td class="rate-price">
-          <div class="price">
-            <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
-            <p class="price-included text-xs">All taxes included</p>
-            <p class="price-nights text-xs">for a night for 2 guests</p>
-          </div>
-        </td>
-        <td class="rate-book">
-          <div class="best-price">Best price</div>
-          <a href="#" class="book-now-btn">Book now</a>
-        </td>
-      </tr>
-    </table>
   </div>
   
 </section>
