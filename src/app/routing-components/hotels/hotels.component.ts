@@ -78,7 +78,8 @@ export class HotelsComponent implements OnInit {
     payment_method: [],
     room_amenity: []
   };
-  currency: any 
+  currency: any ;
+  
   
 
 
@@ -102,16 +103,17 @@ export class HotelsComponent implements OnInit {
  
   }
 
-  showPopup(){
-    this.isPopupVisible=true
+
+  hidePopup() {
+    this.isPopupVisible = false;
   }
-  hidePopup($event:any){
-    this.isPopupVisible=$event
-    console.log("This",this.bookComponent.isVisible,this.isPopupVisible)
-    this.bookComponent.isVisible=false
+  // hidePopup($event:any){
+  //   this.isPopupVisible=$event
+  //   console.log("This",this.bookComponent.isVisible,this.isPopupVisible)
+  //   this.bookComponent.isVisible=false
     
     
-  }
+  // }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -122,7 +124,9 @@ export class HotelsComponent implements OnInit {
       this.checkOut=params['checkOut'];
       this.currency =localStorage.getItem('currency') || null;
       this.isPopupVisible=false
-      this.fetchHotels()
+      this.fetchHotels();
+      this.loadFilters();
+
 
     });
     this.currency =localStorage.getItem('currency') || null;
@@ -193,6 +197,11 @@ export class HotelsComponent implements OnInit {
       }
     );
   }
+
+  showPopup() {
+    this.isPopupVisible = true;
+  }
+
   buildQueryParams(includePagination: boolean): string {
     const params = new URLSearchParams();
     for (const key in this.selectedFilters) {
@@ -321,9 +330,9 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       hotelName.forEach(hotelNam => hotelNam.classList.add('text-header'));
       hotelCards.forEach(hotelCard => hotelCard.classList.add('compact'));
       hotelAmenities.forEach(hotelAmenitie => hotelAmenitie.classList.add('hidee'));
-      this.initMap()
+
     } 
-   
+    this.initMap()
 
   }
   listView()
@@ -347,6 +356,7 @@ manipulateHotelData(hotels: any[]): Hotel[] {
     }
     
   }
+
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;

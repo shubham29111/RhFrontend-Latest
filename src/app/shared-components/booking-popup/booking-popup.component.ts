@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environments';
 
 @Component({
@@ -27,10 +27,34 @@ export class BookingPopupComponent implements OnInit {
   isGuestsDropdownVisible: boolean = false;
   rooms: any[] = [{ adults: 1, children: 0 }];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.updateFormattedDateRange();
+    this.route.queryParams.subscribe(params => {
+      this.location = params['location'] || '';
+      this.checkInDate = params['checkIn'] || '';
+      this.checkOutDate = params['checkOut'] || '';
+      this.region = { id: params['regionId'] || '' };
+      
+      // Update the formatted date range
+      this.updateFormattedDateRange();
+      
+      // If location is provided, fetch the region details
+      if (this.location && this.region.id) {
+        this.fetchRegionDetails();
+      }
+    });
+  }
+
+  fetchRegionDetails() {
+    this.http.get<any>(`${environment.baseUrl}/regions/?search=${this.location}`).subscribe(
+      (data) => {
+        this.region = data.response;
+      },
+      (error) => {
+        console.error('Error fetching region details', error);
+      }
+    );
   }
 
   onLocationChange(event: Event) {
@@ -79,7 +103,6 @@ export class BookingPopupComponent implements OnInit {
     this.isGuestsDropdownVisible = !this.isGuestsDropdownVisible;
   }
 
-  // Other methods...
 
   updateFormattedDateRange() {
     if (this.checkInDate && this.checkOutDate) {
@@ -90,7 +113,6 @@ export class BookingPopupComponent implements OnInit {
       const checkOutFormatted = formatDate(checkOut, 'd MMMM yyyy', 'en');
 
       if (checkIn.getMonth() === checkOut.getMonth()) {
-        // If both dates are in the same month, show only the day and the month once
         this.formattedDateRange = `${checkIn.getDate()} – ${checkOutFormatted}`;
       } else {
         this.formattedDateRange = `${checkInFormatted} – ${checkOutFormatted}`;
@@ -100,7 +122,6 @@ export class BookingPopupComponent implements OnInit {
 
 
   onSubmit() {
-    // Ensure the date range is updated before submitting
     this.updateFormattedDateRange();
      this.isVisible = false;
     this.close.emit(false)
@@ -125,13 +146,11 @@ export class BookingPopupComponent implements OnInit {
     let totalAdults = 0;
     let totalChildren = 0;
   
-    // Calculate total adults and children across all rooms
     this.rooms.forEach(room => {
       totalAdults += room.adults;
       totalChildren += room.children;
     });
   
-    // Return a formatted string based on the total numbers
     return `${totalAdults} Adults, ${totalChildren} Child${totalChildren !== 1 ? 'ren' : ''}`;
   }
   

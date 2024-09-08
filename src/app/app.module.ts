@@ -35,6 +35,7 @@ import { NotFoundPageComponent } from './routing-components/not-found-page/not-f
 import { LoadingComponent } from './routing-components/loading/loading.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from './shared-components/pagination/pagination.component';
+import { LazyLoadImageDirective } from './shared-components/lazy-load-image.directive';
 
 
 
@@ -67,7 +68,8 @@ import { PaginationComponent } from './shared-components/pagination/pagination.c
     AdminLoginComponent,
     NotFoundPageComponent,
     LoadingComponent,
-    PaginationComponent
+    PaginationComponent,
+    LazyLoadImageDirective
 
    
   ],

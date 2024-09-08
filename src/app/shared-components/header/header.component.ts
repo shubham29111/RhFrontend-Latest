@@ -38,6 +38,18 @@ export class HeaderComponent {
   currencySearch = '';
   loading: boolean = false;
 
+  loginData = {
+    username: '',
+    password: ''
+  };
+
+  signupData = {
+    fullname: '',
+    username: '',
+    email: '',
+    password: ''
+  };
+
   
   popularCurrencies = [
     'USD US Dollar, $',
@@ -141,6 +153,8 @@ export class HeaderComponent {
   filteredPopularCurrencies = [...this.popularCurrencies];
   filteredAllCurrencies = [...this.allCurrencies];
 
+  showLoginPassword: boolean = false;
+  showSignupPassword: boolean = false;
 
   constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,
    private hotelService: HotelService
@@ -398,17 +412,18 @@ updateUrlWithCurrency(currency: string): void {
 }
 
 onLogin(form: NgForm) {
+  if (form.invalid) {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.controls[key];
+      control.markAsTouched();
+    });
+    return;
+  }
+
   this.loading = true;
 
-  const loginData = {
-    username: form.value.loginUsername,
-    password: form.value.loginPassword,
-  };
-
-  this.http.post(`${environment.baseUrl}/signin`, loginData).subscribe(
+  this.http.post(`${environment.baseUrl}/signin`, this.loginData).subscribe(
     (response: any) => {
-      this.loading = false;
-
       if (response.statusCode === 200) {
         // Clear any previous error message
         this.loginErrorMessage = null;
@@ -421,33 +436,32 @@ onLogin(form: NgForm) {
         window.location.reload();
 
       } else {
-        this.loading = false;
-
         this.loginErrorMessage = response.errorMessage || 'An error occurred during login.';
         console.error('Login failed', response.errorMessage);
       }
+      this.loading = false;
     },
     (error) => {
       this.loginErrorMessage = error.error.message || 'An error occurred during login.';
       console.error('Login failed', error);
+      this.loading = false;
     }
   );
 }
 
 onSignup(form: NgForm) {
+  if (form.invalid) {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.controls[key];
+      control.markAsTouched();
+    });
+    return;
+  }
+
   this.loading = true;
 
-  const signupData = {
-    fullname: form.value.signupFullname,
-    username: form.value.signupUsername,
-    password: form.value.signupPassword,
-    email: form.value.signupEmail,
-  };
-
-  this.http.post(`${environment.baseUrl}/signup`, signupData).subscribe(
+  this.http.post(`${environment.baseUrl}/signup`, this.signupData).subscribe(
     (response: any) => {
-      this.loading = false;
-
       if (response.statusCode === 200) {
         // Clear any previous error message
         this.signupErrorMessage = null;
@@ -460,15 +474,15 @@ onSignup(form: NgForm) {
         window.location.reload();
 
       } else {
-        this.loading = false;
-
         this.signupErrorMessage = response.errorMessage || 'An error occurred during signup.';
         console.error('Signup failed', response.errorMessage);
       }
+      this.loading = false;
     },
     (error) => {
       this.signupErrorMessage = error.error.message || 'An error occurred during signup.';
       console.error('Signup failed', error);
+      this.loading = false;
     }
   );
 }
@@ -486,20 +500,14 @@ logout() {
 
 }
 
-togglePasswordVisibility(inputId: string) {
-  const passwordInput = document.getElementById(inputId) as HTMLInputElement;
-  const icon = passwordInput.nextElementSibling as HTMLElement;
-
-  if (passwordInput.type === 'password') {
-    passwordInput.type = 'text';
-    icon.classList.remove('fa-eye');
-    icon.classList.add('fa-eye-slash');
+togglePasswordVisibility(form: 'login' | 'signup') {
+  if (form === 'login') {
+    this.showLoginPassword = !this.showLoginPassword;
   } else {
-    passwordInput.type = 'password';
-    icon.classList.remove('fa-eye-slash');
-    icon.classList.add('fa-eye');
+    this.showSignupPassword = !this.showSignupPassword;
   }
 }
+
 toggleDropdown() {
   this.dropdownOpen = !this.dropdownOpen;
   if (!this.dropdownOpen && !this.username) {

@@ -16,6 +16,7 @@ body > .skiptranslate > iframe.skiptranslate {
 	border-bottom-left-radius: 35px;
 	border-bottom-right-radius: 35px;
 	border: 1px solid rgba(255, 255, 255, 0.18);
+	z-index: 1100; /* Ensure the navbar is above the map */
 }
 
 .navbar-logo {
@@ -69,8 +70,9 @@ body > .skiptranslate > iframe.skiptranslate {
 	border-color: #e5e5e5;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
 	width: 200%;
-
+	z-index: 1200; /* Ensure the dropdown is above the map and navbar */
 }
+
 .navbar-nav .dropdown-menu {
 	z-index: 999999 !important; /* Ensure the dropdown menu is above other elements */
 	position: absolute !important; /* Make sure it is positioned absolutely */
@@ -119,7 +121,7 @@ body > .skiptranslate > iframe.skiptranslate {
 
 .form-control {
 	border: 1px solid #1b9bd0;
-
+	border-radius: 0.25rem;
 }
 
 @media (max-width: 768px) {
@@ -351,19 +353,284 @@ body {
 	border:2px red solid
   } */
   :host ::ng-deep .ng-select .ng-select-container {
-    z-index: 1050; /* Adjust the z-index as needed */
+    z-index: 1200; /* Adjust the z-index to be above the map */
 }
 
 :host ::ng-deep .ng-select .ng-select-dropdown {
-    z-index: 1050  !important; /* Ensures the dropdown is above other elements */
+    z-index: 1300 !important; /* Ensures the dropdown is above other elements */
 	
 }
 
 :host ::ng-deep .ng-select .ng-option {
-	z-index: 1050 !important; /* Option items in the dropdown, if necessary */
+	z-index: 1300 !important; /* Option items in the dropdown */
 }
   
   :host ::ng-deep .ng-select .ng-select-container .ng-placeholder {
 	color: black !important;
 	font-size: 15px;
+  }	
+
+/* Add this to your existing CSS */
+
+.loading-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-dots span {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: fade 1s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fade {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+  border-color: #dc3545;
+  padding-right: calc(1.5em + 0.75rem);
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.was-validated .form-control:invalid ~ .invalid-feedback,
+.form-control.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+.form-floating {
+  position: relative;
+}
+
+.form-floating > .form-control,
+.form-floating > .form-select {
+  height: calc(3.5rem + 2px);
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.form-floating > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 1rem 0.75rem;
+  pointer-events: none;
+  border: 1px solid transparent;
+  transform-origin: 0 0;
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+  border-radius: 0.25rem;
+}
+
+.form-floating > .form-control::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-floating > .form-control::-moz-placeholder {
+  color: transparent;
+}
+
+.form-floating > .form-control:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-floating > .form-control::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-floating > .form-control::placeholder {
+  color: transparent;
+}
+
+.form-floating > .form-control:not(:-moz-placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > .form-control:not(:-ms-input-placeholder) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-control:not(:placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > .form-control:-webkit-autofill {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > .form-select {
+  padding-top: 1.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.form-floating > .form-control:-webkit-autofill ~ label {
+  opacity: 0.65;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* Adjust invalid feedback for floating labels */
+.form-floating > .invalid-feedback {
+  margin-top: 0.25rem;
+}
+
+/* Ensure the loading dots are visible on the button */
+.btn .loading-dots {
+  display: inline-flex;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field .fa {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-field input {
+  padding-right: 30px;
+}
+
+.btn {
+  border-radius: 0.25rem;
+}
+
+/* Ensure the eye icon doesn't overlap with validation icon */
+.form-control.is-invalid {
+  padding-right: calc(1.5em + 0.75rem + 25px);
+  background-position: right calc(0.375em + 0.1875rem + 25px) center;
+}
+
+.password-field .form-control.is-invalid + .fa {
+  right: 35px;
+}
+
+/* Add this to your existing CSS */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: dot 1s infinite ease-in-out;
+}
+
+.first {
+  animation-delay: -0.3s;
+}
+
+.second {
+  animation-delay: -0.15s;
+}
+
+.third {
+  animation-delay: 0s;
+}
+
+.fourth {
+  animation-delay: 0.15s;
+}
+
+@keyframes dot {
+  0%, 100% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+.button-content {
+  white-space: nowrap;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .loader .dot {
+    width: 5px;
+    height: 5px;
+    margin: 0 1px;
+  }
+}
