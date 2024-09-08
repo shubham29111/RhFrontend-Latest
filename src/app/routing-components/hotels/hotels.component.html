@@ -3,11 +3,21 @@
 
    <div class="rh-container">
        <div class="filter-bar justify-center">
-           <div (click)="showPopup()" class="travel-detail p-2 w-full max-w-sm rounded-lg shadow-lg bg-white pl-3 pb-2">
-               <h2 class="text-gray-600 text-sm font-bold">{{region}}</h2>
-               <p class="text-gray-500 text-xs">{{checkIn}} — {{checkOut}}</p>
-               <p class="text-gray-500 text-xs">1 room for 2 guests</p>
-           </div>
+         <div (click)="showPopup()" class="travel-detail w-full max-w-sm rounded-lg shadow bg-white flex items-center p-3">
+            <div>
+               <h2 class="text-md font-bold" [ngStyle]="{ 'color': '#1b9bd0' }">{{region}}</h2>
+               <p class="text-gray-700 text-sm font-medium mt-1">
+                  {{checkIn | date:'dd MMM yyyy'}} &mdash; {{checkOut | date:'dd MMM yyyy'}}
+               </p>
+                <p class="text-gray-500 text-sm mt-1">1 room for 2 guests</p>
+            </div>
+            <div class="ml-auto" style="padding-top: 47px;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"  [ngStyle]="{ 'color': '#1b9bd0' }"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M18 10a8 8 0 11-16 0 8 8 0 0116 0z" />
+                </svg>
+            </div>
+        </div>
+        
 
            <div class="list-view-button flex justify-between items-center mt-2">
             <div class="flex mb-3 space-x-4">
@@ -41,7 +51,7 @@
             </div>
         </div>
         
-           <div style="display: none;" class="sort-by rounded-2xl text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
+           <div style="display: none;" class="sort-by rounded-2xl text-sm font-normal text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
                <label class="ml-2 pt-2 pl-2 mb-0 font-semibold text-gray-900 dark:text-white group-title">Sort by</label>
                <div class="relative flex items-center justify-between p-2.5">
                    <button
@@ -64,11 +74,11 @@
                </div>
            </div>
            <div class="mt-2" *ngFor="let group of filters">
-               <ul class="rounded-2xl text-sm font-medium text-gray-900 bg-white dark:bg-gray-700 dark:text-white">
-                   <p class="ml-2 pt-2 pl-2 font-semibold text-gray-900 dark:text-white group-title">{{ group.groupName }}</p>
+               <ul class="rounded-2xl bg-white dark:bg-gray-700 dark:text-white">
+                   <p class="ml-2 pt-2 pl-2 filter-title font-semibold text-gray-900 dark:text-white group-title">{{ group.groupName }}</p>
                    <div *ngIf="group.subGroups; else noSubGroups">
                        <div *ngFor="let subGroup of group.subGroups">
-                           <p class="ml-2 pt-2 pl-2 font-semibold text-gray-900 dark:text-white sub-group-title">{{ subGroup.subGroupName }}</p>
+                           <p class="ml-2 pt-2 pl-2 filter-title-child font-normal text-gray-900 dark:text-white sub-group-title">{{ subGroup.subGroupName }}</p>
                            <li *ngFor="let tech of subGroup.technologies" class="dark:bg-gray-600">
                                <div class="flex items-center justify-between">
                                    <div class="flex items-start">
@@ -79,10 +89,10 @@
                                            class="custom-checkbox ml-2 mt-2 mb-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                            (change)="onFilterChange('serpNames', tech.name, $event)"
                                        />
-                                       <label [for]="tech.id" class="ml-2 mt-2 text-xs space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }} </label>
+                                       <label [for]="tech.id" class="ml-2 mt-2 filter-title-child space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }} </label>
                                    </div>
                                    <div class="mr-4 flex items-center">
-                                       <span class="text-gray-500 ml-2">{{ tech.count || '' }}</span>
+                                       <span class="text-gray-500 ml-2">{{ tech.count || '0' }}</span>
                                    </div>
                                </div>
                            </li>
@@ -99,10 +109,10 @@
                                        class="custom-checkbox ml-2 mt-2 mb-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                        (change)="onFilterChange(group.category, tech.name, $event)"
                                    />
-                                   <label [for]="tech.id" class="ml-2 mt-2 text-xs space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }} </label>
+                                   <label [for]="tech.id" class="ml-2 mt-2 filter-title-child space-x-0.5 tracking-tight font-smaller text-gray-900 dark:text-gray-300" style="word-spacing: -2px;">{{ tech.name }} </label>
                                </div>
                                <div class="mr-4 flex items-center">
-                                   <span class="ml-2 text-gray-500 text-xs">{{ tech.count || '' }}</span>
+                                   <span class="ml-2 text-gray-500 text-xs">{{ tech.count || '0' }}</span>
                                </div>
                            </div>
                        </li>
@@ -254,10 +264,17 @@
                                            </ng-container>
                                        </div>
                                        <div *ngIf="hotel.name.length <= 50" class="w-40 h-4 rounded-lg"></div>
+                                       <div *ngIf="hotel.name.length <= 50" class="w-40 h-4 rounded-lg"></div>
+
                                        <div 
-                                    class="right-0 p-2 flex items-center justify-between" 
-                                    [ngStyle]="{ 'position': 'relative', 'bottom': isMapVisible ? '-40px' : '-20px' }"
-                                    >
+                                         class="right-0 p-2 flex items-center justify-between"
+                                         [ngStyle]="{
+                                           'position': 'relative', 
+                                           'bottom': isMapVisible ? '-35px' : '', 
+                                           'gap': isMapVisible ? '28px' : '0px'
+                                         }"
+                                       >
+                                       
                                     <div class="flex space-x-4">
                                        <div>
                                           <span class="text-lg font-bold text-green-600">{{ currency }} {{ hotel.price | number:'1.2-2' }}</span>
