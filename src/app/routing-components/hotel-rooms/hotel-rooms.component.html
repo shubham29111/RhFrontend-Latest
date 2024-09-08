@@ -198,59 +198,93 @@
       </select>
     </div>
   </form>
-  
 
-  <div *ngFor="let roomType of filteredRooms | keyvalue">
-    <div class="room-card">
-      <!-- Room Header with Image and Title -->
-      <div class="room-header">
-        <div class="room-image-container">
-          <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
-          <div class="image-count">7 photos</div>
-        </div>
-        <div class="room-info">
-          <h3 class="room-title">{{ roomType.key }}</h3>
-          <p class="room-subtitle">{{ roomType.value[0].roomDetails.size }}</p>
-          <div class="room-amenities">
-            <span class="amenity-item" *ngFor="let amenity of roomType.value[0].roomDetails.amenities">
-              <i class="fas fa-check"></i> {{ amenity }}
-            </span>
-          </div>
+  <div *ngIf="loading" class="animate-pulse">
+    <div class="room-card bg-gray-200 p-4 mb-4 rounded-lg">
+      <!-- Room Header -->
+      <div class="flex items-center mb-4">
+        <div class="w-24 h-24 bg-gray-300 rounded-md mr-4"></div>
+        <div>
+          <div class="h-6 bg-gray-300 w-48 mb-2 rounded"></div>
+          <div class="h-4 bg-gray-300 w-32 rounded"></div>
         </div>
       </div>
-    
+      
       <!-- Room Rates Table -->
-      <table class="rates-table">
-        <tr *ngFor="let rateOption of roomType.value">
-          <td class="rate-amenities">
-            <ul class="valueadds">
-              <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
-              <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
-              <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
-                <i class="fas fa-check"></i> {{ amenity }}
-              </li>
-            </ul>
-          </td>
-          <td class="rate-cancellation">
-            <ul class="valueadds">
-              <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rateOption.rates[0].cancellationPolicy }}</li>
-            </ul>
-          </td>
-          <td class="rate-price">
-            <div class="price">
-              <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
-              <p class="price-included text-xs">All taxes included</p>
-              <p class="price-nights text-xs">for a night for 2 guests</p>
-            </div>
-          </td>
-          <td class="rate-book">
-            <div class="best-price">Best price</div>
-            <a href="#" class="book-now-btn">Book now</a>
-          </td>
-        </tr>
-      </table>
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div class="space-y-2">
+            <div class="h-4 bg-gray-300 w-24 rounded"></div>
+            <div class="h-4 bg-gray-300 w-32 rounded"></div>
+          </div>
+          <div class="space-y-2">
+            <div class="h-4 bg-gray-300 w-20 rounded"></div>
+            <div class="h-4 bg-gray-300 w-24 rounded"></div>
+          </div>
+          <div class="space-y-2">
+            <div class="h-6 bg-gray-300 w-24 rounded"></div>
+            <div class="h-4 bg-gray-300 w-16 rounded"></div>
+          </div>
+          <div class="h-10 bg-gray-300 w-24 rounded"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <ng-container *ngIf="!loading">
+    <div *ngFor="let roomType of filteredRooms | keyvalue">
+      <div class="room-card">
+        <!-- Room Header with Image and Title -->
+        <div class="room-header">
+          <div class="room-image-container">
+            <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
+            <div class="image-count">7 photos</div>
+          </div>
+          <div class="room-info">
+            <h3 class="room-title">{{ roomType.key }}</h3>
+            <p class="room-subtitle">{{ roomType.value[0].roomDetails.size }}</p>
+            <div class="room-amenities">
+              <span class="amenity-item" *ngFor="let amenity of roomType.value[0].roomDetails.amenities">
+                <i class="fas fa-check"></i> {{ amenity }}
+              </span>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Room Rates Table -->
+        <table class="rates-table">
+          <tr *ngFor="let rateOption of roomType.value">
+            <td class="rate-amenities">
+              <ul class="valueadds">
+                <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
+                <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
+                <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
+                  <i class="fas fa-check"></i> {{ amenity }}
+                </li>
+              </ul>
+            </td>
+            <td class="rate-cancellation">
+              <ul class="valueadds">
+                <li class="valueadds-item"><i class="fas fa-sync-alt"></i> {{ rateOption.rates[0].cancellationPolicy }}</li>
+              </ul>
+            </td>
+            <td class="rate-price">
+              <div class="price">
+                <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
+                <p class="price-included text-xs">All taxes included</p>
+                <p class="price-nights text-xs">for a night for 2 guests</p>
+              </div>
+            </td>
+            <td class="rate-book">
+              <div class="best-price">Best price</div>
+              <a href="#" class="book-now-btn">Book now</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  
   
 </section>
 
