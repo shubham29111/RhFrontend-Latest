@@ -201,7 +201,9 @@ p {
 /* Image Gallery */
 .image-gallery {
 }
-
+.amenity-icon {
+  color:#205391;
+}
 /* Booking Section (Sticky Card) */
 .booking-section {
   position: -webkit-sticky;

@@ -100,22 +100,12 @@
       <div class="amenities flex-1 mb-6 md:mb-0">
         <h3 class="font-semibold text-lg mb-3">The main amenities of the hotel</h3>
         <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <li class="flex items-center">
-            <i class="fas fa-wifi mr-2"></i> Free Internet
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-parking mr-2"></i> Parking
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-child mr-2"></i> Suitable for children
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-dumbbell mr-2"></i> Fitness centre
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-utensils mr-2"></i> Bar or restaurant
-          </li>
-          <li>
+          <ng-container *ngFor="let amenity of mainAmenities; let i = index">
+            <li class="flex items-center">
+              <i [class]="getAmenityIcon(amenity) + ' mr-2 amenity-icon'"></i> {{ amenity }}
+            </li>
+          </ng-container>
+          <li *ngIf="mainAmenities.length < 6">
             <a href="javascript:void(0);" (click)="scrollToAmenities()" class="text-blue-600 hover:underline">What other amenities are there?</a>
           </li>
         </ul>
@@ -275,103 +265,16 @@
   </section>
 
   <section id="amenities-section" class="amenities-card container">
-    <h2>What other amenities are there ?</h2>
+    <h2>What other amenities are there?</h2>
     <div class="amenities-grid">
-        <div class="amenity-category">
-            <h3><i class="fas fa-concierge-bell"></i> General</h3>
-            <ul>
-                <li>24-hour reception</li>
-                <li>Air conditioning</li>
-                <li>All Spaces Non-Smoking (public and private)</li>
-                <li>Heating</li>
-                <li>Smoke-free property</li>
-                <li>Television in lobby</li>
-            </ul>
-        </div>
-        <div class="amenity-category">
-            <h3><i class="fas fa-bed"></i> Rooms</h3>
-            <ul>
-                <li>Alarm clock</li>
-                <li>Bathtub</li>
-                <li>Cable TV</li>
-                <li>Family room</li>
-                <li>Flat-screen TV</li>
-                <li>Fridge</li>
-                <li>Hairdryer</li>
-                <li>Non-smoking rooms</li>
-                <li>Shower</li>
-                <li>Shower/Bathtub <i class="fas fa-camera"></i></li>
-                <li>Smoke Detector</li>
-                <li>Toiletries</li>
-            </ul>
-        </div>
-        <div class="amenity-category">
-            <h3><i class="fas fa-wheelchair"></i> Accessibility</h3>
-            <ul>
-                <li>Accessibility features</li>
-                <li>Wheelchair Accessible</li>
-            </ul>
-            <h3><i class="fas fa-concierge-bell"></i> Services and amenities</h3>
-            <ul>
-                <li>Iron</li>
-                <li>Laundry <span>(charged separately)</span></li>
-                <li>Telephone</li>
-            </ul>
-        </div>
-        <div class="amenity-category">
-            <h3><i class="fas fa-utensils"></i> Meals</h3>
-            <ul>
-                <li>Breakfast <i class="fas fa-camera"></i></li>
-                <li>Breakfast/lunch to go</li>
-                <li>Coffee/tea for guests</li>
-                <li>Kitchen</li>
-                <li>Microwave oven</li>
-                <li>Vending machine</li>
-            </ul>
-            <h3><i class="fas fa-wifi"></i> Internet</h3>
-            <ul>
-                <li>Free Wi-Fi</li>
-            </ul>
-        </div>
-        <div class="amenity-category">
-            <h3><i class="fas fa-language"></i> Languages Spoken</h3>
-            <ul>
-                <li>English</li>
-            </ul>
-            <h3><i class="fas fa-tree"></i> Recreation</h3>
-            <ul>
-                <li>Barbecue grill(s)</li>
-            </ul>
-            <h3><i class="fas fa-parking"></i> Parking</h3>
-            <ul>
-                <li>Free parking</li>
-                <li>Parking nearby</li>
-            </ul>
-        </div>
-        <div class="amenity-category">
-            <h3><i class="fas fa-medkit"></i> Beauty and wellness</h3>
-            <ul>
-                <li>Doctor</li>
-                <li>First Aid Kit</li>
-            </ul>
-            <h3><i class="fas fa-child"></i> Kids</h3>
-            <ul>
-                <li>Family/Kid Friendly</li>
-            </ul>
-            <h3><i class="fas fa-paw"></i> Pets</h3>
-            <ul>
-                <li>Pets allowed</li>
-            </ul>
-            <h3><i class="fas fa-shield-alt"></i> Health and Safety Measures</h3>
-            <ul>
-                <li>Additional measures against COVID-19</li>
-                <li>Contactless check-in and/or check-out</li>
-                <li>Extra decontamination measures</li>
-                <li>Individually packaged food</li>
-                <li>Personal protection equipment for guests</li>
-                <li>Personal protection equipment for staff</li>
-            </ul>
-        </div>
+        <ng-container *ngFor="let amenityGroup of hotel?.amenities">
+            <div class="amenity-category">
+                <h3><i class="fas fa-concierge-bell"></i> {{ amenityGroup.group_name }}</h3>
+                <ul>
+                    <li *ngFor="let amenity of amenityGroup.amenities">{{ amenity }}</li>
+                </ul>
+            </div>
+        </ng-container>
     </div>
 </section>
 

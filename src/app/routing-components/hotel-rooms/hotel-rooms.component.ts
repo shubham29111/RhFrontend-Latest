@@ -81,6 +81,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     churches: []
   };
   displayPlaces: Place[] = [];
+  mainAmenities: string[] = [];
+
 
 
   nearbyPlaceCategories = [
@@ -188,6 +190,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         if (this.images && this.images.length > 0) {
           this.selectedImageUrl = this.getImageUrl(this.images[0]);
         }
+        this.extractMainAmenities();
+
         this.loading=false;
 
         this.calculateHours();
@@ -202,6 +206,25 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
 
       });
+  }
+  private extractMainAmenities(): void {
+    const keyAmenities = [
+      'Free Wi-Fi',
+      'Parking',
+      'Swimming pool',
+      'Air conditioning',
+      '24-hour reception',
+      'Non-smoking rooms',
+      'Room service',
+      'Breakfast',
+      'Laundry',
+      'Car rental'
+    ];
+
+    this.mainAmenities = this.hotel.amenities
+    .flatMap((group: { amenities: string[] }) => group.amenities)
+    .filter((amenity: string) => keyAmenities.includes(amenity))
+    .slice(0, 5);  
   }
 
   
@@ -234,6 +257,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         });
     });
   }
+  
 
 
   private formatDate(date: string): string {
@@ -248,7 +272,22 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.reviews = response.response;
       });
   }
+  getAmenityIcon(amenity: string): string {
+    const iconMap: { [key: string]: string } = {
+      'Free Wi-Fi': 'fas fa-wifi',
+      'Parking': 'fas fa-parking',
+      'Swimming pool': 'fas fa-swimming-pool',
+      'Air conditioning': 'fas fa-snowflake',
+      '24-hour reception': 'fas fa-concierge-bell',
+      'Non-smoking rooms': 'fas fa-smoking-ban',
+      'Room service': 'fas fa-concierge-bell',
+      'Breakfast': 'fas fa-coffee',
+      'Laundry': 'fas fa-tshirt',
+      'Car rental': 'fas fa-car'
+    };
 
+    return iconMap[amenity] || 'fas fa-check-circle';
+  }
   getImageUrl(imageUrl: string): string {
     if (imageUrl) {
       return imageUrl.replace('{size}', '640x400');
