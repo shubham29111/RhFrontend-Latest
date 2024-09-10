@@ -1,5 +1,5 @@
 .h-screen {
-    height: 180vh;
+    height: 100vh;
 }
 .to-purple-700 {
     --tw-gradient-to: #4fb1da var(--tw-gradient-to-position);

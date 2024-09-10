@@ -174,8 +174,7 @@ export class HotelsComponent implements OnInit {
     this.paginationData=this.hotels.slice(
       this.pagination.startIndex,this.pagination.lastIndex
     )
-        
-        
+
         this.isLoading = false; 
         this.preloadImages();
       },
