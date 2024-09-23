@@ -45,14 +45,16 @@
       </li>      
       <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
       </div>
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="down-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-globe nav-icon" aria-hidden="true"></i>
         </a>
         <div id="google_translate_element"></div>
-      </li>
+      </li> -->
+      <div class="elfsight-app-84d0b7e8-e859-4ab2-ae91-6ebb4aaad4c4" data-elfsight-app-lazy></div>
+
      <li  class="nav-item dropdown" (click)="toggleDropdown()">
-  <a
+  <a  
     class="nav-link dropdown-toggle"
     href="#"
     id="avatarDropdown"
@@ -79,12 +81,12 @@
       <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
         <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" novalidate>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="loginUsername" name="loginUsername" [(ngModel)]="loginData.username" 
+            <input type="text" class="form-control" id="loginUsername" name="loginUsername" [(ngModel)]="loginData.email" 
                    #loginUsername="ngModel" required placeholder="Username" 
                    [ngClass]="{'is-invalid': loginUsername.invalid && (loginUsername.dirty || loginUsername.touched || loginForm.submitted)}">
-            <label for="loginUsername">Username</label>
+            <label for="loginUsername">Email</label>
             <div *ngIf="loginUsername.invalid && (loginUsername.dirty || loginUsername.touched || loginForm.submitted)" class="invalid-feedback">
-              Username is required.
+              Email is required.
             </div>
           </div>
           <div class="form-floating mb-3 password-field">
@@ -96,6 +98,9 @@
             <div *ngIf="loginPassword.invalid && (loginPassword.dirty || loginPassword.touched || loginForm.submitted)" class="invalid-feedback">
               Password is required.
             </div>
+          </div>
+          <div *ngIf="loginErrorMessage" class="alert alert-danger mb-3">
+            {{ loginErrorMessage }}
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">

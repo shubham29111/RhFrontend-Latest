@@ -39,7 +39,7 @@ export class HeaderComponent {
   loading: boolean = false;
 
   loginData = {
-    username: '',
+    email: '',
     password: ''
   };
 
@@ -234,6 +234,12 @@ export class HeaderComponent {
   }
 
   ngAfterViewInit() {
+    document.querySelectorAll('a[href*="elfsight.com/website-translator-widget"]').forEach(function(el) {
+      (el as HTMLElement).style.setProperty('display', 'none', 'important');
+    });
+  
+  
+
     document.querySelectorAll('.keep-open').forEach((element) => {
       element.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -412,41 +418,39 @@ updateUrlWithCurrency(currency: string): void {
 }
 
 onLogin(form: NgForm) {
-  if (form.invalid) {
-    Object.keys(form.controls).forEach(key => {
-      const control = form.controls[key];
-      control.markAsTouched();
-    });
-    return;
-  }
+  if (form.valid) {
+    this.loading = true;
+    this.http.post(`${environment.baseUrl}/signin`, this.loginData).subscribe(
+      (response: any) => {
+        if (response.statusCode === 200) {
+          // Clear any previous error message
+          this.loginErrorMessage = null;
 
-  this.loading = true;
+          // Extract the relevant data
+          const userData = response.response;
+          sessionStorage.setItem('user', JSON.stringify(userData));
+          this.username = userData.username;  // Update the username
+          console.log('Login successful', userData);
+          window.location.reload();
 
-  this.http.post(`${environment.baseUrl}/signin`, this.loginData).subscribe(
-    (response: any) => {
-      if (response.statusCode === 200) {
-        // Clear any previous error message
-        this.loginErrorMessage = null;
-
-        // Extract the relevant data
-        const userData = response.response;
-        sessionStorage.setItem('user', JSON.stringify(userData));
-        this.username = userData.username;  // Update the username
-        console.log('Login successful', userData);
-        window.location.reload();
-
-      } else {
-        this.loginErrorMessage = response.errorMessage || 'An error occurred during login.';
-        console.error('Login failed', response.errorMessage);
+        } else {
+          this.loginErrorMessage = response.errorMessage || 'An error occurred during login.';
+          console.error('Login failed', response.errorMessage);
+        }
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+        if (error.error && error.error.message === "Invalid username or password") {
+          this.loginErrorMessage = "Invalid username or password";
+        } else {
+          this.loginErrorMessage = "An error occurred. Please try again.";
+        }
       }
-      this.loading = false;
-    },
-    (error) => {
-      this.loginErrorMessage = error.error.message || 'An error occurred during login.';
-      console.error('Login failed', error);
-      this.loading = false;
-    }
-  );
+    );
+  } else {
+    this.loginErrorMessage = "Please fill in all required fields.";
+  }
 }
 
 onSignup(form: NgForm) {
@@ -514,6 +518,7 @@ toggleDropdown() {
     this.clearForms();
   }
 }
+
 clearForms() {
   const loginForm = document.getElementById('loginForm') as HTMLFormElement;
   const signupForm = document.getElementById('signupForm') as HTMLFormElement;
@@ -525,5 +530,7 @@ clearForms() {
     signupForm.reset();
   }
 }
+
+
 
 }

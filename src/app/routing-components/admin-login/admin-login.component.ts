@@ -21,7 +21,7 @@ export class AdminLoginComponent {
     this.loading = true;
 
     const loginData = {
-      username: form.value.loginUsername,
+      email: form.value.loginUsername,
       password: form.value.loginPassword,
     };
 

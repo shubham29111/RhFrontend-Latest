@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environments';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as L from 'leaflet';
-import { flatMap } from 'rxjs';
+import { catchError, flatMap, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -54,6 +54,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   rooms: any[] = [];
   reviews: any = null;
   images: string[] = [];
+  roomGroups: any[] = [];
   selectedImageUrl: string = '';
   isModalOpen: boolean = false;
   loading:boolean=false
@@ -128,6 +129,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.loading=true
         this.currency=res
         this.fetchHotelPrices()
+        this.fetchRoomGroups();
+
         }
       
       }
@@ -198,6 +201,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.hotelLongitude = this.hotel?.longitude;
         this.getNearbyPlaces();
         this.fetchHotelPrices();
+        this.fetchRoomGroups();
         this.initMap();
         
 
@@ -256,7 +260,28 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
           }
         });
     });
+
+    
   }
+
+  fetchRoomGroups(): void {
+    const payload = { hotel_id: this.hotelId };
+    
+    this.http.post(`${environment.baseUrl}/room-groups?hotel_id=${this.hotelId}`, {})
+    .pipe(
+      catchError(error => {
+          console.error('Error fetching room groups:', error);
+          return of(null);
+        })
+      )
+      .subscribe((response: any) => {
+        if (response) {
+          this.roomGroups = response.response || [];
+          console.log('Room groups:', this.roomGroups);
+        }
+      });
+  }
+  
   
 
   // Helper method to find the lowest price for a room
