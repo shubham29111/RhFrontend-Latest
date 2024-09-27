@@ -184,7 +184,8 @@ export class HeaderComponent {
   }
 
   private checkUrlForAdminLogin(): void {
-    if (this.router.url.includes('admin')) {
+    const reservedKeywords = ['admin','faq']; 
+    if (reservedKeywords.some(keyword => this.router.url.includes(keyword))) {
       this.hideLogin = true;
     } else {
       this.hideLogin = false;
@@ -238,6 +239,7 @@ export class HeaderComponent {
       (el as HTMLElement).style.setProperty('display', 'none', 'important');
     });
   
+    
   
 
     document.querySelectorAll('.keep-open').forEach((element) => {
@@ -264,6 +266,7 @@ export class HeaderComponent {
       });
     });
 
+    
 
 const avatarDropdown = document.getElementById('avatarDropdown');
     avatarDropdown?.addEventListener('click', () => {
@@ -304,6 +307,7 @@ const avatarDropdown = document.getElementById('avatarDropdown');
       this.setDefaultLanguage('en'); // Fallback to English if geolocation is not supported
     }
   }
+
   
   googleTranslateElementInit(): void {
     new google.translate.TranslateElement({
@@ -319,8 +323,7 @@ const avatarDropdown = document.getElementById('avatarDropdown');
     const longitude = position.coords.longitude;
   
     console.log(latitude)
-    // Here you can use a service like OpenCage, Google Maps API, or any other service to convert latitude/longitude to a country code.
-    // For simplicity, let's assume a function getCountryCodeByLatLng exists that returns a country code based on latitude and longitude.
+    
     
     this.getCountryCodeByLatLng(latitude, longitude)
       .then((countryCode) => {

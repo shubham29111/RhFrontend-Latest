@@ -187,7 +187,7 @@ export class HotelsComponent implements OnInit {
    loadFilters() {
     console.log(this.currency)
     const queryParams = this.buildQueryParams(false);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}${queryParams}`).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}&${queryParams}`).subscribe(
       (data) => {
         this.updateFilterCounts(data.response);
       },
@@ -204,39 +204,34 @@ export class HotelsComponent implements OnInit {
   buildQueryParams(includePagination: boolean): string {
     const params = new URLSearchParams();
     for (const key in this.selectedFilters) {
-      if (this.selectedFilters[key].length) {
-        let paramKey = key;
-      if (paramKey === 'kind') {
-        paramKey = 'propertyTypes';
-      }
-      else if(paramKey === 'room_amenity')
-      {
-        paramKey='inRoom';
-      }
-      else if(paramKey === 'serp_name')
-      {
-        paramKey='serpNames';
-      }
-      else if(paramKey==='star_rating')
-      {
-        paramKey='starRatings'
-        const starNumbers = this.selectedFilters[key].map(star => this.convertStarSymbolsToNumbers(star));
-        params.append(paramKey, JSON.stringify(starNumbers));
-        continue;
-      }
-     
-      if (this.selectedFilters[key].length) {
-        params.append(paramKey, JSON.stringify(this.selectedFilters[key]));
-        console.log(`${paramKey}: ${JSON.stringify(this.selectedFilters[key])}`); 
-      }
-      }
+        if (this.selectedFilters[key].length) {
+            let paramKey = key;
+            // Convert values to lowercase and replace spaces with underscores
+            const formattedValues = this.selectedFilters[key].map(value => value.toLowerCase().replace(/\s+/g, '_'));
+            
+            if (paramKey === 'kind') {
+                paramKey = 'propertyTypes';
+            } else if (paramKey === 'room_amenity') {
+                paramKey = 'inRoom';
+            } else if (paramKey === 'serp_name') {
+                paramKey = 'serpNames';
+            } else if (paramKey === 'star_rating') {
+                paramKey = 'starRatings';
+                const starNumbers = formattedValues.map(star => this.convertStarSymbolsToNumbers(star));
+                params.append(paramKey, JSON.stringify(starNumbers));
+                continue;
+            }
+
+            params.append(paramKey, JSON.stringify(formattedValues));
+            console.log(`${paramKey}: ${JSON.stringify(formattedValues)}`); 
+        }
     }    
     if (includePagination) {
-      params.append('page', this.currentPage.toString());
-      params.append('limit', String(10));
+        params.append('page', this.currentPage.toString());
+        params.append('limit', String(10));
     }
     return `${params.toString()}`;
-  }
+}
   convertStarSymbolsToNumbers(starSymbol: string): number {
     const starNumber= starSymbol.replace(/[^⭐️]/g, '').length
     return starNumber/2;

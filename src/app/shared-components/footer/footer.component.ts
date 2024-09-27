@@ -8,6 +8,8 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class FooterComponent {
   hideLogin: boolean = false;
+  isPopupVisible = false;
+
 
   constructor(private router: Router){}
   ngOnInit(): void {
@@ -20,12 +22,20 @@ export class FooterComponent {
   }
 
     private checkUrlForAdminLogin(): void {
-      if (this.router.url.includes('admin')) {
+      const reservedKeywords = ['admin', 'reserve','faq']; 
+      if (reservedKeywords.some(keyword => this.router.url.includes(keyword))) {
         this.hideLogin = true;
       } else {
         this.hideLogin = false;
       }
     }
-
+    openPopup() {
+      this.isPopupVisible = true;
+    }
+  
+    // Function to close the popup
+    closePopup() {
+      this.isPopupVisible = false;
+    }
 
 }

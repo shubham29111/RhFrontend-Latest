@@ -11,6 +11,8 @@ import { AdminPanelComponent } from './routing-components/admin-panel/admin-pane
 import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
 import { AdminLoginComponent } from './routing-components/admin-login/admin-login.component';
 import { NotFoundPageComponent } from './routing-components/not-found-page/not-found-page.component';
+import { RoomBookingComponent } from './routing-components/room-booking/room-booking.component';
+import { FaqSectionComponent } from './routing-components/faq-section/faq-section.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -19,8 +21,12 @@ const routes: Routes = [
   {path: "hotels", component: HotelsComponent},
   {path: "bookedrooms", component: BookedRoomsComponent},
   {path: "hotelrooms", component: HotelRoomsComponent},
+  {path: "reserve", component: RoomBookingComponent},
+  {path: "faq", component: FaqSectionComponent},
   {path: "adminlogin", component: AdminLoginComponent},
   {path: "admin", component: AdminPanelComponent},
+ 
+
   { path: 'blog/:id', component: BlogSectionComponent },
   {path: "notfound", component: NotFoundPageComponent},
 

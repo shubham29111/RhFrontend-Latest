@@ -236,10 +236,29 @@
       <div class="room-card">
         <!-- Room Header with Image and Title -->
         <div class="room-header">
-          <div class="room-image-container">
-            <img class="room-image" src="https://cdn.worldota.net/t/120x120/content/16/69/16696eaf876017daff4b6f86185e00f4bb57fcf5.jpeg" alt="Room Image">
-            <div class="image-count">7 photos</div>
-          </div>
+        <div class="room-image-container" (click)="openModal()">
+    <img class="room-image" [src]="roomGroup?.images[0]" alt="Room Image"> <!-- Display initial image -->
+    <div class="image-count">{{ roomGroup?.images.length }} photos</div>
+</div>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal" [ngClass]="{'show': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <div class="selected-image-container">
+            <img [src]="selectedImageUrl" alt="Selected Image" class="selected-image">
+        </div>
+        <div class="slider-container">
+            <button class="scroll-left" (click)="scrollLeft()">‹</button>
+            <div class="image-slider">
+                <div class="image-item" *ngFor="let image of roomGroup?.images">
+                    <img class="h-auto max-w-full rounded-lg cursor-pointer" [src]="image" (click)="selectImage(image)" alt="Gallery Image">
+                </div>
+            </div>
+            <button class="scroll-right" (click)="scrollRight()">›</button>
+        </div>
+    </div>
+</div>
           <div class="room-info">
             <h3 class="room-title">{{ roomType.key }}</h3>
             <p class="room-subtitle">{{ roomType.value[0].roomDetails.size }}</p>
@@ -256,12 +275,21 @@
           <tr *ngFor="let rateOption of roomType.value">
             <td class="rate-amenities">
               <ul class="valueadds">
-                <li class="valueadds-item"><i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}</li>
-                <li class="valueadds-item"><i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}</li>
-                <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
-                  <i class="fas fa-check"></i> {{ amenity }}
+                <li *ngIf="rateOption.roomDetails.size" class="valueadds-item">
+                  <i class="fas fa-bed"></i> {{ rateOption.roomDetails.size }}
+                </li>
+                
+                <!-- Display meal plan -->
+                <li class="valueadds-item">
+                  <i class="fas fa-utensils"></i> {{ rateOption.rates[0].mealPlan }}
+                </li>
+              
+                <!-- Loop through amenities and skip meal plan if it exists in amenities -->
+                <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities | unique">
+                  <i class="fas fa-check" *ngIf="amenity !== rateOption.rates[0].mealPlan">{{ amenity }}</i>
                 </li>
               </ul>
+              
             </td>
             <td class="rate-cancellation">
               <ul class="valueadds">
@@ -277,7 +305,7 @@
             </td>
             <td class="rate-book">
               <div class="best-price">Best price</div>
-              <a href="#" class="book-now-btn">Book now</a>
+              <button (click)="reserveRoom()" class="book-now-btn">Reserve</button> <!-- Updated button -->
             </td>
           </tr>
         </table>

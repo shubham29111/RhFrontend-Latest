@@ -1,0 +1,86 @@
+<div class="bg-gradient-to-b from-[#30a3d4] to-white min-h-screen py-20">
+    <!-- Header Section -->
+    <header class="text-center">
+      <h1 class="text-6xl text-white">RhTravels</h1>
+      <p class="text-2xl mt-6 text-white">
+        Have a question about RhHotels? The answer is just a click away!
+      </p>
+    </header>
+  
+    <!-- Accordion Grid Section -->
+    <section class="py-18">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-16">
+          <h2 class="text-4xl font-manrope text-center font-bold text-white leading-[3.25rem] mt-4">
+            Frequently asked questions
+          </h2>
+        </div>
+  
+        <div class="bg-white p-4 rounded-md">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Loop over the dynamic accordion data -->
+            <div *ngFor="let faq of faqs" class="accordion py-6 px-6 border-b border-solid border-gray-200 transition-all duration-500 rounded-2xl hover:bg-indigo-50 accordion-active:bg-indigo-50">
+              <button
+                class="accordion-toggle group inline-flex items-center justify-between leading-8 text-gray-900 w-full transition duration-500 text-left hover:text-indigo-600 accordion-active:text-indigo-600"
+                (click)="openPopup(faq)"
+              >
+                <h5>{{ faq.question }}</h5>
+                <svg class="block h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Popup Section -->
+  <!-- Popup Section -->
+  <div *ngIf="popupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+    <div class="relative bg-white bg-opacity-90 shadow-lg rounded-lg p-6 w-80">
+      <!-- FAQ Question -->
+      <h2 class="text-gray-900 text-lg font-semibold">{{ selectedFaq?.question }}</h2>
+      <p class="text-sm text-gray-500 mt-1">Updated over a week ago</p>
+  
+      <!-- FAQ Answer -->
+      <p class="text-gray-800 mt-2">{{ selectedFaq?.answer }}</p>
+  
+      <!-- Emoji Feedback Section -->
+      <div class="mt-4 bg-gray-100 rounded-lg p-3">
+        <p class="text-gray-700 mb-3 text-center">Did this answer your question?</p>
+        <div class="flex justify-center space-x-4">
+          <button
+            (click)="sendFeedback('sad')"
+            [class.active]="selectedFeedback === 'sad'"
+            class="emoji-btn focus:outline-none"
+          >
+            😔
+          </button>
+          <button
+            (click)="sendFeedback('neutral')"
+            [class.active]="selectedFeedback === 'neutral'"
+            class="emoji-btn focus:outline-none"
+          >
+            😐
+          </button>
+          <button
+            (click)="sendFeedback('happy')"
+            [class.active]="selectedFeedback === 'happy'"
+            class="emoji-btn focus:outline-none"
+          >
+            😀
+          </button>
+        </div>
+      </div>
+  
+      <!-- Close Button -->
+      <button (click)="closePopup()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 w-8 h-8 flex items-center justify-center">
+        &times;
+      </button>
+    </div>
+  </div>
+  
+  
+  </div>
+  

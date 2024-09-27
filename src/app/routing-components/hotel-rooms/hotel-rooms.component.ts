@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as L from 'leaflet';
 import { catchError, flatMap, of } from 'rxjs';
@@ -86,6 +86,10 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   mainAmenities: string[] = [];
   policyStructs: any[] = [];
 
+  roomGroup: any; // To store the room group data
+  isRoomModalOpen: boolean = false; // To control modal visibility
+  selectedRoomUrl: string | undefined; // To store the selected image URL
+
   filterForm: FormGroup;
   filteredRooms: { [key: string]: RoomRate[] } = {};
 
@@ -101,7 +105,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   ];
 
   currency: any;
-  constructor(  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private router: Router,  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.filterForm = this.formBuilder.group({
       beds: ['all'],
       meals: ['all'],
@@ -267,7 +271,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   fetchRoomGroups(): void {
     const payload = { hotel_id: this.hotelId };
     
-    this.http.post(`${environment.baseUrl}/room-groups?hotel_id=${this.hotelId}`, {})
+    this.http.get(`${environment.baseUrl}/room-groups?hotel_id=${this.hotelId}`, {})
     .pipe(
       catchError(error => {
           console.error('Error fetching room groups:', error);
@@ -277,6 +281,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       .subscribe((response: any) => {
         if (response) {
           this.roomGroups = response.response || [];
+          this.roomGroup = response.response; // Store the room group data
+            this.selectedImageUrl = this.roomGroup.images[0]; // Set initial image
           console.log('Room groups:', this.roomGroups);
         }
       });
@@ -617,5 +623,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     }
   }
   
+  reserveRoom() {
+    this.router.navigate(['/reserve']);
+  }
 }
 
