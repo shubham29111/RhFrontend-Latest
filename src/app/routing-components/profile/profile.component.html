@@ -1,101 +1,267 @@
 <div class="section-padding">
-
-<div class="container focus:outline-none">
-    <div class="sidebar">
+    <div class="container focus:outline-none">
+      <div class="sidebar">
         <div class="account-section">
-            <div class="account-header">
-                <div class="email">shubhamppakalgmail.com</div>
-                <a href="/userProfile" class="account-settings-link">Account Settings</a>
-            </div>
-            <ul class="menu-list">
-                <li><a href="/orders/" class="menu-link">My Bookings</a></li>
-                <li><a href="/user/fav" class="menu-link">My favorite hotels</a></li>
-            </ul>
+          <div class="account-header">
+            <div class="email">{{ profileData.email }}</div>
+            <a href="/userProfile" class="account-settings-link">Account Settings</a>
+          </div>
+          <ul class="menu-list">
+            <li><a href="/orders/" class="menu-link">My Bookings</a></li>
+            <li><a href="/user/fav" class="menu-link">My favorite hotels</a></li>
+          </ul>
         </div>
-    </div>
-
-    <div class="content-area">
+      </div>
+  
+      <div class="content-area">
+        <!-- Profile Section -->
         <div class="max-w-4xl mx-auto p-8">
-            <h2 class="text-2xl font-semibold mb-4">Profile settings</h2>
-            <p class="mb-6 text-gray-600">Enter your details so that they would be completed automatically when you book.</p>
-        
-            <form>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="relative ">
-                        <input type="text" id="surname" name="surname"
-                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " value="Pakal" />
-                        <label for="surname"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Surname</label>
-                    </div>
-                    <div class="relative">
-                        <input type="text" id="name" name="name"
-                            class="input-field input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " value="Shubham" />
-                        <label for="name"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Name</label>
-                    </div>
+          <h2 class="text-2xl font-semibold mb-4">Profile settings</h2>
+          <p class="mb-6 text-gray-600">
+            Enter your details so that they would be completed automatically when
+            you book.
+          </p>
+  
+          <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+            <!-- Profile Form Fields -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="relative ">
+                <input
+                  type="text"
+                  id="fullname"
+                  name="fullname"
+                  [(ngModel)]="profileData.fullname"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="fullname"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Full Name</label
+                >
+                <div *ngIf="profileForm.controls['fullname']?.invalid && profileForm.controls['fullname']?.touched" class="text-red-600 text-sm">
+                  Full name is required.
                 </div>
-        
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                    <div class="relative">
-                        <input type="text" id="birthday" name="birthday"
-                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " />
-                        <label for="birthday"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Date
-                            of birth</label>
-                    </div>
-                    <div class="relative">
-                        <input type="text" id="residency" name="residency"
-                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " />
-                        <label for="residency"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Citizenship</label>
-                    </div>
+              </div>
+  
+              <div class="relative">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  [(ngModel)]="profileData.username"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="username"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Username</label
+                >
+                <div *ngIf="profileForm.controls['username']?.invalid && profileForm.controls['username']?.touched" class="text-red-600 text-sm">
+                  Username is required.
                 </div>
-        
-                <div class="flex items-center space-x-4 mt-4">
-                    <label class="flex items-center">
-                        <input type="radio" value="male" name="gender_field"
-                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-                        <span class="ml-2 text-sm text-gray-600">Male</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="radio" value="female" name="gender_field"
-                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-                        <span class="ml-2 text-sm text-gray-600">Female</span>
-                    </label>
+              </div>
+            </div>
+  
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div class="relative">
+                <input
+                  type="text"
+                  id="birthday"
+                  name="birthday"
+                  [(ngModel)]="profileData.birthday"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                />
+                <label
+                  for="birthday"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Date of Birth</label
+                >
+              </div>
+  
+              <div class="relative">
+                <input
+                  type="text"
+                  id="citizen"
+                  name="citizen"
+                  [(ngModel)]="profileData.citizen"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                />
+                <label
+                  for="citizen"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Citizenship</label
+                >
+              </div>
+            </div>
+  
+            <div class="flex items-center space-x-4 mt-4">
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  value="male"
+                  name="gender_field"
+                  class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  [(ngModel)]="selectedGender"
+                />
+                <span class="ml-2 text-sm text-gray-600">Male</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  value="female"
+                  name="gender_field"
+                  class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  [(ngModel)]="selectedGender"
+                />
+                <span class="ml-2 text-sm text-gray-600">Female</span>
+              </label>
+            </div>
+  
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div class="relative">
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  [(ngModel)]="profileData.phone"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder="+1234567890"
+                  required
+                />
+                <label
+                  for="phone"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Phone</label
+                >
+                <div *ngIf="profileForm.controls['phone']?.invalid && profileForm.controls['phone']?.touched" class="text-red-600 text-sm">
+                  Phone is required.
                 </div>
+              </div>
+  
+              <div class="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  [(ngModel)]="profileData.email"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-400 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 opacity-50 peer"
+                  placeholder=" "
+                  required
+                  email
+                  disabled
+                />
+                <label
+                  for="email"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Email</label
+                >
+              </div>
+            </div>
+  
+            <button
+              type="submit"
+              class="mt-6 px-6 py-2 text-sm font-medium text-white rounded-lg focus:outline-none bg-[#008cb9] disabled:bg-gray-400"
+              [disabled]="!profileForm.dirty || profileForm.invalid"
+            >
+              Save
+            </button>
+          </form>
+        </div>
+  
+        <!-- Change Password Section -->
+        <div class="max-w-4xl mx-auto p-8 mt-10">
+          <h2 class="text-2xl font-semibold mb-4">Change Password</h2>
+          <form #passwordForm="ngForm" (ngSubmit)="openConfirmationModal()">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Current Password -->
+              <div class="relative">
+                <input
+                  type="password"
+                  id="currentPassword"
+                  name="currentPassword"
+                  [(ngModel)]="passwordData.currentPassword"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="currentPassword"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Current Password</label
+                >
+              </div>
         
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                    <div class="relative">
-                        <input type="text" id="phone" name="phone"
-                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder="+1234567890" />
-                        <label for="phone"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
-                            Phone
-                        </label>
-                    </div>
-                    
-                    
-                    <div class="relative">
-                        <input type="email" id="email" name="email"
-                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-400 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 opacity-50 peer"
-                            placeholder=" " value="shubhamppakal@gmail" disabled />
-                        <label for="email"
-                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Email</label>
-                    </div>
-                    
+              <!-- New Password -->
+              <div class="relative">
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  [(ngModel)]="passwordData.newPassword"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                  minlength="6"
+                />
+                <label
+                  for="newPassword"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >New Password</label
+                >
+              </div>
+        
+              <!-- Confirm New Password -->
+              <div class="relative">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  [(ngModel)]="passwordData.confirmPassword"
+                  class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                  [pattern]="passwordData.newPassword"
+                />
+                <label
+                  for="confirmPassword"
+                  class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4"
+                  >Confirm New Password</label
+                >
+                <div *ngIf="passwordForm.controls['confirmPassword']?.invalid && passwordForm.controls['confirmPassword']?.touched" class="text-red-600 text-sm">
+                  Passwords do not match.
                 </div>
+              </div>
+            </div>
         
-                <button type="submit"
-                    class="mt-6 px-6 py-2 text-sm font-medium text-white rounded-lg focus:outline-none bg-[#008cb9]">
-                    Save
-                </button>
-            </form>
+            <button
+              type="submit"
+              class="mt-6 px-6 py-2 text-sm font-medium text-white rounded-lg focus:outline-none bg-[#008cb9] disabled:bg-gray-400"
+              [disabled]="passwordForm.invalid || passwordData.newPassword !== passwordData.confirmPassword"
+            >
+              Change Password
+            </button>
+          </form>
         </div>
         
-</div>
-</div>
+      </div>
+    </div>
+  
+    <!-- Confirmation Modal -->
+    <div *ngIf="isModalVisible" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
+        <h3 class="text-xl font-semibold mb-4">Confirmation</h3>
+        <p class="text-gray-600 mb-4">You will be logged out and need to log in again with the new password. Proceed?</p>
+        <div class="flex justify-end space-x-4">
+          <button (click)="confirmPasswordChange()" class="px-4 py-2 text-white bg-blue-600 rounded-lg">Yes</button>
+          <button (click)="closeModal()" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

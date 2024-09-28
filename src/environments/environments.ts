@@ -1,5 +1,7 @@
 export const environment = {
    baseUrl:"http://52.63.179.3:3000/api",
+  // baseUrl:"http://46.101.227.28:3000/api",
+  
    //baseUrl:"http://localhost:3000/api",
 
   production: false,

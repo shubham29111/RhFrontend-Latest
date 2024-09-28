@@ -432,6 +432,7 @@ onLogin(form: NgForm) {
           // Extract the relevant data
           const userData = response.response;
           sessionStorage.setItem('user', JSON.stringify(userData));
+          
           this.username = userData.username;  // Update the username
           console.log('Login successful', userData);
           window.location.reload();
