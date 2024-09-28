@@ -90,8 +90,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   mainAmenities: string[] = [];
   policyStructs: any[] = [];
 
-  roomGroup: any; // To store the room group data
-  isRoomModalOpen: boolean = false; // To control modal visibility
+  roomGroup: any; 
+  isRoomModalOpen: boolean = false; 
   selectedRoomUrl: string ="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"; // To store the selected image URL
 
   filterForm: FormGroup;
