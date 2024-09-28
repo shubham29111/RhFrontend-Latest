@@ -300,12 +300,12 @@
               <div class="price">
                 <span class="price-amount">{{ rateOption.rates[0].price | currency:rateOption.rates[0].currency }}</span>
                 <p class="price-included text-xs">All taxes included</p>
-                <p class="price-nights text-xs">for a night for 2 guests</p>
+                <p class="price-nights text-xs">for a night for {{guests}} guests</p>
               </div>
             </td>
             <td class="rate-book">
               <div class="best-price">Best price</div>
-              <button (click)="reserveRoom()" class="book-now-btn">Reserve</button> <!-- Updated button -->
+              <button (click)="reserveRoom(roomType, rateOption)" class="book-now-btn">Reserve</button> <!-- Updated button -->
             </td>
           </tr>
         </table>

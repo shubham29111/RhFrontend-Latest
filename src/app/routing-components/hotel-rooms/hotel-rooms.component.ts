@@ -648,7 +648,9 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     }
   }
   
-  reserveRoom() {
+  reserveRoom(roomType: any, rateOption: any): void {
+    console.log('Room Type:', roomType);
+    console.log('Rate Option:', rateOption);
     // this.router.navigate(['/reserve']);
     this.router.navigate(['/reserve'], { 
       queryParams: { 
