@@ -5,7 +5,7 @@
     </a>
     <ul class="navbar-nav ml-auto d-flex flex-row">
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
+        <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
@@ -20,37 +20,11 @@
         </ng-container>
            >
 </ng-select>
-        <!-- <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ selectedCurrency | slice:0:3 }}
-        </a>
-        <div class="currencyDropdown dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown" style="width: 240px;">
-          <div class="form-group mb-2 sticky-search">
-            <input style="top: -10px; 	position: sticky;" type="text" class="form-control" placeholder="Currency search" [(ngModel)]="currencySearch" (input)="filterCurrencies()">
-          </div>
-          <h6 class="dropdown-header">Popular currencies</h6>
-          <ul class="list-unstyled mb-2">
-            <li *ngFor="let currency of filteredPopularCurrencies">
-              <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">
-                {{ currency | slice: 0: 3 }}
-              </a>-->
-            <!-- </li> 
-          </ul>
-          <h6 class="dropdown-header">All currencies</h6>
-          <ul class="list-unstyled">
-            <li *ngFor="let currency of filteredAllCurrencies">
-              <a href="javascript:void(0);" class="dropdown-item" (click)="changeCurrency(currency)">{{ currency | slice:0:3 }}</a>
-            </li>
-          </ul>
-        </div> -->
+     
       </li>      
       <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
       </div>
-      <!-- <li class="nav-item dropdown">
-        <a class="down-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-globe nav-icon" aria-hidden="true"></i>
-        </a>
-        <div id="google_translate_element"></div>
-      </li> -->
+    
       <div class="elfsight-app-84d0b7e8-e859-4ab2-ae91-6ebb4aaad4c4" data-elfsight-app-lazy></div>
 
      <li  class="nav-item dropdown" (click)="toggleDropdown()">
@@ -171,10 +145,11 @@
       </div>
     </div>
   </div>
-  <div *ngIf="username" class="dropdown-menu dropdown-menu-right custom-dropdown" aria-labelledby="avatarDropdown">
-    <!-- <a class="dropdown-item d-flex align-items-center" href="/profile">
+  <div *ngIf="username" class="dropdown-menu dropdown-menu-right custom-dropdown" style="width: 100% !important;" aria-labelledby="avatarDropdown">
+     <a class="dropdown-item d-flex align-items-center" href="/userProfile">
       <i class="fa fa-user mr-2"></i> My Profile
-    </a>
+    </a> 
+     <!--
     <a class="dropdown-item d-flex align-items-center" href="/contacts">
       <i class="fa fa-address-book mr-2"></i> My Contacts
     </a>

@@ -26,7 +26,7 @@ import { DatePickerComponent } from './shared-components/date-picker/date-picker
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HotelRoomsComponent } from './routing-components/hotel-rooms/hotel-rooms.component';
 import { ImageResizePipe } from './shared-components/pipe/image-resize.pipe';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { BookingPopupComponent } from './shared-components/booking-popup/booking-popup.component';
 import { AdminPanelComponent } from './routing-components/admin-panel/admin-panel.component';
 import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
@@ -36,6 +36,10 @@ import { LoadingComponent } from './routing-components/loading/loading.component
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from './shared-components/pagination/pagination.component';
 import { LazyLoadImageDirective } from './shared-components/lazy-load-image.directive';
+import { FaqSectionComponent } from './routing-components/faq-section/faq-section.component';
+import { ProfileComponent } from './routing-components/profile/profile.component';
+import { CardPaymentComponent } from './routing-components/card-payment/card-payment.component';
+import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
 
 
 
@@ -69,12 +73,17 @@ import { LazyLoadImageDirective } from './shared-components/lazy-load-image.dire
     NotFoundPageComponent,
     LoadingComponent,
     PaginationComponent,
-    LazyLoadImageDirective
+    LazyLoadImageDirective,
+    FaqSectionComponent,
+    ProfileComponent,
+    CardPaymentComponent,
+    UserFavComponent
 
    
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

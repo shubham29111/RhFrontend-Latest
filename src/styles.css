@@ -7,13 +7,13 @@
 
   @font-face {
     font-family: 'Gilroy';
-    src: url('/assets/fonts/gilroy/Gilroy-Medium.ttf') format('truetype');
+    src: url('/assets/fonts/gilroy/Gilroy-Thin.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
   }
   @font-face {
     font-family: 'ProotUi';
-    src: url('/assets/fonts/gilroy/pt-root-ui_vf.ttf') format('truetype');
+    src: url('/assets/fonts/ptrootui/PT-Root-UI_Regular.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
   }
@@ -21,7 +21,9 @@
     font-family: 'ProotUi';
     font-weight: 400;
   }
- 
+  *:focus {
+    outline: none !important;
+  }
 
 .mainbtn {
     padding: 7px 25px;

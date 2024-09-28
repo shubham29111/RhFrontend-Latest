@@ -285,7 +285,7 @@
                 </li>
               
                 <!-- Loop through amenities and skip meal plan if it exists in amenities -->
-                <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities | unique">
+                <li class="valueadds-item" *ngFor="let amenity of rateOption.roomDetails.amenities">
                   <i class="fas fa-check" *ngIf="amenity !== rateOption.rates[0].mealPlan">{{ amenity }}</i>
                 </li>
               </ul>

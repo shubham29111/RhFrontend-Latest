@@ -13,6 +13,8 @@ import { AdminLoginComponent } from './routing-components/admin-login/admin-logi
 import { NotFoundPageComponent } from './routing-components/not-found-page/not-found-page.component';
 import { RoomBookingComponent } from './routing-components/room-booking/room-booking.component';
 import { FaqSectionComponent } from './routing-components/faq-section/faq-section.component';
+import { ProfileComponent } from './routing-components/profile/profile.component';
+import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -22,6 +24,9 @@ const routes: Routes = [
   {path: "bookedrooms", component: BookedRoomsComponent},
   {path: "hotelrooms", component: HotelRoomsComponent},
   {path: "reserve", component: RoomBookingComponent},
+  {path: "userProfile", component: ProfileComponent},
+  {path: "user/fav", component:UserFavComponent },
+
   {path: "faq", component: FaqSectionComponent},
   {path: "adminlogin", component: AdminLoginComponent},
   {path: "admin", component: AdminPanelComponent},

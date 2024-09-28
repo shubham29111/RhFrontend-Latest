@@ -1,0 +1,101 @@
+<div class="section-padding">
+
+<div class="container focus:outline-none">
+    <div class="sidebar">
+        <div class="account-section">
+            <div class="account-header">
+                <div class="email">shubhamppakalgmail.com</div>
+                <a href="/userProfile" class="account-settings-link">Account Settings</a>
+            </div>
+            <ul class="menu-list">
+                <li><a href="/orders/" class="menu-link">My Bookings</a></li>
+                <li><a href="/user/fav" class="menu-link">My favorite hotels</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="max-w-4xl mx-auto p-8">
+            <h2 class="text-2xl font-semibold mb-4">Profile settings</h2>
+            <p class="mb-6 text-gray-600">Enter your details so that they would be completed automatically when you book.</p>
+        
+            <form>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="relative ">
+                        <input type="text" id="surname" name="surname"
+                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " value="Pakal" />
+                        <label for="surname"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Surname</label>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="name" name="name"
+                            class="input-field input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " value="Shubham" />
+                        <label for="name"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Name</label>
+                    </div>
+                </div>
+        
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div class="relative">
+                        <input type="text" id="birthday" name="birthday"
+                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " />
+                        <label for="birthday"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Date
+                            of birth</label>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="residency" name="residency"
+                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " />
+                        <label for="residency"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Citizenship</label>
+                    </div>
+                </div>
+        
+                <div class="flex items-center space-x-4 mt-4">
+                    <label class="flex items-center">
+                        <input type="radio" value="male" name="gender_field"
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                        <span class="ml-2 text-sm text-gray-600">Male</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" value="female" name="gender_field"
+                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                        <span class="ml-2 text-sm text-gray-600">Female</span>
+                    </label>
+                </div>
+        
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div class="relative">
+                        <input type="text" id="phone" name="phone"
+                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-900 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder="+1234567890" />
+                        <label for="phone"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
+                            Phone
+                        </label>
+                    </div>
+                    
+                    
+                    <div class="relative">
+                        <input type="email" id="email" name="email"
+                            class="input-field block w-full px-3 pt-4 pb-2 text-sm text-gray-400 bg-transparent border rounded-lg border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 opacity-50 peer"
+                            placeholder=" " value="shubhamppakal@gmail" disabled />
+                        <label for="email"
+                            class="absolute text-sm left-1 text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:top-5 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Email</label>
+                    </div>
+                    
+                </div>
+        
+                <button type="submit"
+                    class="mt-6 px-6 py-2 text-sm font-medium text-white rounded-lg focus:outline-none bg-[#008cb9]">
+                    Save
+                </button>
+            </form>
+        </div>
+        
+</div>
+</div>
