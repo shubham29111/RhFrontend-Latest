@@ -236,29 +236,29 @@
       <div class="room-card">
         <!-- Room Header with Image and Title -->
         <div class="room-header">
-        <div class="room-image-container" (click)="openModal()">
-    <img class="room-image" [src]="roomGroup?.images[0]" alt="Room Image"> <!-- Display initial image -->
-    <div class="image-count">{{ roomGroup?.images.length }} photos</div>
+        <div class="room-image-container" (click)="openRoomModal()">
+          <img class="room-image" [src]="getImageUrl(selectedRoomUrl)" alt="Room Image">
+          <div class="image-count">{{ roomGroup?.images.length }} photos</div>
 </div>
 
 <!-- Image Modal -->
-<div id="imageModal" class="modal" [ngClass]="{'show': isModalOpen}">
+ <div id="imageRoomModal" class="modal" [ngClass]="{'show': isRoomModalOpen}">
     <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
+        <span class="close" (click)="closeRoomModal()">&times;</span>
         <div class="selected-image-container">
-            <img [src]="selectedImageUrl" alt="Selected Image" class="selected-image">
+            <img [src]="getImageUrl(selectedRoomUrl)" alt="Selected Image" class="selected-image">
         </div>
         <div class="slider-container">
             <button class="scroll-left" (click)="scrollLeft()">‹</button>
             <div class="image-slider">
                 <div class="image-item" *ngFor="let image of roomGroup?.images">
-                    <img class="h-auto max-w-full rounded-lg cursor-pointer" [src]="image" (click)="selectImage(image)" alt="Gallery Image">
+                    <img class="h-auto max-w-full rounded-lg cursor-pointer" [src]="getImageUrl(image)" (click)="selectRoomImage(image)" alt="Gallery Image">
                 </div>
             </div>
             <button class="scroll-right" (click)="scrollRight()">›</button>
         </div>
     </div>
-</div>
+</div> 
           <div class="room-info">
             <h3 class="room-title">{{ roomType.key }}</h3>
             <p class="room-subtitle">{{ roomType.value[0].roomDetails.size }}</p>

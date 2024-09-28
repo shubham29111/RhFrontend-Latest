@@ -63,8 +63,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   guests: any;
   availableRooms: { [key: string]: RoomRate[] } = {};
 
-  checkIn: any;
-  checkOut: any;
+  checkInDate:any;
+  checkOutDate:any;
+  checkIn:any;
+  checkOut:any;
+  childs:any;
+  adults:any;
   checkInHour: number = 0;
   checkOutHour: number = 0;
   availablePercentage: number = 0;
@@ -88,7 +92,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
   roomGroup: any; // To store the room group data
   isRoomModalOpen: boolean = false; // To control modal visibility
-  selectedRoomUrl: string | undefined; // To store the selected image URL
+  selectedRoomUrl: string ="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"; // To store the selected image URL
 
   filterForm: FormGroup;
   filteredRooms: { [key: string]: RoomRate[] } = {};
@@ -119,10 +123,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.hotelId = params['hotel'];
       this.hotelPrice = params['hotelPrices'];
       this.guests = params['guests'];
-      const checkInDate = new Date(params['checkIn']);
-      const checkOutDate = new Date(params['checkOut']);
-      this.checkIn = this.datePipe.transform(checkInDate, 'dd MMM yyyy, EEE');
-      this.checkOut = this.datePipe.transform(checkOutDate, 'dd MMM yyyy, EEE');
+      this.childs=params['totalChildren'];
+      this.adults=params['totalAdults'];
+      this.checkInDate = new Date(params['checkIn']);
+      this.checkOutDate = new Date(params['checkOut']);
+      this.checkIn = this.datePipe.transform(this.checkInDate, 'dd MMM yyyy, EEE');
+      this.checkOut = this.datePipe.transform(this.checkOutDate, 'dd MMM yyyy, EEE');
     });
     this.currency =localStorage.getItem('currency') || null;
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
@@ -281,8 +287,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       .subscribe((response: any) => {
         if (response) {
           this.roomGroups = response.response || [];
-          this.roomGroup = response.response; // Store the room group data
-            this.selectedImageUrl = this.roomGroup.images[0]; // Set initial image
+          this.roomGroup = response.response; 
+            this.selectedRoomUrl = this.roomGroup.images[0]; 
           console.log('Room groups:', this.roomGroups);
         }
       });
@@ -303,6 +309,10 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     }
   
     return lowestPrice === Infinity ? 0 : lowestPrice;
+  }
+  getRoomImageUrl(imageUrl: string): string {
+    // Replace the {size} placeholder with '132x104'
+    return imageUrl.replace('{size}', '132x104');
   }
   
   // Existing method to find the lowest price for a single room
@@ -368,6 +378,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.selectedImageUrl = this.getImageUrl(imageUrl);
     }
   }
+  selectRoomImage(imageUrl: string): void {
+    if (imageUrl) {
+      this.selectedRoomUrl = this.getImageUrl(imageUrl);
+    }
+
+  }
 
   openModal(): void {
     this.isModalOpen = true;
@@ -376,6 +392,15 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   closeModal(): void {
     this.isModalOpen = false;
   }
+
+  openRoomModal(): void {
+    this.isRoomModalOpen = true;
+  }
+
+  closeRoomModal(): void {
+    this.isRoomModalOpen = false;
+  }
+
 
   scrollLeft(): void {
     const container = document.querySelector('.image-slider');
@@ -624,7 +649,17 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
   
   reserveRoom() {
-    this.router.navigate(['/reserve']);
+    // this.router.navigate(['/reserve']);
+    this.router.navigate(['/reserve'], { 
+      queryParams: { 
+        hotel: this.hotelId,
+        guests:this.guests,
+        checkIn: this.checkIn,
+        checkOut: this.checkOut,
+        adults:this.adults,
+        childs:this.childs
+      }
+    });
   }
 }
 

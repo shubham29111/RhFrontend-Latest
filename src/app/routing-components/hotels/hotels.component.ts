@@ -63,6 +63,9 @@ export class HotelsComponent implements OnInit {
   guests:any;
   checkIn:any;
   checkOut:any;
+  childs:any;
+  adults:any;
+  isLiked = false;
   markers: { [hotelId: string]: any } = {};
   options: string[] = [
     'popularity',
@@ -107,13 +110,6 @@ export class HotelsComponent implements OnInit {
   hidePopup() {
     this.isPopupVisible = false;
   }
-  // hidePopup($event:any){
-  //   this.isPopupVisible=$event
-  //   console.log("This",this.bookComponent.isVisible,this.isPopupVisible)
-  //   this.bookComponent.isVisible=false
-    
-    
-  // }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -122,6 +118,9 @@ export class HotelsComponent implements OnInit {
       this.guests=params['guests'];
       this.checkIn=params['checkIn'];
       this.checkOut=params['checkOut'];
+      this.childs=params['totalChildren'];
+      this.adults=params['totalAdults'];
+
       this.currency =localStorage.getItem('currency') || null;
       this.isPopupVisible=false
       this.fetchHotels();
@@ -614,6 +613,8 @@ manipulateHotelData(hotels: any[]): Hotel[] {
         guests:this.guests,
         checkIn: this.checkIn,
         checkOut: this.checkOut,
+        adults:this.adults,
+        childs:this.childs
       }
     });
   }
@@ -643,5 +644,9 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       lastIndex: (this.currentPage - 1) * this.itemsPerPage + this.itemsPerPage,
     };
   }
-  
+  toggleLike(hotelId: string) {
+    console.log(`Hotel ID: ${hotelId} was clicked`);
+    // Here you can implement your logic to toggle like/unlike the hotel
+    this.isLiked = !this.isLiked;
+  }
 }

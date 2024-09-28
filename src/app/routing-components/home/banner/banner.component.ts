@@ -147,7 +147,9 @@ if (this.type="hotel")
       regionId: this.region.id,
       checkIn: this.checkIn,
       checkOut: this.checkOut,
-      guests
+      guests,
+      totalAdults,
+      totalChildren
     }
   });
 }
@@ -158,7 +160,9 @@ if (this.type="hotel")
         regionId: this.region.id,
         checkIn: this.checkIn,
         checkOut: this.checkOut,
-        guests
+        guests,
+        totalAdults,
+        totalChildren
       }
     });
   }

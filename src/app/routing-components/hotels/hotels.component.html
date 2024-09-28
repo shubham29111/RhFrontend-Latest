@@ -227,8 +227,12 @@
                                         <div *ngIf="hotel.rating" class="bg-yellow-500 text-white rounded-full ms-3 px-2 py-1 text-sm font-bold">
                                             {{ hotel.rating }}
                                         </div>
-                                        <i class="fas fa-heart text-red-500"></i>
-                                    </div>
+                                        <i 
+                                            [ngClass]="isLiked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'" 
+                                            (click)="toggleLike(hotel.hotel_id)"
+                                            class="cursor-pointer text-xl">
+                                        </i>                                
+                                     </div>
                                     
 
                                    </div>
