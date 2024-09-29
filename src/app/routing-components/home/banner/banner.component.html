@@ -99,14 +99,27 @@
                                                 </label>
                                             </div>
                                             <div class="children-control">
-                                                <label class="global-label">
-                                                    <div>Children</div>
-                                                    <div class="control-buttons">
-                                                        <button type="button" (click)="decreaseChildren(i)">−</button>
-                                                        <span>{{ room.children }}</span>
-                                                        <button type="button" (click)="increaseChildren(i)">+</button>
+                                                <div class="children-section">
+                                                    <label for="children-ages">Children</label>
+                                              
+                                                    <!-- Display selected children -->
+                                                    <div id="selected-children" class="selected-children">
+                                                        <div *ngFor="let age of selectedChildren" class="child-age-container">
+                                                            <span class="child-age-block">{{ age }} years</span>
+                                                            <button class="remove-btn" (click)="removeChildAge(age)">×</button>
+                                                          </div>
+                                                          <select class="add-child-dropdown" (change)="addChildAge($event)">
+                                                            <option [value]="''" disabled selected>{{ placeholder }}</option>
+                                                            <option *ngFor="let age of availableAges" [value]="age">{{ age }} years</option>
+                                                          </select>
                                                     </div>
-                                                </label>
+                                              
+                                                    <!-- Add a child dropdown -->
+                                                   
+                                                      
+                                                      
+                                                      
+                                                  </div>
                                             </div>
                                         </div>
                                     </div>

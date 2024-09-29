@@ -53,7 +53,7 @@
 
 .tabs {
     position: absolute;
-    top: -32px; 
+    top: -40px; 
     left: 0;
     display: flex;
     justify-content: flex-start;
@@ -170,14 +170,13 @@
     background-color: #1b9bd0;
     color: white;
     border: none;
-    padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
     flex: 0.5;
     min-width: 150px;
-    height: 40px;
+    height: 44px;
     box-sizing: border-box;
 }
 
@@ -247,10 +246,10 @@ li:hover {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -90%;
     z-index: 1000;
-    min-width: 300px;
-    padding: 0.5rem 1rem;
+    min-width: 360px;
+    max-height: 500px !important;
     margin: 0.125rem 0 0;
     font-size: 1rem;
     color: #212529;
@@ -260,7 +259,6 @@ li:hover {
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.175);
 }
 
 .guests-dropdown.show {
@@ -268,7 +266,7 @@ li:hover {
 }
 
 .popup-content {
-    padding: 20px;
+    padding: 8px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -295,8 +293,6 @@ li:hover {
 
 .guests-control {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -305,11 +301,17 @@ li:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+}
+.adults-control
+{
+    padding-right: 20px;
 }
 
 .control-buttons {
     display: flex;
     align-items: center;
+    margin-top: 10px;
 }
 
 .control-buttons button {
@@ -409,4 +411,75 @@ li:hover {
       grid-template-columns: repeat(1, 1fr);
     }
   
+  }.selection-container {
+    display: flex;
+    justify-content: space-between;
   }
+  .children-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .selected-children {
+    display: flex;
+    flex-wrap: wrap;  /* Allows the items to wrap */
+    gap: 10px;       /* Adds some space between the blocks */
+  }
+  
+  .child-age-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 0 0 1px #e5e5e5;
+  }
+  
+  /* Age label */
+  .child-age-block {
+    flex-grow: 1;
+  }
+  
+  /* Remove button styled inside the same box */
+  .remove-btn {
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888;
+    margin-left: 10px;
+  }
+  
+  /* Dropdown */
+  .add-child-dropdown {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+ 
+    cursor: pointer;
+  }
+  
+  /* Optional: the + button styling */
+  .add-child-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  select:not([size]) {
+background-image: none !important;  
+}

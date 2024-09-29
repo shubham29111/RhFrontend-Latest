@@ -22,7 +22,9 @@ export class BannerComponent implements OnInit {
   programmaticChange: boolean = false;
   region: any;
   type: any;
-
+  selectedChildren: string[] = [];    // Array to store selected ages
+  availableAges: string[] = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
+  placeholder: string = 'Add a child';  // Initial placeholder text
   
 
   constructor(private http: HttpClient, private router: Router,private translationService: TranslationService) {}
@@ -129,7 +131,9 @@ getTranslation(key: string): string {
       totalAdults += room.adults;
       totalChildren += room.children;
     });
-    return `${totalAdults} Adults, ${totalChildren} Child`;
+    const totalGuests = totalAdults + totalChildren;
+
+    return `${totalGuests} guests`;
   }
 
   onSubmit() {
@@ -176,6 +180,28 @@ if (this.type="hotel")
     if (!isClickInsideDropdown && !isClickInsideInput) {
       this.showDropdownMenu = false;
       this.isGuestsDropdownVisible = false;
+    }
+  }
+
+  addChildAge(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedAge = selectElement.value;
+  
+    if (selectedAge && !this.selectedChildren.includes(selectedAge)) {
+      this.selectedChildren.push(selectedAge);
+      this.placeholder = '+'; // Change the placeholder after the first selection
+    }
+  }
+  
+
+  // Function to remove an age from the list
+  removeChildAge(age: string) {
+    const index = this.selectedChildren.indexOf(age);
+    if (index > -1) {
+      this.selectedChildren.splice(index, 1);  // Remove the selected age
+    }
+    if (this.selectedChildren.length === 0) {
+      this.placeholder = 'Add a child';  // Reset placeholder when all ages are removed
     }
   }
 }

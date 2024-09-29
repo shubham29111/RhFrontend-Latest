@@ -251,7 +251,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         checkIn: params['checkIn'],
         checkOut: params['checkOut'],
         rooms: 1,
-        adults: 2
+        adults: Number(this.guests)
       };
   
       this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
