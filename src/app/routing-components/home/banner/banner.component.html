@@ -19,7 +19,7 @@
                                         <div class="h-10 bg-black flex  rounded" style="">
                                             <div class="input-title">Destination</div>
 
-                                            <input [(ngModel)]="location" placeholder='Enter location'
+                                            <input style="font-size: initial !important;" [(ngModel)]="location" placeholder='Enter location'
                                                 name="uniqueLocation" id="uniqueLocation"
                                                 class="px-4 appearance-none outline-none text-gray-800 w-full"
                                                 (ngModelChange)="onLocationChange($event)" (click)="showDropdown()"
@@ -31,7 +31,7 @@
                                             </label>
                                         </div>
 
-                                        <input type="checkbox" name="show_more" id="show_more" class="hidden peer" />
+                                        <input  type="checkbox" name="show_more" id="show_more" class="hidden peer" />
                                         <div class="absolute rounded shadow bg-white overflow-hidden"
                                             [ngClass]="{'hidden': !showDropdownMenu, 'flex': showDropdownMenu}"
                                             style="flex-direction: column; width: 100%; margin-top: 1rem;">
@@ -83,8 +83,8 @@
                                 <div class="popup-content" *ngFor="let room of rooms; let i = index">
                                     <div class="popup-header">
                                         <h3>Room {{ i + 1 }}</h3>
-                                        <button type="button" class="close-button" (click)="removeRoom(i)"
-                                            *ngIf="rooms.length > 1">×</button>
+                                        <button type="button" class="close-button" (click)="removeRoom(i, $event)" *ngIf="rooms.length > 1">×</button>
+
                                     </div>
                                     <div class="popup-body">
                                         <div class="guests-control">
@@ -104,15 +104,18 @@
                                               
                                                     <!-- Display selected children -->
                                                     <div id="selected-children" class="selected-children">
-                                                        <div *ngFor="let age of selectedChildren" class="child-age-container">
-                                                            <span class="child-age-block">{{ age }} years</span>
-                                                            <button class="remove-btn" (click)="removeChildAge(age)">×</button>
+                                                        <div *ngFor="let child of room.selectedChildren; let childIndex = index" class="child-age-container">
+                                                            <span class="child-age-block">{{ child }} years</span>
+                                                            <button class="remove-btn" (click)="removeChildAge(childIndex, i, $event)">×</button>
                                                           </div>
-                                                          <select class="add-child-dropdown" (change)="addChildAge($event)">
+                                                          
+                                                          <select class="add-child-dropdown" (change)="addChildAge($event, i)">
                                                             <option [value]="''" disabled selected>{{ placeholder }}</option>
                                                             <option *ngFor="let age of availableAges" [value]="age">{{ age }} years</option>
                                                           </select>
-                                                    </div>
+                                                          
+                                                          
+                                                      </div>
                                               
                                                     <!-- Add a child dropdown -->
                                                    
