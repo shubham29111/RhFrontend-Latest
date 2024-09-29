@@ -21,6 +21,7 @@
     showDropdownMenu: boolean = false;
     programmaticChange: boolean = false;
     region: any;
+    hotel:any;
     type: any;
     selectedChildren: string[] = [];    // Array to store selected ages
     availableAges: string[] = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
@@ -77,7 +78,9 @@
     }
 
 
-    selectSuggestion(suggestion: any,type: 'hotel' | 'region') {
+    selectSuggestion(suggestion: any,type:any,event: MouseEvent) {
+      event.stopPropagation();  // Stop the event from bubbling up
+
       this.region=suggestion;
       this.type=type;
       this.location = suggestion.name;
@@ -86,6 +89,17 @@
       this.programmaticChange = true; 
       
     }
+
+    selectHotelSuggestion(suggestion: any, type: any, event: MouseEvent) {
+      event.stopPropagation();  // Stop the event from bubbling up
+      this.hotel = suggestion;
+      this.type = type;
+      this.location = suggestion.name;
+      this.suggestions = { regions: [], hotels: [] };  // Update the input field with the selected hotel name
+      this.showDropdownMenu = false;  // Close the dropdown
+      this.programmaticChange = true;
+    }
+    
     toggleCheckInDropdown() {
       this.isCheckInDropdownVisible = !this.isCheckInDropdownVisible;
     }
@@ -105,95 +119,115 @@
       }
     }
     
-    decreaseAdults(index: number) {
-      if (this.rooms[index].adults > 1) {
-        this.rooms[index].adults--;
+    increaseAdults(roomIndex: number) {
+      if (this.rooms[roomIndex].adults < 6) {
+        this.rooms[roomIndex].adults++;
       }
     }
-
-    increaseAdults(index: number) {
-      this.rooms[index].adults++;
-    }
-
-    decreaseChildren(index: number) {
-      if (this.rooms[index].children > 0) {
-        this.rooms[index].children--;
+    
+    decreaseAdults(roomIndex: number) {
+      if (this.rooms[roomIndex].adults > 1) {
+        this.rooms[roomIndex].adults--;
       }
     }
+    
+
+    decreaseChildren(roomIndex: number) {
+      if (this.rooms[roomIndex].selectedChildren.length > 0) {
+        this.rooms[roomIndex].selectedChildren.pop();  // Remove the last child added
+      }
+    }
+    
 
     increaseChildren(index: number) {
       this.rooms[index].children++;
     }
+
     getGuestsPlaceholder() {
       let totalAdults = 0;
       let totalChildren = 0;
     
       this.rooms.forEach(room => {
         totalAdults += room.adults;
-        totalChildren += room.selectedChildren.length;  // Count the selected children for each room
+        totalChildren += room.selectedChildren.length;
       });
     
       const totalGuests = totalAdults + totalChildren;
     
       return `${totalGuests} guest${totalGuests > 1 ? 's' : ''}`;
     }
+    
 
-   onSubmit() {
-  const totalAdults = this.rooms.reduce((sum, room) => sum + room.adults, 0);
-  const totalChildren = this.rooms.reduce((sum, room) => sum + room.selectedChildren.length, 0);
-  const guests = totalAdults + totalChildren;
-
-  // Create a list of children ages for all rooms
-  const childrenAges = this.rooms.map(room => room.selectedChildren.join(',')).join('|');  // Separate children of each room with '|'
-
-  this.router.navigate(['/hotels'], {
-    queryParams: {
-      location: this.location,
-      type: this.type,
-      regionId: this.region.id,
-      checkIn: this.checkIn,
-      checkOut: this.checkOut,
-      guests,
-      totalAdults,
-      totalChildren,
-      childrenAges // Send children ages in a format like "5,7|6,8" where each room's children are separated by '|'
+    onSubmit() {
+      const totalAdults = this.rooms.reduce((sum, room) => sum + room.adults, 0);
+      const totalChildren = this.rooms.reduce((sum, room) => sum + room.selectedChildren.length, 0);
+      const guests = totalAdults + totalChildren;
+    
+      // Flatten the array of children ages for all rooms
+      const childrenAges = this.rooms.flatMap(room => room.selectedChildren);
+    
+      if (this.type === "hotel") {
+        this.router.navigate(['/hotelrooms'], {
+          queryParams: {
+            location: this.location,
+            type: this.type,
+            hotel: this.hotel.id,
+            checkIn: this.checkIn,
+            checkOut: this.checkOut,
+            guests,
+            totalAdults,
+            totalChildren,
+            rooms: this.rooms.length,
+            childrenAges // Send childrenAges as a flat array
+          }
+        });
+      } else {
+        this.router.navigate(['/hotels'], {
+          queryParams: {
+            location: this.location,
+            type: this.type,
+            regionId: this.region.id,
+            checkIn: this.checkIn,
+            checkOut: this.checkOut,
+            guests,
+            totalAdults,
+            totalChildren,
+            rooms: this.rooms.length,
+            childrenAges // Send childrenAges as a flat array
+          }
+        });
+      }
     }
-  });
-}
+    
 
     
-@HostListener('document:click', ['$event'])
-onDocumentClick(event: MouseEvent) {
-  const target = event.target as HTMLElement;
-  const isClickInsideDropdown = target.closest('.dropdown-menu') !== null;
-  const isClickInsideInput = target.closest('.custom-input') !== null;
-
-  // Prevent closing if the click is inside the guests dropdown or on the "remove" button for children
-  if (!isClickInsideDropdown && !isClickInsideInput) {
-    this.showDropdownMenu = false;
-    this.isGuestsDropdownVisible = false;
-  }
-}
-
+   @HostListener('document:click', ['$event'])
+   onDocumentClick(event: MouseEvent) {
+     const target = event.target as HTMLElement;
+     const isClickInsideDropdown = target.closest('.dropdown-menu') !== null;
+     const isClickInsideInput = target.closest('.custom-input') !== null;
+   
+     // Only close the dropdown if the click is outside both the input and the dropdown
+     if (!isClickInsideDropdown && !isClickInsideInput) {
+       this.showDropdownMenu = false;
+       this.isGuestsDropdownVisible = false;
+     }
+   }
+   
 addChildAge(event: Event, roomIndex: number) {
   const selectElement = event.target as HTMLSelectElement;
   const selectedAge = selectElement.value;
 
-  if (selectedAge) {
-    // Push the selected age to the current room's selectedChildren array
+  if (selectedAge && this.rooms[roomIndex].selectedChildren.length < 4) {
     this.rooms[roomIndex].selectedChildren.push(selectedAge);
-
-    // Reset the dropdown selection to placeholder after an age is selected
-    selectElement.value = '';
+    selectElement.value = '';  // Reset the dropdown after an age is selected
   }
 }
 
-    
 removeChildAge(childIndex: number, roomIndex: number, event: MouseEvent) {
-  event.stopPropagation(); // Prevent the event from bubbling up
-  this.rooms[roomIndex].selectedChildren.splice(childIndex, 1);  // Remove the selected age by index
+  event.stopPropagation();
+  this.rooms[roomIndex].selectedChildren.splice(childIndex, 1);
 }
-
 
     
     

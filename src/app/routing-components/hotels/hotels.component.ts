@@ -65,6 +65,8 @@ export class HotelsComponent implements OnInit {
   checkOut:any;
   childs:any;
   adults:any;
+  childrens:any;
+  rooms:any;
   isLiked = false;
   markers: { [hotelId: string]: any } = {};
   options: string[] = [
@@ -120,7 +122,8 @@ export class HotelsComponent implements OnInit {
       this.checkOut=params['checkOut'];
       this.childs=params['totalChildren'];
       this.adults=params['totalAdults'];
-
+      this.childrens=params['childrenAges'];
+      this.rooms=params['rooms'];
       this.currency =localStorage.getItem('currency') || null;
       this.isPopupVisible=false
       this.fetchHotels();
@@ -160,7 +163,7 @@ export class HotelsComponent implements OnInit {
   fetchHotels() {
     this.isLoading = true; 
     const queryParams = this.buildQueryParams(true);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&currency=${this.currency}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}&${queryParams}`).subscribe(      (data) => {
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&currency=${this.currency}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}`).subscribe(      (data) => {
         this.totalItems = data.response.total;
         console.log(data.response);
         
@@ -186,7 +189,7 @@ export class HotelsComponent implements OnInit {
    loadFilters() {
     console.log(this.currency)
     const queryParams = this.buildQueryParams(false);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.guests}&${queryParams}`).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}`).subscribe(
       (data) => {
         this.updateFilterCounts(data.response);
       },

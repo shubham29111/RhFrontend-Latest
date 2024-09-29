@@ -149,7 +149,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.getHotelData();
     this.getReviewsData();
 
-    // Add this line to initialize filteredRooms with all rooms
     this.filteredRooms = this.availableRooms;
 
     this.filterForm.valueChanges.subscribe(() => {

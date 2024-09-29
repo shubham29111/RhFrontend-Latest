@@ -9,19 +9,20 @@
                <p class="text-gray-700 text-sm font-medium mt-1">
                   {{checkIn | date:'dd MMM yyyy'}} &mdash; {{checkOut | date:'dd MMM yyyy'}}
                </p>
-                <p class="text-gray-500 text-sm mt-1">1 room for 2 guests</p>
-            </div>
-            <div class="ml-auto" style="padding-top: 47px;">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"  [ngStyle]="{ 'color': '#1b9bd0' }"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M18 10a8 8 0 11-16 0 8 8 0 0116 0z" />
+               <div class="flex items-center">
+                <p class="text-gray-500 text-sm mt-1 mr-2">{{rooms}} room for {{guests}} guests</p>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" [ngStyle]="{ 'color': '#1b9bd0' }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M18 10a8 8 0 11-16 0 8 8 0 0116 0z" />
                 </svg>
+              </div>
+              
             </div>
+         
         </div>
         
 
            <div class="list-view-button flex justify-between items-center mt-2">
             <div class="flex mb-3 space-x-4">
-                <!-- List View Button -->
                 <button 
                     style="padding: 10px !important;" 
                     (click)="listView()" 
@@ -35,7 +36,6 @@
                     List view
                 </button>
         
-                <!-- Map View Button -->
                 <button 
                     style="padding: 10px !important;" 
                     (click)="toggleMap()" 
@@ -144,7 +144,7 @@
            </div>
            <div *ngIf="!isLoading ">
                <div class="bg-white h-auto m-3 flex w-auto h-16 rounded-2xl">
-                   <h5 class="text-xl font-bold dark:text-white total">{{region}}:{{totalItems}} accommodation options available</h5>
+                   <h5 class="text-xl font-bold dark:text-white total">{{region}}: {{totalItems}} accommodation options available</h5>
                </div>
                <div
                    *ngFor="let hotel of hotels"
@@ -285,10 +285,15 @@
                                        >
                                        
                                     <div class="flex space-x-4">
-                                       <div>
-                                          <span class="text-lg font-bold text-green-600">{{ currency }} {{ hotel.price | number:'1.2-2' }}</span>
-                                          <p class="text-xs text-gray-600">for a night for 2 guests</p>
-                                       </div>
+                                        <div>
+                                            <span class="text-lg font-bold text-green-600">{{ currency }} {{ hotel.price | number:'1.2-2' }}</span>
+                                            
+                                            <p class="text-xs text-gray-600">
+                                              for a night for {{adults}} adults
+                                              <span *ngIf="childs && childs > 0"> and {{childs}} children</span>
+                                            </p>
+                                          </div>
+                                          
                                     </div>
                                     <div>
                                        <button
@@ -320,7 +325,7 @@
                        </svg>
                        Previous
                    </a>
-                   <a
+                   <a 
                        (click)="nextPage()"
                        class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-[rgb(27,155,208)] border border-gray-300 rounded-lg hover:bg-[#006088] dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
                        [class.cursor-not-allowed]="currentPage === totalItems"

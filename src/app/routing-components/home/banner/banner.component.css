@@ -483,3 +483,13 @@ li:hover {
   select:not([size]) {
 background-image: none !important;  
 }
+button:disabled {
+    background-color: #e0e0e0;  /* Gray background */
+    color: #a0a0a0;  /* Lighter gray text */
+    cursor: not-allowed;  /* Show 'not-allowed' cursor */
+    border: 1px solid #d0d0d0;  /* Optional: Gray border */
+  }
+  .region-options{
+    font-size: small !important;
+
+  }
