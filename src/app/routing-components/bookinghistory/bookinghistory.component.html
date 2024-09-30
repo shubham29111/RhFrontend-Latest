@@ -1,41 +1,41 @@
 <div class="booking-history-container">
-    <h2>Booking History</h2>
-    
-    <div class="booking-list" *ngIf="bookings && bookings.length > 0">
-      <div class="booking-card" *ngFor="let booking of bookings">
-        <div class="booking-header">
-          <div class="hotel-info">
-            <img class="hotel-image" [src]="booking.hotelImage" alt="{{ booking.hotelName }}" />
-            <div>
-              <h3>{{ booking.hotelName }}</h3>
-              <p>{{ booking.roomType }}</p>
-              <small>{{ booking.checkInDate | date: 'dd MMM yyyy' }} - {{ booking.checkOutDate | date: 'dd MMM yyyy' }}</small>
-            </div>
-          </div>
-          <div class="booking-status" [ngClass]="getBookingStatusClass(booking.bookingStatus)">
-            {{ booking.bookingStatus }}
+  <h2>Booking History</h2>
+  
+  <div class="booking-list" *ngIf="bookings && bookings.length > 0">
+    <div class="booking-card" *ngFor="let booking of bookings">
+      <div class="booking-header">
+        <div class="hotel-info">
+          <!-- Assuming the hotel image is not in the API response; replace with a placeholder if needed -->
+          <img class="hotel-image" [src]="hotelImage" alt="{{ booking.Hotel?.name }}" />
+          <div>
+            <h3>{{ booking.Hotel?.name }}</h3>
+            <!-- <p>{{ booking.roomGroupId }}</p> -->
+            <small>{{ booking.checkInDate | date: 'dd MMM yyyy' }} - {{ booking.checkOutDate | date: 'dd MMM yyyy' }}</small>
           </div>
         </div>
-        <div class="booking-details">
-          <div class="detail">
-            <strong>Guests:</strong> {{ booking.numberOfGuests }}
-          </div>
-          <div class="detail">
-            <strong>Meal Plan:</strong> {{ booking.mealPlan }}
-          </div>
-          <div class="detail">
-            <strong>Total Price:</strong> {{ booking.totalPrice | currency: booking.currencyCode }}
-          </div>
-        </div>
-        <div class="booking-footer">
-          <button class="view-details-btn" (click)="viewBookingDetails(booking)">View Details</button>
+        <div class="booking-status" [ngClass]="getBookingStatusClass(booking.bookingStatus)">
+          {{ booking.bookingStatus }}
         </div>
       </div>
-    </div>
-  
-    <!-- No booking message -->
-    <div class="no-bookings" *ngIf="!bookings || bookings.length === 0">
-      <p>No bookings found.</p>
+      <div class="booking-details">
+        <div class="detail">
+          <strong>Guests:</strong> {{ booking.guests.length }}
+        </div>
+        <div class="detail">
+          <strong>Meal Plan:</strong> {{ booking.mealPlan }}
+        </div>
+        <div class="detail">
+          <strong>Total Price:</strong> {{ booking.totalPrice | currency: booking.currencyCode }}
+        </div>
+      </div>
+      <div class="booking-footer">
+        <button class="view-details-btn" (click)="viewBookingDetails(booking)">View Details</button>
+      </div>
     </div>
   </div>
-  
+
+  <!-- No booking message -->
+  <div class="no-bookings" *ngIf="!bookings || bookings.length === 0">
+    <p>No bookings found.</p>
+  </div>
+</div>

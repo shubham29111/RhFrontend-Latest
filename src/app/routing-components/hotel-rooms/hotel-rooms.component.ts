@@ -681,7 +681,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       children: this.children,
       childs: this.childs,
       roomGroupId: this.roomGroup.room_group_id,
-      hotelId: this.hotelId // Add room_group_id to the hotel details
+      hotelId: this.hotel.id // Add room_group_id to the hotel details
     };
   
     // Store the hotelDetails in sessionStorage

@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/services/shared-service/shared.service';
 import { environment } from 'src/environments/environments';
 import { of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-booking',
@@ -36,6 +37,8 @@ export class RoomBookingComponent implements OnInit {
   totalPrice: number = 75.82; // Example static total price
   localCurrency: string = '';
   nights: number | undefined;
+  isModalVisible: boolean = false;  // Modal visibility state
+
 
   availableCurrencies: string[] = ['USD', 'EUR', 'GBP', 'INR'];
   selectedCurrency: string = ''; // Default currency
@@ -50,7 +53,8 @@ export class RoomBookingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     public authService: AuthService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private router: Router
   ) {
     this.guestForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -156,57 +160,91 @@ export class RoomBookingComponent implements OnInit {
   }
 
   onSubmit() {
-    const user = sessionStorage.getItem('user');
-
-    if (!user) {
+    this.userData = sessionStorage.getItem('user');
+    if (!this.userData) {
       this.sharedService.showLoginDropdown.emit();
       console.log('User not logged in, opening login dropdown');
       return;
     }
-
-    this.getProfile().pipe(
-      switchMap((profileData: any) => {
-        this.userProfile = profileData;
-        const hotelDetails = JSON.parse(sessionStorage.getItem('hotelDetails')!);
-
-        const paymentMethodId = Math.floor(100000000000 + Math.random() * 900000000000);
-        const bookingPayload = {
-          id:78,
-          userId: this.userProfile.response.id,
-          hotelId: hotelDetails.hotelId,
-          roomGroupId: hotelDetails.roomGroupId,
-          checkInDate: this.checkIn,
-          checkOutDate: this.checkOut,
-          bookingStatus: 'confirmed',
-          guests: [
-            {
-              guestName: this.guestForm.get('firstName')?.value + ' ' + this.guestForm.get('lastName')?.value,
-              guestEmail: this.guestForm.get('email')?.value,
-              guestPhone: this.guestForm.get('phone')?.value
-            }
-          ],
-          numberOfGuests: Number(this.adults) + Number(this.children),
-          specialRequests: 'Room with balcony',
-          totalPrice: hotelDetails.price,
-          currencyCode: hotelDetails.currency,
-          paymentStatus: 'Paid',
-          paymentMethodId: paymentMethodId,
-          mealPlan: hotelDetails.mealPlan,
-          notes: 'No special notes'
-        };
-
-        return this.http.post(`${environment.baseUrl}/book`, bookingPayload);
-      }),
-      catchError((error) => {
-        console.error('Error during booking:', error);
-        return of(null); // Handle error and return observable
-      })
-    ).subscribe(
-      (response: any) => {
-        if (response) {
-          console.log('Booking successful:', response);
+  
+    // Parse the user data to extract the token
+    const user = JSON.parse(this.userData);
+  
+    // Define the headers with the token for authorization
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${user.token}`,
+    });
+  
+    const hotelDetails = JSON.parse(sessionStorage.getItem('hotelDetails')!);
+  
+    // Function to parse the date string like '01 Oct 2024, Tue' and convert it to a 'Date' object
+    const parseDateString = (dateStr: string) => {
+      // Remove the day of the week from the string
+      const dateWithoutDay = dateStr.split(',')[0].trim(); // e.g., "01 Oct 2024"
+      return new Date(dateWithoutDay); // Parse into Date object
+    };
+  
+    const checkInDate = parseDateString(this.checkIn);
+    const checkOutDate = parseDateString(this.checkOut);
+  
+    if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+      console.error('Invalid check-in or check-out date');
+      return;
+    }
+  
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+  
+    const formattedCheckInDate = formatDate(checkInDate);
+    const formattedCheckOutDate = formatDate(checkOutDate);
+  
+    const bookingPayload = {
+      userId: user.userId,
+      hotelId: hotelDetails.hotelId,
+      roomGroupId: hotelDetails.roomGroupId,
+      checkInDate: formattedCheckInDate,
+      checkOutDate: formattedCheckOutDate,
+      bookingStatus: 'confirmed',
+      guests: [
+        {
+          guestName: this.guestForm.get('firstName')?.value + ' ' + this.guestForm.get('lastName')?.value,
+          guestEmail: this.guestForm.get('email')?.value,
+          guestPhone: this.guestForm.get('phone')?.value,
+        },
+      ],
+      numberOfGuests: Number(this.adults) + Number(this.children),
+      specialRequests: 'Room with balcony',
+      totalPrice: hotelDetails.price,
+      currencyCode: hotelDetails.currency,
+      paymentStatus: 'Paid',
+      paymentMethodId: 2,
+      mealPlan: hotelDetails.mealPlan,
+      notes: 'No special notes',
+    };
+  
+    // Include the headers in the HTTP POST request
+    return this.http.post<any>(`${environment.baseUrl}/book`, bookingPayload, { headers, observe: 'response' })
+      .subscribe((response) => {
+        // Check for successful response (status 200 or 201)
+        if (response.status === 200 || response.status === 201) {
+          // Show the modal when response is successful
+          this.isModalVisible = true;
         }
-      }
-    );
+      }, error => {
+        console.error('Error during booking', error);
+      });
   }
+  
+  closeModal() {
+    this.isModalVisible = false; // Hide the modal
+    this.router.navigate(['/user/booking']); // Redirect to user/booking
+  }
+  
+  
+  
+  
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environments';
 
@@ -8,9 +8,9 @@ import { environment } from 'src/environments/environments';
   templateUrl: './bookinghistory.component.html',
   styleUrls: ['./bookinghistory.component.css']
 })
-export class BookinghistoryComponent {
-  bookings: any[] = [];
-
+export class BookinghistoryComponent implements OnInit {
+  bookings: any[] = []; // Will hold the merged bookings from upcoming and old bookings
+hotelImage="";
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -24,14 +24,24 @@ export class BookinghistoryComponent {
       console.error('User not logged in.');
       return;
     }
+    
 
     const userData = JSON.parse(user);
     const headers = { Authorization: `Bearer ${userData.token}` };
 
-    this.http.get<any[]>(`${environment.baseUrl}/bookings`, { headers }).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/bookings`, { headers }).subscribe(
       (response) => {
-        this.bookings = response;
-        console.log('Booking history:', this.bookings);
+        if (response.statusCode === 200) {
+          // Merge old and upcoming bookings for simplicity
+          const hotelDetails = JSON.parse(sessionStorage.getItem('hotelDetails')!);
+
+          this.bookings = [
+            ...response.response.upcomingBookings,
+            ...response.response.oldBookings
+          ];
+          this.hotelImage= hotelDetails.hotelImage
+          console.log('Booking history:', this.bookings);
+        }
       },
       (error) => {
         console.error('Error fetching booking history', error);
