@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { count } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { SharedService } from 'src/app/services/shared-service/shared.service';
 import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
 import { environment } from 'src/environments/environments';
@@ -155,9 +156,12 @@ export class HeaderComponent {
 
   showLoginPassword: boolean = false;
   showSignupPassword: boolean = false;
+  dropdownState = { open: false }; // Object controlling dropdown visibility
+
+  @ViewChild('dropdownToggle', { static: false }) dropdownToggle!: ElementRef; // ViewChild to access the dropdown toggle element
 
   constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,
-   private hotelService: HotelService
+   private hotelService: HotelService,private sharedService: SharedService
   ) {
     this.loadGoogleTranslate();
     const storedUser = sessionStorage.getItem('user');
@@ -172,6 +176,11 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
+    this.sharedService.showLoginDropdown.subscribe(() => {
+      console.log("hello");
+      
+      this.openDropdown();
+    });
     this.translationService.getLanguage().subscribe(language => {
       this.selectedLanguage = language;
     });
@@ -181,6 +190,10 @@ export class HeaderComponent {
       }
     });
 
+  }
+  openDropdown() {
+    // Open the dropdown
+    this.dropdownToggle.nativeElement.click();
   }
 
   private checkUrlForAdminLogin(): void {

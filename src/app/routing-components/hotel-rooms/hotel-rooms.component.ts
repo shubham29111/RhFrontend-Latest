@@ -8,6 +8,7 @@ import { catchError, flatMap, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { BookingService } from 'src/app/services/booking.service';
 
 interface Place {
   lat: number;
@@ -69,6 +70,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   checkOut:any;
   childs:any;
   adults:any;
+  children:any;
   checkInHour: number = 0;
   checkOutHour: number = 0;
   availablePercentage: number = 0;
@@ -109,7 +111,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   ];
 
   currency: any;
-  constructor(private router: Router,  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private router: Router,private bookingService:BookingService,  private hotelService: HotelService,private datePipe: DatePipe, private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.filterForm = this.formBuilder.group({
       beds: ['all'],
       meals: ['all'],
@@ -123,8 +125,9 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.hotelId = params['hotel'];
       this.hotelPrice = params['hotelPrices'];
       this.guests = params['guests'];
-      this.childs=params['totalChildren'];
-      this.adults=params['totalAdults'];
+      this.adults=params['adults'];
+      this.childs=params['childs'];
+      this.children=params['children'] || [];
       this.checkInDate = new Date(params['checkIn']);
       this.checkOutDate = new Date(params['checkOut']);
       this.checkIn = this.datePipe.transform(this.checkInDate, 'dd MMM yyyy, EEE');
@@ -138,8 +141,10 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
          
         this.loading=true
         this.currency=res
-        this.fetchHotelPrices()
         this.fetchRoomGroups();
+        this.fetchHotelPrices()
+    
+      
 
         }
       
@@ -148,6 +153,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     )
     this.getHotelData();
     this.getReviewsData();
+ 
 
     this.filteredRooms = this.availableRooms;
 
@@ -250,7 +256,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         checkIn: params['checkIn'],
         checkOut: params['checkOut'],
         rooms: 1,
-        adults: Number(this.guests)
+        adults: Number(this.adults),
+        children:'['+this.children+']'
       };
   
       this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
@@ -648,19 +655,43 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
   
   reserveRoom(roomType: any, rateOption: any): void {
-    console.log('Room Type:', roomType);
-    console.log('Rate Option:', rateOption);
-    // this.router.navigate(['/reserve']);
-    this.router.navigate(['/reserve'], { 
-      queryParams: { 
-        hotel: this.hotelId,
-        guests:this.guests,
-        checkIn: this.checkIn,
-        checkOut: this.checkOut,
-        adults:this.adults,
-        childs:this.childs
-      }
-    });
+    // Find the room group for the selected room type
+  
+    // Check if the room group was found and extract the room_group_id
+    
+      
+    const hotelDetails = {
+      hotelName: this.hotel.name,
+      hotelRating: this.hotel.star_rating,
+      hotelAddress: this.hotel.address,
+      hotelImage: this.getImageUrl(this.images[0]),  // First image of the hotel
+      roomType: roomType.key,  // Room type key
+      roomSize: rateOption.roomDetails.size,  // Room size
+      mealPlan: rateOption.rates[0].mealPlan,  // Meal plan
+      cancellationPolicy: rateOption.rates[0].cancellationPolicy,  // Cancellation policy
+      price: rateOption.rates[0].price,  // Room price
+      currency: rateOption.rates[0].currency,  // Room currency
+      hotel: this.hotelId,
+      guests: this.guests,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut,
+      checkInTime: this.hotel?.check_in_time,  // Store check-in time
+      checkOutTime: this.hotel?.check_out_time,  // Store check-out time
+      adults: this.adults,
+      children: this.children,
+      childs: this.childs,
+      roomGroupId: this.roomGroup.room_group_id,
+      hotelId: this.hotelId // Add room_group_id to the hotel details
+    };
+  
+    // Store the hotelDetails in sessionStorage
+    sessionStorage.setItem('hotelDetails', JSON.stringify(hotelDetails));
+  
+    // Navigate to the booking summary page
+    this.router.navigate(['/reserve']);
   }
+  
+  
+
 }
 

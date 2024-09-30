@@ -15,6 +15,7 @@ import { RoomBookingComponent } from './routing-components/room-booking/room-boo
 import { FaqSectionComponent } from './routing-components/faq-section/faq-section.component';
 import { ProfileComponent } from './routing-components/profile/profile.component';
 import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
+import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: "reserve", component: RoomBookingComponent},
   {path: "userProfile", component: ProfileComponent},
   {path: "user/fav", component:UserFavComponent },
+  {path: "user/booking", component: BookinghistoryComponent},
 
   {path: "faq", component: FaqSectionComponent},
   {path: "adminlogin", component: AdminLoginComponent},

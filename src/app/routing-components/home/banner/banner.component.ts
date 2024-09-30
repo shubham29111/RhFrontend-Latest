@@ -178,7 +178,7 @@
             totalAdults,
             totalChildren,
             rooms: this.rooms.length,
-            childrenAges // Send childrenAges as a flat array
+            childrenAges 
           }
         });
       } else {

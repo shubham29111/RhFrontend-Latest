@@ -122,7 +122,7 @@ export class HotelsComponent implements OnInit {
       this.checkOut=params['checkOut'];
       this.childs=params['totalChildren'];
       this.adults=params['totalAdults'];
-      this.childrens=params['childrenAges'];
+      this.childrens=params['childrenAges'] || [];
       this.rooms=params['rooms'];
       this.currency =localStorage.getItem('currency') || null;
       this.isPopupVisible=false
@@ -617,7 +617,8 @@ manipulateHotelData(hotels: any[]): Hotel[] {
         checkIn: this.checkIn,
         checkOut: this.checkOut,
         adults:this.adults,
-        childs:this.childs
+        children:this.childrens,
+        childs:this.childs,
       }
     });
   }

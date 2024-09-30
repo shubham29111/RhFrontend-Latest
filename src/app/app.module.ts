@@ -40,6 +40,8 @@ import { FaqSectionComponent } from './routing-components/faq-section/faq-sectio
 import { ProfileComponent } from './routing-components/profile/profile.component';
 import { CardPaymentComponent } from './routing-components/card-payment/card-payment.component';
 import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
+import { RoomBookingComponent } from './routing-components/room-booking/room-booking.component';
+import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
 
 
 
@@ -77,7 +79,9 @@ import { UserFavComponent } from './routing-components/profile/user-fav/user-fav
     FaqSectionComponent,
     ProfileComponent,
     CardPaymentComponent,
-    UserFavComponent
+    UserFavComponent,
+    RoomBookingComponent,
+    BookinghistoryComponent
 
    
   ],

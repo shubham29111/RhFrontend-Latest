@@ -7,9 +7,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
-      </li>
+      </li> -->
       <li class="nav-item dropdown">
         <ng-select 
         (change)="changeCurrency($event)"
@@ -28,15 +28,16 @@
       <div class="elfsight-app-84d0b7e8-e859-4ab2-ae91-6ebb4aaad4c4" data-elfsight-app-lazy></div>
 
      <li  class="nav-item dropdown" (click)="toggleDropdown()">
-  <a  
-    class="nav-link dropdown-toggle"
-    href="#"
-    id="avatarDropdown"
-    role="button"
-    data-toggle="dropdown"
-    aria-haspopup="true"
-    aria-expanded="false"
-  >
+      <a
+      class="nav-link dropdown-toggle"
+      href="#"
+      id="avatarDropdown"
+      role="button"
+      data-toggle="dropdown"
+      aria-haspopup="false"
+      aria-expanded="false"
+      #dropdownToggle
+    >
     <i class="fa fa-user nav-icon" aria-hidden="true"></i>
     <span class="nav-text">
       {{ username ? username : 'Log in' }}
