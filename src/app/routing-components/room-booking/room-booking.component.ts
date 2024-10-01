@@ -204,8 +204,9 @@ export class RoomBookingComponent implements OnInit {
   
     const bookingPayload = {
       userId: user.userId,
-      hotelId: hotelDetails.hotelId,
-      roomGroupId: hotelDetails.roomGroupId,
+      hotelId: Number(hotelDetails.hotelId),
+      rg_id:Number(hotelDetails.rg_id),
+      roomGroupId: Number(hotelDetails.rg_id),
       checkInDate: formattedCheckInDate,
       checkOutDate: formattedCheckOutDate,
       bookingStatus: 'confirmed',
