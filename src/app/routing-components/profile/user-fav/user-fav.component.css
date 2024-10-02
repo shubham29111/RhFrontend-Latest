@@ -35,6 +35,7 @@
   .hotel-section {
     border-bottom: 1px solid rgb(229, 229, 229);
     margin-bottom: 30px;
+    margin-top: 10px;
     padding-bottom: 30px;
     display: flex;
     flex-direction: column;
@@ -112,7 +113,7 @@
   
   .hotel-image {
     display: block;
-    height: auto;
+    height: 100%;
     max-width: 100%;
     object-fit: cover;
     position: relative;
@@ -142,6 +143,8 @@
   
   .hotel-address {
     margin: 0px;
+    width: 90%;
+
   }
   
   .hotel-rating {
@@ -181,6 +184,23 @@
 .toggle-icon {
     transition: transform 0.3s ease;
   }
+  .hotel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .hotel-availability {
+    margin: 0;
+  }
+  
+  .hotel-hide-btn {
+    cursor: pointer;
+    color: #1b9bd0;
+    text-decoration: underline;
+    margin-left: 10px;
+  }
+  
   
   .rotate-icon {
     transform: rotate(180deg);
@@ -194,3 +214,43 @@
     background-color: whitesmoke;
 
   }
+  /* .hotel-image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+} */
+
+/* .hotel-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+} */
+
+/* Like icon styling */
+.hotel-like-icon {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: rgba(228, 227, 227, 0.7); /* Grey background with transparency */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hotel-like-icon:hover {
+  background-color: rgba(128, 128, 128, 0.9); /* Slightly darker on hover */
+}
+
+.like-icon {
+  color: white; /* White heart icon color */
+  font-size: 20px;
+}
+
+.hotel-like-icon .fa-heart {
+  color: red; /* Red color for the filled heart */
+}

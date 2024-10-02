@@ -5,7 +5,6 @@ import { RoomsComponent } from './routing-components/rooms/rooms.component';
 import { HotelsComponent } from './routing-components/hotels/hotels.component';
 import { BookedRoomsComponent } from './routing-components/booked-rooms/booked-rooms.component';
 import { RoomDetailsComponent } from './routing-components/rooms/room-details/room-details.component';
-import { NotfoundComponent } from './routing-components/notfound/notfound.component';
 import { HotelRoomsComponent } from './routing-components/hotel-rooms/hotel-rooms.component';
 import { AdminPanelComponent } from './routing-components/admin-panel/admin-panel.component';
 import { BlogSectionComponent } from './routing-components/blog-section/blog-section.component';
@@ -39,7 +38,7 @@ const routes: Routes = [
 
 
 
-  {path: "**", component: NotfoundComponent},
+  {path: "**", component: NotFoundPageComponent},
   
 
 ];

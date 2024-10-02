@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { environment } from 'src/environments/environments';
@@ -9,6 +9,7 @@ import src from 'daisyui';
 import { popup } from 'leaflet';
 import {  ViewChild } from '@angular/core';
 import { BookingPopupComponent } from 'src/app/shared-components/booking-popup/booking-popup.component';
+import { SharedService } from 'src/app/services/shared-service/shared.service';
 
 interface FilterItem {
   type: string | null;
@@ -67,7 +68,6 @@ export class HotelsComponent implements OnInit {
   adults:any;
   childrens:any;
   rooms:any;
-  isLiked = false;
   markers: { [hotelId: string]: any } = {};
   options: string[] = [
     'popularity',
@@ -102,8 +102,9 @@ export class HotelsComponent implements OnInit {
     'has_spa': 'fa-spa',
     'kitchen': 'fa-kitchen-set'
   };
+  userData: any;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient,private router:Router,private hotelService:HotelService
+  constructor(private shardeService:SharedService ,private route: ActivatedRoute, private http: HttpClient,private router:Router,private hotelService:HotelService
   ) {
  
   }
@@ -124,14 +125,14 @@ export class HotelsComponent implements OnInit {
       this.adults=params['totalAdults'];
       this.childrens=params['childrenAges'] || [];
       this.rooms=params['rooms'];
-      this.currency =localStorage.getItem('currency') || null;
+      this.currency =localStorage.getItem('currency') || "USD";
       this.isPopupVisible=false
       this.fetchHotels();
       this.loadFilters();
 
 
     });
-    this.currency =localStorage.getItem('currency') || null;
+    this.currency =localStorage.getItem('currency') || "USD";
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
       (res)=>{
         console.log(res)
@@ -163,12 +164,29 @@ export class HotelsComponent implements OnInit {
   fetchHotels() {
     this.isLoading = true; 
     const queryParams = this.buildQueryParams(true);
-    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&currency=${this.currency}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}`).subscribe(      (data) => {
+    this.userData = sessionStorage.getItem('user');
+    let userIdParam = '';
+    
+    if (this.userData) {
+      // Parse the user data to extract the userId
+      const user = JSON.parse(this.userData);
+      userIdParam = `&userId=${user.userId}`;
+    } else {
+     
+      console.log('User not logged in, opening login dropdown');
+   
+    }
+    
+    // Make the GET request with the userId only if it's available
+    this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&currency=${this.currency}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}${userIdParam}`).subscribe(
+      (data) => {
         this.totalItems = data.response.total;
         console.log(data.response);
         
         this.hotels = this.manipulateHotelData(data.response.data);
         this.hotel = this.hotels.length > 0 ? this.hotels[0] : undefined;
+        console.log(this.hotel);
+        
         this.regionName = this.hotel ? this.hotel.region_name : 'No region found';
         console.log(this.hotels);
         this.pagination=this.paginate()
@@ -279,6 +297,7 @@ manipulateHotelData(hotels: any[]): Hotel[] {
     const placeholderImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/495px-No-Image-Placeholder.svg.png?20200912122019';
 
     let images: string[] = [];
+    const isLiked=hotel.isLiked;
     if (Array.isArray(hotel.images) && hotel.images.length > 0) {
       images = hotel.images.slice(0, 10).map((img: string) => {
         if (img) {
@@ -297,7 +316,7 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       ...hotel,
       images: images.length > 0 ? images : [placeholderImage],
       currentImageIndex: 0,
-      id: index
+      id: index,
     };
   });
 }
@@ -648,9 +667,49 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       lastIndex: (this.currentPage - 1) * this.itemsPerPage + this.itemsPerPage,
     };
   }
-  toggleLike(hotelId: string) {
-    console.log(`Hotel ID: ${hotelId} was clicked`);
-    // Here you can implement your logic to toggle like/unlike the hotel
-    this.isLiked = !this.isLiked;
+  toggleLike(hotelId: string, currentLikeStatus: boolean) {
+    // Find the hotel by ID
+    const hotel = this.hotels.find(h => h.hotel_id === hotelId);
+    if (hotel) {
+      // Toggle the like status in the UI
+      hotel.isLiked = !currentLikeStatus;
+  
+      // Prepare the request body
+      const requestBody = {
+        hotelId: hotel.hotel_id,
+        regionId: Number(this.regionId), // assuming regionId is available in your component
+        isLike: hotel.isLiked
+      };
+  
+      // Set headers, including authorization
+      this.userData = sessionStorage.getItem('user');
+      if (!this.userData) {
+        this.shardeService.showLoginDropdown.emit();
+        console.log('User not logged in, opening login dropdown');
+        return;
+      }
+    
+      // Parse the user data to extract the token
+      const user = JSON.parse(this.userData);
+    
+      // Define the headers with the token for authorization
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${user.token}`,
+      });
+  
+      // Send POST request to the API
+      this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
+        .subscribe(
+          response => {
+            console.log('Like status updated successfully:', response);
+          },
+          error => {
+            console.error('Error updating like status:', error);
+            // Optionally revert the like status in case of an error
+            hotel.isLiked = currentLikeStatus;
+          }
+        );
+    }
+
   }
 }

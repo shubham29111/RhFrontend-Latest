@@ -372,18 +372,38 @@ const avatarDropdown = document.getElementById('avatarDropdown');
   }
 
 
-  getCurrencyByCountry(countryCode:string){
-    console.log(countryCode)
-     this.hotelService.getCountryCurrency(countryCode).subscribe(
-      (currencyRes:any)=>{
-        console.log()
-        localStorage.setItem('currencySymbol', currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].symbol)
-        this.selectedCurrency=(currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[0].slice(0,2) + currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[1].slice(0,1)).toUpperCase()
-        console.log(currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].name.split(" ")[0].slice(0,2) + currencyRes[0].currencies[Object.keys(currencyRes[0].currencies)[0]].symbol)
-        localStorage.setItem('currency',this.selectedCurrency)
+  getCurrencyByCountry(countryCode: string) {
+    console.log(countryCode);
+    this.hotelService.getCountryCurrency(countryCode).subscribe(
+      (currencyRes: any) => {
+        if (currencyRes && currencyRes.length > 0 && currencyRes[0].currencies) {
+          const currencyKey = Object.keys(currencyRes[0].currencies)[0];
+          const currency = currencyRes[0].currencies[currencyKey];
+          
+          localStorage.setItem('currencySymbol', currency.symbol);
+          this.selectedCurrency = (currency.name.split(" ")[0].slice(0, 2) + currency.name.split(" ")[1].slice(0, 1)).toUpperCase();
+          console.log(this.selectedCurrency);
+          localStorage.setItem('currency', this.selectedCurrency);
+        } else {
+          // Fallback to USD if no response or empty response
+          this.setDefaultCurrency();
+        }
+      },
+      (error) => {
+        // Handle error case
+        console.error('Error fetching currency:', error);
+        this.setDefaultCurrency(); // Fallback to USD on error
       }
-     )
+    );
   }
+  
+  setDefaultCurrency() {
+    localStorage.setItem('currencySymbol', '$');
+    this.selectedCurrency = 'USD';
+    localStorage.setItem('currency', this.selectedCurrency);
+    console.log('Default currency set to USD');
+  }
+  
 
  
   

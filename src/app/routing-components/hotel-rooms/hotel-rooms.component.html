@@ -155,8 +155,7 @@
   <p class="text-sm text-gray-600 mb-4">For 1 night, for 2 adults</p>
   
   <!-- Filters Section -->
-  <form [formGroup]="filterForm" class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-    <!-- Beds Dropdown -->
+  <!-- <form [formGroup]="filterForm" class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
     <div class="relative">
       <label for="beds" class="block text-sm font-medium text-gray-700">Beds</label>
       <select id="beds" formControlName="beds" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -166,7 +165,6 @@
       </select>
     </div>
     
-    <!-- Meals Dropdown -->
     <div class="relative">
       <label for="meals" class="block text-sm font-medium text-gray-700">Meals</label>
       <select id="meals" formControlName="meals" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -179,7 +177,6 @@
       </select>
     </div>
   
-    <!-- Payment Dropdown -->
     <div class="relative">
       <label for="payment" class="block text-sm font-medium text-gray-700">Payment</label>
       <select id="payment" formControlName="payment" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -189,7 +186,6 @@
       </select>
     </div>
   
-    <!-- Cancellation Policy Dropdown -->
     <div class="relative">
       <label for="cancellation" class="block text-sm font-medium text-gray-700">Cancellation policy</label>
       <select id="cancellation" formControlName="cancellation" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
@@ -197,9 +193,9 @@
         <option value="free cancellation">with free cancellation</option>
       </select>
     </div>
-  </form>
+  </form> -->
 
-  <div *ngIf="loading" class="animate-pulse">
+  <div *ngIf="loadingPrices" class="animate-pulse">
     <div class="room-card bg-gray-200 p-4 mb-4 rounded-lg">
       <!-- Room Header -->
       <div class="flex items-center mb-4">
@@ -231,7 +227,7 @@
     </div>
   </div>
 
-  <ng-container *ngIf="!loading">
+  <ng-container *ngIf="!loadingPrices">
     <div *ngFor="let roomType of filteredRooms | keyvalue">
       <div class="room-card">
         <!-- Room Header with Image and Title -->

@@ -225,14 +225,23 @@
                                        </div>
                                        <div class="rating-like flex items-center space-x-2">
                                         <div *ngIf="hotel.rating" class="bg-yellow-500 text-white rounded-full ms-3 px-2 py-1 text-sm font-bold">
-                                            {{ hotel.rating }}
+                                          {{ hotel.rating }}
                                         </div>
-                                        <i 
-                                            [ngClass]="isLiked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'" 
-                                            (click)="toggleLike(hotel.hotel_id)"
-                                            class="cursor-pointer text-xl">
-                                        </i>                                
-                                     </div>
+                                        <!-- <i
+                                          [ngClass]="hotel.isLiked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'"
+                                          (click)="toggleLike(hotel.hotel_id, hotel.isLiked)" 
+                                          class="cursor-pointer text-xl"
+                                        ></i> -->
+                                       
+                                        <i
+                                        [ngClass]="hotel.isLiked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'"
+                                        (click)="toggleLike(hotel.hotel_id, hotel.isLiked)" 
+                                        class="cursor-pointer text-xl"
+                                      ></i>
+                                      
+                                      </div>
+                                      
+
                                     
 
                                    </div>

@@ -58,7 +58,9 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   roomGroups: any[] = [];
   selectedImageUrl: string = '';
   isModalOpen: boolean = false;
-  loading:boolean=false
+  loading:boolean=false;
+  loadingPrices:boolean=false;
+
   hotelId: string = '';
   hotelPrice: any;
   guests: any;
@@ -125,36 +127,41 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.hotelId = params['hotel'];
       this.hotelPrice = params['hotelPrices'];
       this.guests = params['guests'];
-      this.adults=params['adults'];
-      this.childs=params['childs'];
-      this.children=params['children'] || [];
-      this.checkInDate = new Date(params['checkIn']);
-      this.checkOutDate = new Date(params['checkOut']);
+      this.adults=params['adults'] || 1;
+      this.childs=params['childs'] ;
+      this.children = Array.isArray(params['children']) ? params['children'] : [];
+      if (params['checkIn'] && params['checkOut']) {
+        // Use the provided dates
+        this.checkInDate = new Date(params['checkIn']);
+        this.checkOutDate = new Date(params['checkOut']);
+      } else {
+        // If no checkIn/checkOut parameters, set default to next day and day after
+        const today = new Date();
+        this.checkInDate = new Date(today);
+        this.checkInDate.setDate(today.getDate() + 1); // Next day
+  
+        this.checkOutDate = new Date(today);
+        this.checkOutDate.setDate(today.getDate() + 2); // Day after next
+      }
       this.checkIn = this.datePipe.transform(this.checkInDate, 'dd MMM yyyy, EEE');
       this.checkOut = this.datePipe.transform(this.checkOutDate, 'dd MMM yyyy, EEE');
     });
-    this.currency =localStorage.getItem('currency') || null;
+    this.currency =localStorage.getItem('currency') || "USD";
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
       (res)=>{
         console.log(res)
         if(res){
          
-        this.loading=true
+        this.loading=true;
+        this.loadingPrices=true;
         this.currency=res
         this.fetchRoomGroups();
         this.fetchHotelPrices()
-    
-      
-
         }
-      
       }
-
     )
     this.getHotelData();
     this.getReviewsData();
- 
-
     this.filteredRooms = this.availableRooms;
 
     this.filterForm.valueChanges.subscribe(() => {
@@ -248,16 +255,24 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   
   
   fetchHotelPrices() {
-    this.loading=true;
+    this.loadingPrices=true;
     this.route.queryParams.subscribe(params => {
+      const today = new Date();
+
+    // Set 'checkIn' to tomorrow's date if it's not available
+    this.checkIn = params['checkIn'] || this.datePipe.transform(new Date(today.setDate(today.getDate() + 1)), 'yyyy-MM-dd');
+
+    // Reset today's date and set 'checkOut' to the day after tomorrow if it's not available
+    const dayAfterTomorrow = new Date();
+    this.checkOut = params['checkOut'] || this.datePipe.transform(new Date(dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2)), 'yyyy-MM-dd');
       const requestBody = {
         hotelId: this.hotelId,
         currency: this.currency,
-        checkIn: params['checkIn'],
-        checkOut: params['checkOut'],
+        checkIn:this.checkIn,
+        checkOut: this.checkOut,
         rooms: 1,
         adults: Number(this.adults),
-        children:'['+this.children+']'
+        children:this.children
       };
   
       this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
@@ -267,7 +282,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
             this.availableRooms = response.response;
             this.filteredRooms = {...this.availableRooms}; // Set filteredRooms here
   
-              this.loading=false;
+              this.loadingPrices=false;
             this.storedPrice = this.getLowestPriceAcrossAllRooms(this.availableRooms);
             console.log('Stored Lowest Price:', this.storedPrice);
           },

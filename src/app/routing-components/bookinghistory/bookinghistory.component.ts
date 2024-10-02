@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environments';
 
@@ -11,7 +12,7 @@ import { environment } from 'src/environments/environments';
 export class BookinghistoryComponent implements OnInit {
   bookings: any[] = []; // Will hold the merged bookings from upcoming and old bookings
 hotelImage="";
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService,private router: Router) {}
 
   ngOnInit(): void {
     this.fetchBookingHistory();
@@ -22,8 +23,13 @@ hotelImage="";
     const user = sessionStorage.getItem('user');
     if (!user) {
       console.error('User not logged in.');
+      
+      // Redirect to the desired route (e.g., login page)
+      this.router.navigate(['/']); // Change '/login' to the desired route
+      
       return;
     }
+    
     
 
     const userData = JSON.parse(user);

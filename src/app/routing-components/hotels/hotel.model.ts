@@ -9,6 +9,8 @@ export interface Hotel {
   region_name: string;
   rating: number | null;
   images: string[];
+  isLiked: boolean; // Add this property
+
   currentImageIndex: number;
   serp_names?: string[];
   star_rating: number;
