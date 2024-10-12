@@ -2,9 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environments';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale, registerables } from 'chart.js';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
+
+interface Blog {
+  title: string;
+  subtitle: string;
+  publishedDate: string;
+  tags: string[];
+  imageUrl: string;
+  sectionTitle: string;
+  quote: string;
+  author: string;
+  content: string;
+}
+
 Chart.register(...registerables);
 
 @Component({
@@ -22,10 +35,14 @@ throw new Error('Method not implemented.');
   payments: any[] = [];
   supportTickets: any[] = [];
   siteSettings: any[] = [];
-  isEditModalOpen = false;
+  showSuccessModal: boolean = false;
+  blogForm: FormGroup ;
+  blogs: Blog[] = [];  isEditModalOpen = false;
   currentPageBookings = 1;
   currentPagePayments = 1;
   currentPageUsers = 1;
+  currentPageBlogs = 1;
+
   currentPageSupportTickets = 1;
     editUserForm: FormGroup; // Ensure it's not undefined
   reports = [
@@ -47,6 +64,18 @@ throw new Error('Method not implemented.');
       isAdmin: [false],
       active: [true],
     });
+    this.blogForm = this.fb.group({
+      title: ['', [Validators.required]],
+      subtitle: ['', [Validators.required]],
+      publishedDate: ['', [Validators.required]],
+      tags: ['', [Validators.required]], // Keep this as a string input (comma-separated)
+      imageUrl: ['', [Validators.required]],
+      sectionTitle: ['', [Validators.required]],
+      quote: ['', [Validators.required]],
+      author: ['', [Validators.required]],
+      content: ['', [Validators.required]],
+    });
+    
   }
 
   ngOnInit(): void {
@@ -59,7 +88,9 @@ throw new Error('Method not implemented.');
       this.loadBookings();
       this.loadSupportTickets();
       this.loadCustomers();
+      this.getBlogs();
     }
+    
   }
   
 
@@ -244,6 +275,54 @@ throw new Error('Method not implemented.');
     }, 2000); 
   }
   
+  submitBlogForm() {
+    if (this.blogForm.valid) {
+      const newBlog = this.blogForm.value as Blog;
   
+      // Check if tags is a string, then split it, otherwise, assume it's already an array
+      if (typeof newBlog.tags === 'string') {
+        newBlog.tags = (newBlog.tags as string).split(',').map((tag: string) => tag.trim());
+      }
+  
+      // POST request to create the blog
+      this.http.post<any>(`${environment.baseUrl}/posts`, newBlog).subscribe(
+        (response) => {
+          // this.blogs.push(response);
+          this. getBlogs();  // Add the newly created blog to the list
+          this.showSuccessModal = true;  // Show success modal
+          this.blogForm.reset();  // Reset the form after submission
+        },
+        (error) => {
+          console.error('Error creating blog:', error);
+        }
+      );
+    }
+  }
+  
+
+ getBlogs() {
+    this.http.get<any>(environment.baseUrl + '/posts')
+      .subscribe(response => {
+        console.log('Blogs fetched successfully:', response);
+        this.blogs = response.response; // Assign the fetched blogs to the blogs array
+      }, error => {
+        console.error('Error fetching blogs:', error);
+      });
+  }
+  closeSuccessModal() {
+    this.showSuccessModal = false;
+  }
+  
+  
+
+  editBlog(blog: Blog) {
+    // Populate the form with the blog data for editing
+    this.blogForm.patchValue(blog);
+  }
+
+  deleteBlog(blog: Blog) {
+    // Remove the blog from the list
+    this.blogs = this.blogs.filter(b => b !== blog);
+  }
   
 }

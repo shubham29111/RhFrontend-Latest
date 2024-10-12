@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';  
+import { environment } from 'src/environments/environments'; 
 
 interface BlogPost {
   link: string;
@@ -13,65 +15,47 @@ interface BlogPost {
   templateUrl: './blogs-section.component.html',
   styleUrls: ['./blogs-section.component.css']
 })
-export class BlogsSectionComponent {
-  posts: BlogPost[] = [
-    {
-      link: '/blog/12',
-      imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-      category: 'Travel Tips',
-      date: '2024-08-01',
-      title: 'Top 10 Tips for Booking the Best Hotel'
-    },
-    {
-      link: '/blog/13',
-      imageSrc: 'https://cdn.worldota.net/t/x220/blog/f6/7f/f67f2d841e5dd805b76c46f372a9a985ff78a67f.PNG',
-      category: 'Places to Travel',
-      date: '2024-07-25',
-      title: 'How to Choose a Family-Friendly Hotel'
-    },
-    {
-      link: '/blog/14',
-      imageSrc: 'https://cdn.worldota.net/t/x220/blog/18/c8/18c83cadec73bf09791cdd18c668fc991b0e8e8a.PNG',
-      category: 'Places to Travel',
-      date: '2024-07-20',
-      title: 'Luxury Hotel Booking Guide'
-    }
-  ];
-
+export class BlogsSectionComponent implements OnInit {
+  posts: BlogPost[] = []; // All fetched blog posts
+  visiblePosts: BlogPost[] = []; // Blog posts currently visible to the user
   isLoading = false;
+  loadLimit = 3; // The number of posts to load at a time
 
-  addMorePosts(): void {
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchAllBlogs();
+  }
+
+  // Fetch all blogs from the API
+  fetchAllBlogs(): void {
     this.isLoading = true;
+    const url = `${environment.baseUrl}/posts`;  // Simplified API endpoint
+    
+    this.http.get<any>(url).subscribe(
+      (response) => {
+        // Assuming response structure contains an array of blogs
+        this.posts = response.response.map((post: any) => ({
+          link: `/blog/${post.id}`,
+          imageSrc: post.imageUrl,
+          category: post.tags[0],  // Assuming the first tag as the category
+          date: post.publishedDate,
+          title: post.title
+        }));
+        this.visiblePosts = this.posts.slice(0, this.loadLimit);  // Show only the initial 3 posts
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching blog posts:', error);
+        this.isLoading = false;
+      }
+    );
+  }
 
-    // Simulate a delay for loading new posts
-    setTimeout(() => {
-      const newPosts: BlogPost[] = [
-        {
-          link: '/blog/15',
-          imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-          category: 'Example Category 1',
-          date: '2024-07-15',
-          title: 'Budget Travel: Finding Affordable Hotels'
-        },
-        {
-          link: '/blog/16',
-          imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-          category: 'Example Category 2',
-          date: '2024-07-10',
-          title: 'Top Destinations for Hotel Stays in 2024'
-        },
-        {
-          link: '/blog/17',
-          imageSrc: 'https://cdn.worldota.net/t/x220/blog/0b/e5/0be5d4b335fc2d7367cbb3d6e661321d4394be1e.PNG',
-          category: 'Example Category 2',
-          date: '2024-06-15',
-          title: 'Luxury Hotels You Must Visit in 2024'
-        }
-
-      ];
-
-      this.posts = [...this.posts, ...newPosts];
-      this.isLoading = false;
-    }, 2000); // Adjust the delay time as needed
+  // Load more blogs
+  loadMorePosts(): void {
+    const nextIndex = this.visiblePosts.length + this.loadLimit;
+    const morePosts = this.posts.slice(this.visiblePosts.length, nextIndex);
+    this.visiblePosts = [...this.visiblePosts, ...morePosts];
   }
 }
