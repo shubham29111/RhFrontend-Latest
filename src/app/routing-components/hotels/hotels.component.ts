@@ -685,7 +685,6 @@ manipulateHotelData(hotels: any[]): Hotel[] {
       this.userData = sessionStorage.getItem('user');
       if (!this.userData) {
         this.shardeService.showLoginDropdown.emit();
-        console.log('User not logged in, opening login dropdown');
         return;
       }
     

@@ -41,6 +41,7 @@
     "jquery": "^3.7.1",
     "leaflet": "^1.9.4",
     "ng5-slider": "^1.2.6",
+    "ngx-pagination": "^6.0.3",
     "ngx-slick-carousel": "^17.0.0",
     "ngx-slider-v2": "^16.0.2",
     "nominatim-geocoder": "^0.1.4",

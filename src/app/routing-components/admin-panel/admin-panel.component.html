@@ -270,55 +270,67 @@
                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                        <div class="table-container overflow-x-auto">
+                           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
                              <thead class="bg-gray-50 dark:bg-gray-800">
-                                <tr>
-                                   <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">HOTEL</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">BOOKING ID</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">STATUS</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">GUEST</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CHECK-IN</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CHECK-OUT</th>
-                                   <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">COMPLETION</th>
-                                </tr>
+                               <tr>
+                                 <th class="py-3.5 px-5 text-sm font-normal text-left text-gray-500 dark:text-gray-400">HOTEL</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">BOOKING ID</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">STATUS</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">GUESTS</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">CHECK-IN</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">CHECK-OUT</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">TOTAL PRICE</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">PAYMENT STATUS</th>
+                                 <th class="py-3.5 px-4 text-sm font-normal text-left text-gray-500 dark:text-gray-400">COMPLETION</th>
+                               </tr>
                              </thead>
                              <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                <tr *ngFor="let booking of bookings" class="border-b border-gray-700">
-                                   <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap" style=" padding-right: 50px !important;">
-                                      <div class="inline-flex items-center">
-                                         <img [src]="'https://imgs.search.brave.com/rADgHaE2BOnjAjMAlYpywEjFokAX8ZVxELVfZy566Cg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9jYXJ0b29uLWRy/YXdpbmctaG90ZWwt/d2l0aC1wYWxtLXRy/ZWVzLWJhY2tncm91/bmRfMTE0OTMzMS0y/NTUzOC5qcGc_c2l6/ZT02MjYmZXh0PWpw/Zw'" alt="Hotel Icon" class="w-10 h-10 mr-3 rounded-full" />
-                                        {{booking.Hotel.name}}
-                                      </div>
-                                   </td>
-                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.bookingId }}</td>
-                                   <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                      <span class="flex items-center">
-                                      <span [class]="getStatusColor(booking.bookingStatus) + ' rounded-full h-3 w-3 mr-2'"></span>
-                                      {{ booking.bookingStatus }}
-                                      </span>
-                                   </td>
-                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                      <div class="flex items-center gap-x-2">
-                                         <img class="object-cover w-8 h-8 rounded-full" src="https://img.freepik.com/premium-photo/casual-cloth-man-avatar-icon-modern-profile-picture_1029469-184156.jpg?ga=GA1.1.394777938.1724602890&semt=ais_hybrid" alt="{{ booking.guestName }}">
-                                         <div>
-                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ booking.guestName }}</h2>
-                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ booking.guestEmail }}</p>
-                                         </div>
-                                      </div>
-                                   </td>
-                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkInDate | date: 'MMM d, y' }}</td>
-                                   <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkOutDate | date: 'MMM d, y' }}</td>
-                                   <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                      <div class="flex items-center">
-                                         <span class="mr-2">100%</span> <!-- Assuming completion percentage is 100% for confirmed bookings -->
-                                         <div class="w-full bg-gray-700 rounded-full h-2">
-                                            <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                                         </div>
-                                      </div>
-                                   </td>
-                                </tr>
+                              <tr *ngFor="let booking of bookings | paginate: { itemsPerPage: 5, currentPage: currentPageBookings }">
+                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap" style="padding-right: 50px !important;">
+                                   <div class="inline-flex items-center">
+                                     <img [src]="'https://imgs.search.brave.com/rADgHaE2BOnjAjMAlYpywEjFokAX8ZVxELVfZy566Cg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9jYXJ0b29uLWRy/YXdpbmctaG90ZWwt/d2l0aC1wYWxtLXRy/ZWVzLWJhY2tncm91/bmRfMTE0OTMzMS0y/NTUzOC5qcGc_c2l6/ZT02MjYmZXh0PWpw/Zw'" alt="Hotel Icon" class="w-10 h-10 mr-3 rounded-full" />
+                                     {{ booking.Hotel.name }}
+                                   </div>
+                                 </td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.bookingId }}</td>
+                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                   <span class="flex items-center">
+                                     <span [class]="getStatusColor(booking.bookingStatus) + ' rounded-full h-3 w-3 mr-2'"></span>
+                                     {{ booking.bookingStatus }}
+                                   </span>
+                                 </td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                   <div *ngFor="let guest of booking.guests" class="flex items-center gap-x-2">
+                                     <img class="object-cover w-8 h-8 rounded-full" [src]="'https://img.freepik.com/premium-photo/casual-cloth-man-avatar-icon-modern-profile-picture_1029469-184156.jpg?ga=GA1.1.394777938.1724602890&semt=ais_hybrid'" alt="{{ guest.guestName }}">
+                                     <div>
+                                       <h2 class="text-sm font-medium text-gray-800 dark:text-white">{{ guest.guestName }}</h2>
+                                       <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ guest.guestEmail }}</p>
+                                       <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ guest.guestPhone }}</p>
+                                     </div>
+                                   </div>
+                                 </td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkInDate | date: 'MMM d, y' }}</td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.checkOutDate | date: 'MMM d, y' }}</td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.totalPrice | currency: booking.currencyCode }}</td>
+                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ booking.paymentStatus | titlecase }}</td>
+                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                   <div class="flex items-center">
+                                     <span class="mr-2">100%</span>
+                                     <div class="w-full bg-gray-700 rounded-full h-2">
+                                       <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                     </div>
+                                   </div>
+                                 </td>
+                               </tr>
                              </tbody>
-                          </table>
+                           </table>
+                         
+                           <!-- Pagination Controls -->
+                           <pagination-controls (pageChange)="currentPageBookings  = $event"></pagination-controls>
+                         </div>
+                         
+                         
                        </div>
                     </div>
                  </div>
@@ -416,7 +428,9 @@
                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-lg">
+                        <div class="table-container overflow-x-auto">
+ 
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-lg">
                              <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>
                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Full Name</th>
@@ -428,8 +442,8 @@
                                 </tr>
                              </thead>
                              <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr *ngFor="let user of customers" class="hover:bg-gray-100 dark:hover:bg-gray-800">
-                                   <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.fullname }}</td>
+                              <tr *ngFor="let user of customers | paginate: { itemsPerPage: 5, currentPage: currentPageUsers }">
+                                 <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.fullname }}</td>
                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ user.email }}</td>
                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                       <span class="px-2 py-1 rounded-full text-xs font-medium"
@@ -461,6 +475,8 @@
                                 </tr>
                              </tbody>
                           </table>
+                          <pagination-controls (pageChange)="currentPageUsers = $event"></pagination-controls>
+                        </div>
                        </div>
                     </div>
                  </div>
@@ -566,35 +582,41 @@
                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                           <div class="table-container overflow-x-auto">
+                              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
                                 <thead class="bg-gray-50 dark:bg-gray-800">
-                                    <tr>
-                                        <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
-                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
-                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
-                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
-                                        <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
-                                    </tr>
+                                  <tr>
+                                    <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
+                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
+                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
+                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
+                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
+                                  </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                    <tr *ngFor="let ticket of supportTickets" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
-                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
-                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
-                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
-                                        <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                                            <span class="px-3 py-1 rounded-full text-xs font-medium"
-                                                [ngClass]="{
-                                                    'bg-green-100 text-green-800': ticket.status === 'Resolved',
-                                                    'bg-red-100 text-red-800': ticket.status === 'Open',
-                                                    'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
-                                                }">
-                                                {{ ticket.status }}
-                                            </span>
-                                        </td>
-                                    </tr>
+                                  <tr *ngFor="let ticket of supportTickets | paginate: { itemsPerPage: 5, currentPage: currentPageSupportTickets }" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                      <span class="px-3 py-1 rounded-full text-xs font-medium"
+                                        [ngClass]="{
+                                          'bg-green-100 text-green-800': ticket.status === 'Resolved',
+                                          'bg-red-100 text-red-800': ticket.status === 'Open',
+                                          'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
+                                        }">
+                                        {{ ticket.status }}
+                                      </span>
+                                    </td>
+                                  </tr>
                                 </tbody>
-                            </table>
+                              </table>
+                            
+                              <!-- Pagination Controls -->
+                              <pagination-controls (pageChange)="currentPageSupportTickets = $event"></pagination-controls>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

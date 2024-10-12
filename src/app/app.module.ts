@@ -42,6 +42,7 @@ import { CardPaymentComponent } from './routing-components/card-payment/card-pay
 import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
 import { RoomBookingComponent } from './routing-components/room-booking/room-booking.component';
 import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -97,6 +98,8 @@ import { BookinghistoryComponent } from './routing-components/bookinghistory/boo
     GoogleMapsModule,
     NgSelectModule,
     NgbModule,
+    NgxPaginationModule
+
     
    
       

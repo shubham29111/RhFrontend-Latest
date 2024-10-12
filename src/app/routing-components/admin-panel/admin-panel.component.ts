@@ -23,7 +23,11 @@ throw new Error('Method not implemented.');
   supportTickets: any[] = [];
   siteSettings: any[] = [];
   isEditModalOpen = false;
-  editUserForm: FormGroup; // Ensure it's not undefined
+  currentPageBookings = 1;
+  currentPagePayments = 1;
+  currentPageUsers = 1;
+  currentPageSupportTickets = 1;
+    editUserForm: FormGroup; // Ensure it's not undefined
   reports = [
     { metric: 'Monthly Revenue', value: '$50,000', target: '$45,000', difference: '+ $5,000', comments: 'Exceeded target' },
     { metric: 'Occupancy Rate', value: '75%', target: '80%', difference: '- 5%', comments: 'Slightly below target' },

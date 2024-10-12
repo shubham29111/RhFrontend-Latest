@@ -45,7 +45,7 @@ export class UserFavComponent implements OnInit {
     this.userData = sessionStorage.getItem('user'); // Fetch user data from sessionStorage
     if (!this.userData) {
       console.error('User not logged in.');
-      this.router.navigate(['/login']); // Redirect to login if no user data
+      this.router.navigate(['']); // Redirect to login if no user data
       return;
     }
 
