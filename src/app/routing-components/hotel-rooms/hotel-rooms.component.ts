@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environments';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import * as L from 'leaflet';
-import { catchError, flatMap, of } from 'rxjs';
+import { catchError, flatMap, forkJoin, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -42,6 +42,41 @@ interface RoomRate {
   }[];
 }
 
+interface DetailedRatings {
+  meal: string;
+  room: string;
+  wifi: string;
+  price: string;
+  hygiene: string | null;
+  location: string;
+  services: string;
+  cleanness: string;
+}
+
+interface UserReview {
+  id: number;
+  adults: number;
+  author: string;
+  images: string[] | null;
+  nights: number;
+  rating: number;
+  created: string;
+  children: number;
+  room_name: string;
+  trip_type: string;
+  review_plus: string | null;
+  review_minus: string | null;
+  traveller_type: string;
+}
+
+interface UserReviewsResponse {
+  hotel_id: string;
+  detail_review_rating: number;
+  detailedratings: DetailedRatings;
+  userreviews: UserReview[];
+}
+
+
 
 @Component({
   selector: 'app-hotel-rooms',
@@ -74,6 +109,9 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   children:any;
   checkInHour: number = 0;
   checkOutHour: number = 0;
+  hotelRating1: number =0;  // Add this line for the hotel rating
+  detailedRatings: any; // Add this line for the detailed ratings
+  
   availablePercentage: number = 0;
   map: any;
   hotelLatitude: number = 0;
@@ -165,12 +203,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.currency=res
         this.fetchRoomGroups();
         this.fetchHotelPrices()
-        if (this.hotelId) {
-          this.fetchReviews(this.page, this.limit);
-        }
+       
+        
         }
       }
     )
+    this.fetchReviews(this.page, this.limit);
     this.getHotelData();
     this.getReviewsData();
     this.filteredRooms = this.availableRooms;
@@ -370,12 +408,19 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
 
 
-  getReviewsData(): void {
-    this.http.get(environment.baseUrl + '/userreviews?hotelId=' + this.hotelId)
-      .subscribe((response: any) => {
-        this.reviews = response.response;
-      });
-  }
+  // getReviewsData(): void {
+  //   this.http.get<UserReviewsResponse>(environment.baseUrl + '/userreviews?hotelId=' + this.hotelId)
+  //     .subscribe((response: UserReviewsResponse) => {
+  //       if (response) {
+  //         // Store the detailed ratings and user reviews separately
+  //         this.reviews = response.userreviews || [];
+  //         this.hotelRating1 = response.detail_review_rating;
+  //         this.detailedRatings = response.detailedratings; // This should work now
+  //       }
+  //     });
+  // }
+
+  
   getAmenityIcon(amenity: string): string {
     const iconMap: { [key: string]: string } = {
       'Free Wi-Fi': 'fas fa-wifi',
@@ -457,6 +502,17 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       stars += '';
     }
     return stars;
+  }
+
+  getStarsArray(rating: number): number[] {
+    const fullStars = Math.floor(rating);
+    return Array(fullStars).fill(1); // Array of filled stars
+  }
+  
+  getEmptyStarsArray(rating: number): number[] {
+    const fullStars = Math.floor(rating);
+    const emptyStars = 5 - fullStars; // Assume a 5-star rating system
+    return Array(emptyStars).fill(1); // Array of empty stars
   }
   
 
@@ -723,9 +779,13 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.http.get<any>(`${environment.baseUrl}/reviews?hotelId=${this.hotelId}&page=${page}&limit=${limit}`)
       .subscribe({
         next: (response) => {
-          this.reviews = response.reviews; // Assuming the response contains reviews
-          this.totalReviews = response.total; // Total number of reviews
-          this.totalPages = Math.ceil(this.totalReviews / this.limit); // Calculate total pages
+          const reviewsResponse = response.response;
+          if (reviewsResponse) {
+            // Append general reviews after user reviews
+            this.reviews = [...this.reviews, ...reviewsResponse.data]; // Merge reviews
+            this.totalReviews = reviewsResponse.total;
+            this.totalPages = reviewsResponse.pages;
+          }
           this.loadingReviews = false;
         },
         error: (error) => {
@@ -734,6 +794,33 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
+  getReviewsData(): void {
+    const userReviewsObservable = this.http.get<any>(`${environment.baseUrl}/userreviews?hotelId=${this.hotelId}`);
+    const generalReviewsObservable = this.http.get<any>(`${environment.baseUrl}/reviews?hotelId=${this.hotelId}`);
+  
+    // Use `forkJoin` to fetch both API responses simultaneously
+    forkJoin([userReviewsObservable, generalReviewsObservable])
+      .subscribe(([userReviewsResponse, generalReviewsResponse]) => {
+        // Process the first API response
+        const userReviews = userReviewsResponse.response?.userreviews || [];
+        const detailedRatings = userReviewsResponse.response?.detailedratings || {};
+        const hotelRating = userReviewsResponse.response?.detail_review_rating;
+  
+        // Process the second API response
+        const generalReviews = generalReviewsResponse.response?.data || [];
+        const averageRating = generalReviewsResponse.response?.averageRating?.rating;
+  
+        // Combine the two sets of reviews
+        this.reviews = [...userReviews, ...generalReviews];
+  
+        // You can also store the ratings or detailed ratings if needed
+        this.detailedRatings = detailedRatings;
+        this.hotelRating1 = hotelRating || averageRating; // Use one of the ratings
+      });
+  }
+  
+  
   loadMoreReviews(): void {
     if (this.page < this.totalPages) {
       this.page++;
