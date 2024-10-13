@@ -35,17 +35,24 @@
       });
     this.currentDate();
   }
+  
   getTranslation(key: string): string {
     return this.translationService.getTranslation(key, this.selectedLanguage);
   }
-    currentDate()
-    {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      this.checkIn = today.toISOString().split('T')[0];
-      this.checkOut = tomorrow.toISOString().split('T')[0];
-    }
+
+  currentDate()
+  {
+    const today = new Date();
+    
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.checkIn = tomorrow.toISOString().split('T')[0];
+    
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    this.checkOut = dayAfterTomorrow.toISOString().split('T')[0];
+  }
+  
     
     onLocationChange(query: string) {
       if (this.programmaticChange) {

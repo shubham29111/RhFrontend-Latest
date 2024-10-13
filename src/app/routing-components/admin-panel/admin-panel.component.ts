@@ -42,6 +42,7 @@ throw new Error('Method not implemented.');
   currentPagePayments = 1;
   currentPageUsers = 1;
   currentPageBlogs = 1;
+  dashboardData: any = {}; 
 
   currentPageSupportTickets = 1;
     editUserForm: FormGroup; // Ensure it's not undefined
@@ -85,6 +86,7 @@ throw new Error('Method not implemented.');
     if (!user || !user.isAdmin) {
       this.router.navigate(['/notfound']);
     } else {
+      this.fetchDashboardData();
       this.loadBookings();
       this.loadSupportTickets();
       this.loadCustomers();
@@ -164,6 +166,21 @@ throw new Error('Method not implemented.');
     }, error => {
       console.error('Error loading support tickets', error);
     });
+  }
+
+  fetchDashboardData(): void {
+    const apiUrl = `${environment.baseUrl}/dashboard`; // Replace with your API endpoint
+    this.http.get<any>(apiUrl).subscribe(
+      (response) => {
+        if (response.statusCode === 200) {
+          this.dashboardData = response.response;
+          console.log('Dashboard Data:', this.dashboardData);
+        }
+      },
+      (error) => {
+        console.error('Error fetching dashboard data', error);
+      }
+    );
   }
 
   loadSiteSettings() {
@@ -309,6 +326,7 @@ throw new Error('Method not implemented.');
         console.error('Error fetching blogs:', error);
       });
   }
+
   closeSuccessModal() {
     this.showSuccessModal = false;
   }
@@ -327,18 +345,15 @@ throw new Error('Method not implemented.');
 
   deleteUser(userId: number) {
     if (confirm('Are you sure you want to delete this user?')) {
-      const apiUrl = `${environment.baseUrl}/users`; // Update with your actual delete endpoint
+      const apiUrl = `${environment.baseUrl}/users`; 
   
-      // Request body
-      const requestBody = {
-        userId: userId // Pass the userId in the DELETE request body
+      const requestBody = { 
+        userId: userId 
       };
   
-      // Send DELETE request with request body
       this.http.request('delete', apiUrl, { body: requestBody }).subscribe(
         (response) => {
           console.log('User deleted successfully:', response);
-          // Update the customers list by removing the deleted user
           this.customers = this.customers.filter(user => user.id !== userId);
         },
         (error) => {
