@@ -1,15 +1,13 @@
 <div class="booking-history-container">
   <h2>Booking History</h2>
-  
+
   <div class="booking-list" *ngIf="bookings && bookings.length > 0">
     <div class="booking-card" *ngFor="let booking of bookings">
       <div class="booking-header">
         <div class="hotel-info">
-          <!-- Assuming the hotel image is not in the API response; replace with a placeholder if needed -->
           <img class="hotel-image" [src]="hotelImage" alt="{{ booking.Hotel?.name }}" />
           <div>
             <h3>{{ booking.Hotel?.name }}</h3>
-            <!-- <p>{{ booking.roomGroupId }}</p> -->
             <small>{{ booking.checkInDate | date: 'dd MMM yyyy' }} - {{ booking.checkOutDate | date: 'dd MMM yyyy' }}</small>
           </div>
         </div>
@@ -28,14 +26,101 @@
           <strong>Total Price:</strong> {{ booking.totalPrice | currency: booking.currencyCode }}
         </div>
       </div>
-      <div class="booking-footer">
-        <button class="view-details-btn" (click)="viewBookingDetails(booking)">View Details</button>
-      </div>
+      <div class="booking-footer flex space-x-4">
+        <!-- <button class="view-details-btn" (click)="viewBookingDetails(booking)">View Details</button> -->
+        <button class="add-review-btn px-6 py-2 bg-blue-500 text-white font-bold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200" 
+        (click)="openReviewPopup(booking)">
+        Add Review
+      </button>
+     </div>
+      
     </div>
   </div>
 
-  <!-- No booking message -->
-  <div class="no-bookings" *ngIf="!bookings || bookings.length === 0">
-    <p>No bookings found.</p>
+  <div class="fixed inset-0 bg-gray-900 bg-opacity-80 flex justify-center items-center z-50" *ngIf="isReviewPopupOpen">
+    <div class="popup-content bg-white p-6 rounded-lg shadow-2xl max-w-4xl w-full relative z-50">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Add a Review</h3>
+  
+      <div class="grid grid-cols-2 gap-6">
+        <div class="form-group">
+          <label for="cleanness" class="block text-gray-700 font-bold">Cleanness:</label>
+          <select id="cleanness" [(ngModel)]="reviewData.detailedRatings.cleanness" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Excellent">Excellent</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="hygiene" class="block text-gray-700 font-bold">Hygiene:</label>
+          <select id="hygiene" [(ngModel)]="reviewData.detailedRatings.hygiene" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Excellent">Excellent</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="location" class="block text-gray-700 font-bold">Location:</label>
+          <select id="location" [(ngModel)]="reviewData.detailedRatings.location" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Perfect">Perfect</option>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="meal" class="block text-gray-700 font-bold">Meal:</label>
+          <select id="meal" [(ngModel)]="reviewData.detailedRatings.meal" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Good">Good</option>
+            <option value="Average">Average</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="price" class="block text-gray-700 font-bold">Price:</label>
+          <select id="price" [(ngModel)]="reviewData.detailedRatings.price" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Affordable">Affordable</option>
+            <option value="Expensive">Expensive</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="room" class="block text-gray-700 font-bold">Room:</label>
+          <select id="room" [(ngModel)]="reviewData.detailedRatings.room" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Spacious">Spacious</option>
+            <option value="Comfortable">Comfortable</option>
+            <option value="Cramped">Cramped</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="services" class="block text-gray-700 font-bold">Services:</label>
+          <select id="services" [(ngModel)]="reviewData.detailedRatings.services" (change)="calculateRating()" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+            <option value="Friendly staff">Friendly staff</option>
+            <option value="Average service">Average service</option>
+            <option value="Poor service">Poor service</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="comments" class="block text-gray-700 font-bold mb-2">Comments:</label>
+          <textarea id="comments" [(ngModel)]="reviewData.comments" rows="1" class="mt-1 p-2 w-full rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+        </div>
+      </div>
+  
+      <div class="flex justify-between space-x-4 mt-6">
+        <button (click)="closeReviewPopup()" class="px-6 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:ring-2 focus:ring-red-400">Cancel</button>
+        <button (click)="submitReview()" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400">Submit Review</button>
+      </div>
+    </div>
   </div>
+  
+  
 </div>

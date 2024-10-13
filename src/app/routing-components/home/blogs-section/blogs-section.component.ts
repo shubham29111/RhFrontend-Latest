@@ -42,7 +42,12 @@ export class BlogsSectionComponent implements OnInit {
           date: post.publishedDate,
           title: post.title
         }));
-        this.visiblePosts = this.posts.slice(0, this.loadLimit);  // Show only the initial 3 posts
+
+        // Sort the posts by publishedDate in descending order
+        this.posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+        // Show only the initial 3 posts
+        this.visiblePosts = this.posts.slice(0, this.loadLimit);  
         this.isLoading = false;
       },
       (error) => {
@@ -54,8 +59,14 @@ export class BlogsSectionComponent implements OnInit {
 
   // Load more blogs
   loadMorePosts(): void {
-    const nextIndex = this.visiblePosts.length + this.loadLimit;
-    const morePosts = this.posts.slice(this.visiblePosts.length, nextIndex);
-    this.visiblePosts = [...this.visiblePosts, ...morePosts];
+    this.isLoading = true; // Set loading to true to show the loader
+
+    // Simulate a delay before loading more posts
+    setTimeout(() => {
+      const nextIndex = this.visiblePosts.length + this.loadLimit;
+      const morePosts = this.posts.slice(this.visiblePosts.length, nextIndex);
+      this.visiblePosts = [...this.visiblePosts, ...morePosts];
+      this.isLoading = false; // Turn off loading after posts are added
+    }, 2000); // 2-second delay (adjust the delay as needed)
   }
 }

@@ -154,47 +154,7 @@
   <h2 class="text-2xl font-semibold mb-2">Available rooms</h2>
   <p class="text-sm text-gray-600 mb-4">For 1 night, for 2 adults</p>
   
-  <!-- Filters Section -->
-  <!-- <form [formGroup]="filterForm" class="filters bg-yellow-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="relative">
-      <label for="beds" class="block text-sm font-medium text-gray-700">Beds</label>
-      <select id="beds" formControlName="beds" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option value="all">all options</option>
-        <option value="double">double bed</option>
-        <option value="separate">separate beds</option>
-      </select>
-    </div>
-    
-    <div class="relative">
-      <label for="meals" class="block text-sm font-medium text-gray-700">Meals</label>
-      <select id="meals" formControlName="meals" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option value="all">all options</option>
-        <option value="no meal">no meal (RO)</option>
-        <option value="breakfast">breakfast (BB)</option>
-        <option value="half board">breakfast + lunch or dinner (HB)</option>
-        <option value="full board">breakfast, lunch, and dinner (FB)</option>
-        <option value="all inclusive">all inclusive (AI)</option>
-      </select>
-    </div>
-  
-    <div class="relative">
-      <label for="payment" class="block text-sm font-medium text-gray-700">Payment</label>
-      <select id="payment" formControlName="payment" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option value="all">all options</option>
-        <option value="pay now">pay now</option>
-        <option value="pay at hotel">pay at the hotel</option>
-      </select>
-    </div>
-  
-    <div class="relative">
-      <label for="cancellation" class="block text-sm font-medium text-gray-700">Cancellation policy</label>
-      <select id="cancellation" formControlName="cancellation" class="custom-select mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
-        <option value="all">all options</option>
-        <option value="free cancellation">with free cancellation</option>
-      </select>
-    </div>
-  </form> -->
-
+ 
   <div *ngIf="loadingPrices" class="animate-pulse">
     <div class="room-card bg-gray-200 p-4 mb-4 rounded-lg">
       <!-- Room Header -->
@@ -415,7 +375,36 @@
   </section>
 
 
-
+  <section class="reviews-section container">
+    <h2 class="text-2xl font-semibold mb-4">Hotel Reviews</h2>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loadingReviews" class="text-center">
+      <div class="loader">Loading reviews...</div>
+    </div>
+  
+    <!-- Display reviews -->
+    <div *ngIf="!loadingReviews && reviews.length > 0">
+      <div *ngFor="let review of reviews" class="review-card bg-white p-4 mb-4 rounded-lg shadow">
+        <h3 class="font-bold text-lg">{{ review.author }}</h3>
+        <p class="text-sm text-gray-600">{{ review.date | date: 'MMM d, y' }}</p>
+        <p class="mt-2">{{ review.content }}</p>
+      </div>
+  
+      <!-- Show "Load More" button if there are more pages -->
+      <div class="text-center" *ngIf="page < totalPages">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300" (click)="loadMoreReviews()">
+          Load More Reviews
+        </button>
+      </div>
+    </div>
+  
+    <!-- No reviews message -->
+    <div *ngIf="!loadingReviews && reviews.length === 0" class="text-center">
+      <p>No reviews available for this hotel.</p>
+    </div>
+  </section>
+  
 
 
 

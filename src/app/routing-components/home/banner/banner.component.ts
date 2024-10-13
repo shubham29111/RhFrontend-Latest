@@ -79,7 +79,7 @@
 
 
     selectSuggestion(suggestion: any,type:any,event: MouseEvent) {
-      event.stopPropagation();  // Stop the event from bubbling up
+      event.stopPropagation();  
 
       this.region=suggestion;
       this.type=type;
@@ -91,12 +91,12 @@
     }
 
     selectHotelSuggestion(suggestion: any, type: any, event: MouseEvent) {
-      event.stopPropagation();  // Stop the event from bubbling up
+      event.stopPropagation(); 
       this.hotel = suggestion;
       this.type = type;
       this.location = suggestion.name;
-      this.suggestions = { regions: [], hotels: [] };  // Update the input field with the selected hotel name
-      this.showDropdownMenu = false;  // Close the dropdown
+      this.suggestions = { regions: [], hotels: [] }; 
+      this.showDropdownMenu = false; 
       this.programmaticChange = true;
     }
     
@@ -113,9 +113,9 @@
     
 
     removeRoom(index: number, event: MouseEvent) {
-      event.stopPropagation(); // Prevent the event from bubbling up
+      event.stopPropagation(); 
       if (this.rooms.length > 1) {
-        this.rooms.splice(index, 1);  // Remove the room if more than one room exists
+        this.rooms.splice(index, 1); 
       }
     }
     
@@ -134,7 +134,7 @@
 
     decreaseChildren(roomIndex: number) {
       if (this.rooms[roomIndex].selectedChildren.length > 0) {
-        this.rooms[roomIndex].selectedChildren.pop();  // Remove the last child added
+        this.rooms[roomIndex].selectedChildren.pop(); 
       }
     }
     
@@ -163,7 +163,6 @@
       const totalChildren = this.rooms.reduce((sum, room) => sum + room.selectedChildren.length, 0);
       const guests = totalAdults + totalChildren;
     
-      // Flatten the array of children ages for all rooms
       const childrenAges = this.rooms.flatMap(room => room.selectedChildren);
     
       if (this.type === "hotel") {
@@ -193,7 +192,7 @@
             totalAdults,
             totalChildren,
             rooms: this.rooms.length,
-            childrenAges // Send childrenAges as a flat array
+            childrenAges 
           }
         });
       }
@@ -207,7 +206,6 @@
      const isClickInsideDropdown = target.closest('.dropdown-menu') !== null;
      const isClickInsideInput = target.closest('.custom-input') !== null;
    
-     // Only close the dropdown if the click is outside both the input and the dropdown
      if (!isClickInsideDropdown && !isClickInsideInput) {
        this.showDropdownMenu = false;
        this.isGuestsDropdownVisible = false;
@@ -220,7 +218,7 @@ addChildAge(event: Event, roomIndex: number) {
 
   if (selectedAge && this.rooms[roomIndex].selectedChildren.length < 4) {
     this.rooms[roomIndex].selectedChildren.push(selectedAge);
-    selectElement.value = '';  // Reset the dropdown after an age is selected
+    selectElement.value = '';  
   }
 }
 
@@ -229,9 +227,7 @@ removeChildAge(childIndex: number, roomIndex: number, event: MouseEvent) {
   this.rooms[roomIndex].selectedChildren.splice(childIndex, 1);
 }
 
-    
-    
-  }
+}
 
 
 

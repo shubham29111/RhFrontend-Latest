@@ -104,4 +104,7 @@
     color: #555;
     font-size: 18px;
   }
-  
+  .form-group
+  {
+    margin-bottom: 0px !important
+  }

@@ -324,5 +324,29 @@ throw new Error('Method not implemented.');
     // Remove the blog from the list
     this.blogs = this.blogs.filter(b => b !== blog);
   }
+
+  deleteUser(userId: number) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      const apiUrl = `${environment.baseUrl}/users`; // Update with your actual delete endpoint
+  
+      // Request body
+      const requestBody = {
+        userId: userId // Pass the userId in the DELETE request body
+      };
+  
+      // Send DELETE request with request body
+      this.http.request('delete', apiUrl, { body: requestBody }).subscribe(
+        (response) => {
+          console.log('User deleted successfully:', response);
+          // Update the customers list by removing the deleted user
+          this.customers = this.customers.filter(user => user.id !== userId);
+        },
+        (error) => {
+          console.error('Error deleting user:', error);
+        }
+      );
+    }
+  }
+  
   
 }

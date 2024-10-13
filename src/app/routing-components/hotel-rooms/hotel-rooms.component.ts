@@ -53,7 +53,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
   hotel: any;
   rooms: any[] = [];
-  reviews: any = null;
   images: string[] = [];
   roomGroups: any[] = [];
   selectedImageUrl: string = '';
@@ -100,6 +99,12 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
 
   filterForm: FormGroup;
   filteredRooms: { [key: string]: RoomRate[] } = {};
+  reviews: any[] = []; // Store reviews
+  loadingReviews = false;
+  page = 1;
+  limit = 5; // Limit per page
+  totalReviews = 0;
+  totalPages = 1;
 
   nearbyPlaceCategories = [
     { title: 'Landmarks', icon: 'fas fa-landmark', places: this.nearbyPlaces['landmarks'] },
@@ -123,6 +128,8 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loadingPrices=true;
+
     this.route.queryParams.subscribe(params => {
       this.hotelId = params['hotel'];
       this.hotelPrice = params['hotelPrices'];
@@ -146,6 +153,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.checkIn = this.datePipe.transform(this.checkInDate, 'dd MMM yyyy, EEE');
       this.checkOut = this.datePipe.transform(this.checkOutDate, 'dd MMM yyyy, EEE');
     });
+    
     this.currency =localStorage.getItem('currency') || "USD";
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
       (res)=>{
@@ -157,6 +165,9 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         this.currency=res
         this.fetchRoomGroups();
         this.fetchHotelPrices()
+        if (this.hotelId) {
+          this.fetchReviews(this.page, this.limit);
+        }
         }
       }
     )
@@ -707,7 +718,27 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/reserve']);
   }
   
-  
-
+  fetchReviews(page: number, limit: number): void {
+    this.loadingReviews = true;
+    this.http.get<any>(`${environment.baseUrl}/reviews?hotelId=${this.hotelId}&page=${page}&limit=${limit}`)
+      .subscribe({
+        next: (response) => {
+          this.reviews = response.reviews; // Assuming the response contains reviews
+          this.totalReviews = response.total; // Total number of reviews
+          this.totalPages = Math.ceil(this.totalReviews / this.limit); // Calculate total pages
+          this.loadingReviews = false;
+        },
+        error: (error) => {
+          console.error('Error fetching reviews:', error);
+          this.loadingReviews = false;
+        }
+      });
+  }
+  loadMoreReviews(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.fetchReviews(this.page, this.limit);
+    }
+  }
 }
 

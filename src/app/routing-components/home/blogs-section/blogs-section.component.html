@@ -27,7 +27,12 @@
       <div class="button-wrapper text-center mt-8" *ngIf="visiblePosts.length < posts.length">
         <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300" (click)="loadMorePosts()" [disabled]="isLoading">
           <span *ngIf="!isLoading">Show More</span>
-          <span *ngIf="isLoading">Loading...</span>
+          <div *ngIf="isLoading" class="loader">
+            <div class="dot first"></div>
+            <div class="dot second"></div>
+            <div class="dot third"></div>
+            <div class="dot fourth"></div>
+          </div>
         </button>
       </div>
     </article>
