@@ -5,11 +5,11 @@ import { environment } from 'src/environments/environments';
 import { Hotel } from './hotel.model';
 import staticFilters from './static-filters';
 import { HotelService } from 'src/app/services/hotel.service';
-import src from 'daisyui';
-import { popup } from 'leaflet';
+
 import {  ViewChild } from '@angular/core';
 import { BookingPopupComponent } from 'src/app/shared-components/booking-popup/booking-popup.component';
 import { SharedService } from 'src/app/services/shared-service/shared.service';
+import { NotificationComponent } from '../notification/notification.component';
 
 interface FilterItem {
   type: string | null;
@@ -38,7 +38,9 @@ declare var google: any;
 })
 export class HotelsComponent implements OnInit {
   currentPage:number=1
-  @ViewChild('comp') bookComponent:any
+  @ViewChild('comp') bookComponent:any;
+  @ViewChild(NotificationComponent) notificationComponent!: NotificationComponent;
+
   isPopupVisible=false
   itemsPerPage: number=5
   totalItems: number=0
@@ -117,41 +119,49 @@ export class HotelsComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.regionId = params['regionId'];
-      this.region=params['location'];
-      this.guests=params['guests'];
-      this.checkIn=params['checkIn'];
-      this.checkOut=params['checkOut'];
-      this.childs=params['totalChildren'];
-      this.adults=params['totalAdults'];
-      this.childrens=params['childrenAges'] || [];
-      this.rooms=params['rooms'];
-      this.currency =localStorage.getItem('currency') || "USD";
-      this.isPopupVisible=false
+      this.region = params['location'];
+      this.guests = params['guests'];
+      this.checkIn = params['checkIn'];
+      this.checkOut = params['checkOut'];
+      this.childs = params['totalChildren'];
+      this.adults = params['totalAdults'];
+      this.childrens = params['childrenAges'] || [];
+      this.rooms = params['rooms'];
+      this.currency = localStorage.getItem('currency') || "USD";
+      this.isPopupVisible = false;
       this.fetchHotels();
       this.loadFilters();
-
-
     });
-    this.currency =localStorage.getItem('currency') || "USD";
+  
+    this.currency = localStorage.getItem('currency') || "USD";
+    
+    // Subscribe to currency changes
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
-      (res)=>{
-        console.log(res)
-        if(res){
-         
-        this.isLoading=true
-        this.currency=res
-        this.fetchHotels()
+      (res) => {
+        if (res) {
+          this.isLoading = true;
+          this.currency = res;
+          this.fetchHotels();
         }
-      
       }
-
-    )
-   
-
+    );
+  
+    // Check if the user is logged in
+    this.userData = sessionStorage.getItem('user');
     
-    
+    if (this.userData) {
+      // User is logged in, retrieve liked hotels from localStorage
+      const storedLikes = JSON.parse(localStorage.getItem('likedHotels') || '[]');
+      if (storedLikes.length > 0) {
+        // Send the liked hotels to the API one by one
+        this.sendStoredLikesToApi(storedLikes);
+      }
+    } else {
+      // User is not logged in, clear the liked hotels from localStorage
+      localStorage.removeItem('likedHotels');
+    }
   }
-
+  
   ngAfterViewInit(): void {
     if (typeof google !== 'undefined') {
       this.initMap();
@@ -286,41 +296,35 @@ export class HotelsComponent implements OnInit {
       this.fetchHotels();
     }
   }
-  
-manipulateHotelData(hotels: any[]): Hotel[] {
-  if (!Array.isArray(hotels)) {
-    console.error('Expected hotels to be an array, but got:', hotels);
-    return [];
-  }
 
-  return hotels.map((hotel, index) => {
-    const placeholderImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/495px-No-Image-Placeholder.svg.png?20200912122019';
-
-    let images: string[] = [];
-    const isLiked=hotel.isLiked;
-    if (Array.isArray(hotel.images) && hotel.images.length > 0) {
-      images = hotel.images.slice(0, 10).map((img: string) => {
-        if (img) {
-          return img.replace('{size}', '640x400');
-        } else {
-          console.warn(`Image is undefined or empty for hotel at index ${index}`, hotel);
-          return placeholderImage;
-        }
-      });
-    } else {
-      console.warn(`Hotel images are undefined or empty for hotel at index ${index}`, hotel);
-      images = [placeholderImage];
+  manipulateHotelData(hotels: any[]): Hotel[] {
+    if (!Array.isArray(hotels)) {
+      console.error('Expected hotels to be an array, but got:', hotels);
+      return [];
     }
-
-    return {
-      ...hotel,
-      images: images.length > 0 ? images : [placeholderImage],
-      currentImageIndex: 0,
-      id: index,
-    };
-  });
-}
-
+  
+    return hotels.map((hotel, index) => {
+      const placeholderImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/495px-No-Image-Placeholder.svg.png?20200912122019';
+      
+      let images: string[] = [];
+      if (Array.isArray(hotel.images) && hotel.images.length > 0) {
+        images = hotel.images.slice(0, 10).map((img: string) => {
+          return img ? img.replace('{size}', '640x400') : placeholderImage;
+        });
+      } else {
+        images = [placeholderImage];
+      }
+  
+      // Return the hotel data including the isliked status
+      return {
+        ...hotel,
+        images: images.length > 0 ? images : [placeholderImage],
+        currentImageIndex: 0,
+        isliked: hotel.isliked // Ensure isliked is passed to the object
+      };
+    });
+  }
+  
   
   setView(view: string) {
     this.showMap = view === 'map';
@@ -668,35 +672,47 @@ manipulateHotelData(hotels: any[]): Hotel[] {
     };
   }
   toggleLike(hotelId: string, currentLikeStatus: boolean) {
-    // Find the hotel by ID
     const hotel = this.hotels.find(h => h.hotel_id === hotelId);
     if (hotel) {
       // Toggle the like status in the UI
-      hotel.isLiked = !currentLikeStatus;
+      hotel.isliked = !currentLikeStatus;
   
-      // Prepare the request body
-      const requestBody = {
-        hotelId: hotel.hotel_id,
-        regionId: Number(this.regionId), // assuming regionId is available in your component
-        isLike: hotel.isLiked
-      };
-  
-      // Set headers, including authorization
+      // Check if the user is logged in
       this.userData = sessionStorage.getItem('user');
+      
       if (!this.userData) {
-        this.shardeService.showLoginDropdown.emit();
+        // User not logged in, show alert and store the liked hotel in localStorage
+        let storedLikes = JSON.parse(localStorage.getItem('likedHotels') || '[]');
+        
+        if (hotel.isliked) {
+          const hotelData = { hotelId: hotelId, regionId: this.regionId };
+          if (!storedLikes.some((item: any) => item.hotelId === hotelId)) {
+            storedLikes.push(hotelData);
+          }
+        } else {
+          storedLikes = storedLikes.filter((item: any) => item.hotelId !== hotelId);
+        }
+  
+        localStorage.setItem('likedHotels', JSON.stringify(storedLikes));
+        
+        // Show the notification alert for non-logged-in users
+        this.notificationComponent.showAlert('To save hotels to your favorites, please log in.');
         return;
       }
-    
-      // Parse the user data to extract the token
+  
+      // If the user is logged in, send the like/unlike request to the API
+      const requestBody = {
+        hotelId: hotel.hotel_id,
+        regionId: Number(this.regionId),
+        isLike: hotel.isliked
+      };
+  
       const user = JSON.parse(this.userData);
-    
-      // Define the headers with the token for authorization
+  
       const headers = new HttpHeaders({
         Authorization: `Bearer ${user.token}`,
       });
   
-      // Send POST request to the API
       this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
         .subscribe(
           response => {
@@ -704,11 +720,57 @@ manipulateHotelData(hotels: any[]): Hotel[] {
           },
           error => {
             console.error('Error updating like status:', error);
-            // Optionally revert the like status in case of an error
-            hotel.isLiked = currentLikeStatus;
+            hotel.isliked = currentLikeStatus;
           }
         );
     }
-
   }
+  
+  
+
+  sendStoredLikesToApi(storedLikes: any[]) {
+    if (!this.userData) return;
+  
+    // Parse the user data to extract the token
+    const user = JSON.parse(this.userData);
+  
+    // Define the headers with the token for authorization
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${user.token}`,
+    });
+  
+    // Iterate over stored likes and send them one by one
+    storedLikes.forEach((like, index) => {
+      const requestBody = {
+        hotelId: like.hotelId,
+        regionId: like.regionId,
+        isLike: true
+      };
+  
+      // Send POST request for each liked hotel
+      this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
+        .subscribe(
+          response => {
+            console.log(`Like for hotel ID ${like.hotelId} sent successfully:`, response);
+            
+            // After successfully sending the like, remove it from the local storage array
+            storedLikes.splice(index, 1);
+  
+            // Update localStorage with the remaining likes
+            localStorage.setItem('likedHotels', JSON.stringify(storedLikes));
+  
+            // If all likes have been sent, clear localStorage
+            if (storedLikes.length === 0) {
+              localStorage.removeItem('likedHotels');
+            }
+          },
+          error => {
+            console.error(`Error sending like for hotel ID ${like.hotelId}:`, error);
+          }
+        );
+    });
+  }
+  
+  
+  
 }

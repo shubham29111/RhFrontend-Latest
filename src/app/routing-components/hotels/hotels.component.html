@@ -234,10 +234,11 @@
                                         ></i> -->
                                        
                                         <i
-                                        [ngClass]="hotel.isLiked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'"
-                                        (click)="toggleLike(hotel.hotel_id, hotel.isLiked)" 
+                                        [ngClass]="hotel.isliked ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'"
+                                        (click)="toggleLike(hotel.hotel_id, hotel.isliked)"
                                         class="cursor-pointer text-xl"
                                       ></i>
+                                      
                                       
                                       </div>
                                       
@@ -359,3 +360,4 @@
              </div>
        </div>
    </div>
+   <app-notification></app-notification>

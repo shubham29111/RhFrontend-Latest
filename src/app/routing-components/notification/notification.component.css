@@ -1,0 +1,52 @@
+.alert-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    top: 580px;
+    background-color: #0595f5; /* Soft bluish background */
+    color: #feffff; /* Darker bluish color for text */
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 300px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .alert-notification p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    flex: 1; /* Ensures the text expands */
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: #054683; /* Same darker bluish color as text */
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .close-btn:hover {
+    color: #004085; /* Darker blue on hover */
+  }
+  
+  .close-btn:focus {
+    outline: none;
+  }
+  
+  @media (max-width: 600px) {
+    .alert-notification {
+      top: 10px;
+      right: 10px;
+      max-width: 100%;
+      font-size: 0.9rem;
+    }
+  }
+  
