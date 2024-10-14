@@ -43,6 +43,13 @@ throw new Error('Method not implemented.');
   currentPageUsers = 1;
   currentPageBlogs = 1;
   dashboardData: any = {}; 
+  regions: any[] = []; // List of regions fetched from API
+  selectedRegion: any = null; // Model for selected region (single)
+
+  selectedRegions: any[] = []; // Selected regions for top destinations
+  isLoading: boolean = false; // Flag for showing loading spinner in ng-select
+  isInvalid: boolean = false; // Validation flag
+  topDestinations: any[] = [];
 
   currentPageSupportTickets = 1;
     editUserForm: FormGroup; // Ensure it's not undefined
@@ -91,6 +98,8 @@ throw new Error('Method not implemented.');
       this.loadSupportTickets();
       this.loadCustomers();
       this.getBlogs();
+      // this.getTopDestinations();
+      this.fetchTopDestinations(); 
     }
     
   }
@@ -362,6 +371,165 @@ throw new Error('Method not implemented.');
       );
     }
   }
+  onSearch(event: { term: string }) {
+    const term = event.term;
+
+    if (term.length < 3) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    // Make the API call to search regions using GET with query params
+    this.http.get<any>(`${environment.baseUrl}/regionsV1?search=${term}&page=1&limit=10`).subscribe(
+      (response) => {
+        this.isLoading = false;
+        // Extract regions data from the response
+        this.regions = response.response.data.map((region: any) => ({
+          id: region.id,
+          name: region.name,
+          countryCode: region.countryCode,
+          type: region.type,
+          imageUrl: '', // Default imageUrl field
+          active: true // Default active status
+        }));
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error fetching regions:', error);
+      }
+    );
+  }
+
+  // Function to submit the selected region and add it to the table
+  submitTopDestinations() {
+    if (!this.selectedRegion) {
+      return; // If no region is selected, do nothing
+    }
+
+    const selectedRegionObject = this.regions.find(region => region.id === this.selectedRegion);
+
+    // Check if the region already exists in the selectedRegions array
+    if (selectedRegionObject && !this.selectedRegions.some(region => region.id === selectedRegionObject.id)) {
+      // Add the selected region to the list of top destinations (avoid duplicates)
+      this.selectedRegions.push({
+        ...selectedRegionObject,
+        imageUrl: '', // Make image URL required for each region
+        active: true // Default active status
+      });
+      this.selectedRegion = null; // Reset the dropdown
+    }
+  }
+
+  // Remove a selected region from the list
+  removeRegion(regionId: string) {
+    this.selectedRegions = this.selectedRegions.filter(region => region.id !== regionId);
+  }
+
+  // Update image URL for a specific region
+  updateImageUrl(regionId: string, event: Event) {
+    const imageUrl = (event.target as HTMLInputElement).value;
+    const region = this.selectedRegions.find(region => region.id === regionId);
+    if (region) {
+      region.imageUrl = imageUrl;
+    }
+  }
+
+  // Toggle the active status for a specific region
+  toggleActiveStatus(regionId: string) {
+    const region = this.topDestinations.find(region => region.id === regionId);
+    if (region) {
+      region.active = !region.active;
+console.log(region);
+
+      // Prepare the update payload
+      const payload = {
+        title: region.title,
+        location: region.location,
+        regionId:Number( region.regionId),
+        active: region.active,
+        imageUrl: region.imageUrl
+      };
+
+      // Hit the update API with the new active status
+      this.http.post(`${environment.baseUrl}/top-destinations/${region.id}`, payload)
+        .subscribe(
+          response => {
+            console.log('Successfully updated region:', response);
+          },
+          error => {
+            console.error('Error updating region:', error);
+          }
+        );
+    }
+  }
   
-  
+  // Submit the selected regions to update the top destinations
+  submitRegions() {
+    const invalidRegion = this.selectedRegions.find(region => !region.imageUrl);
+    if (invalidRegion) {
+      this.isInvalid = true; // Mark as invalid if any region has no image URL
+      return;
+    }
+console.log(this.selectedRegions);
+
+    // Prepare data for submission
+    const updateData = this.selectedRegions.map(region => ({
+      title: region.name,
+      location: region.name, // Assuming location is the same as the region name
+      regionId: Number(region.regionId),
+      active: region.active,
+      imageUrl: region.imageUrl
+    }));
+
+    // Submit the data via POST request (this would be your update API call)
+    updateData.forEach(destination => {
+      const apiUrl = `${environment.baseUrl}/top-destinations`;
+      this.http.post(apiUrl, destination).subscribe(
+        (response) => {
+          console.log('Top destination updated successfully:', response);
+        },
+        (error) => {
+          console.error('Error updating top destination:', error);
+        }
+      );
+    });
+  }
+
+  getTopDestinations() {
+    this.isLoading = true;
+
+    this.http.get<any>(`${environment.baseUrl}/top-destination`).subscribe(
+      (response) => {
+        this.isLoading = false;
+        console.log("top",response);
+        
+        // Bind the response to the topDestinations array
+        this.topDestinations = response.response || [];
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error fetching top destinations:', error);
+      }
+    );
+  }
+
+  fetchTopDestinations() {
+    this.http.get<any>(`${environment.baseUrl}/top-destination?active=false`).subscribe(
+      (response) => {
+        this.selectedRegions = response.response.map((region: any) => ({
+          id: region.id,
+          name: region.Region.name,
+          countryCode: region.Region.countryCode,
+          type: region.Region.type,
+          imageUrl: region.imageUrl,
+          active: region.active
+        }));
+      },
+      (error) => {
+        console.error('Error fetching top destinations', error);
+      }
+    );
+  }
+
 }

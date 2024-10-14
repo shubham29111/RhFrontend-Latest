@@ -43,6 +43,7 @@ import { UserFavComponent } from './routing-components/profile/user-fav/user-fav
 import { RoomBookingComponent } from './routing-components/room-booking/room-booking.component';
 import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NotificationComponent } from './routing-components/notification/notification.component';
 
 
 
@@ -82,7 +83,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CardPaymentComponent,
     UserFavComponent,
     RoomBookingComponent,
-    BookinghistoryComponent
+    BookinghistoryComponent,
+    NotificationComponent
 
    
   ],
