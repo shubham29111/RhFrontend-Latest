@@ -29,6 +29,8 @@ export class AdminPanelComponent implements OnInit {
 saveUser() {
 throw new Error('Method not implemented.');
 }
+
+
   currentSection: string = 'dashboard'; // Set the default section to 'dashboard'
   bookings: any[] = [];
   customers: any[] = [];
@@ -50,6 +52,10 @@ throw new Error('Method not implemented.');
   isLoading: boolean = false; // Flag for showing loading spinner in ng-select
   isInvalid: boolean = false; // Validation flag
   topDestinations: any[] = [];
+
+  isDown = false;
+  startX: number = 0;
+  scrollLeft: number = 0;
 
   currentPageSupportTickets = 1;
     editUserForm: FormGroup; // Ensure it's not undefined
@@ -106,9 +112,45 @@ throw new Error('Method not implemented.');
   
 
   ngAfterViewInit(): void {
+    const scrollContainers = document.querySelectorAll('.draggable-scroll-container');
+
+    scrollContainers.forEach((scrollContainer) => {
+      let isDown = false;
+      let startX: number;
+      let scrollLeft: number;
+  
+      scrollContainer.addEventListener('mousedown', (e: Event) => {
+        const mouseEvent = e as MouseEvent; // Cast the event as MouseEvent
+        isDown = true;
+        scrollContainer.classList.add('active');
+        startX = mouseEvent.pageX - scrollContainer.getBoundingClientRect().left;
+        scrollLeft = scrollContainer.scrollLeft;
+      });
+  
+      scrollContainer.addEventListener('mouseleave', () => {
+        isDown = false;
+        scrollContainer.classList.remove('active');
+      });
+  
+      scrollContainer.addEventListener('mouseup', () => {
+        isDown = false;
+        scrollContainer.classList.remove('active');
+      });
+  
+      scrollContainer.addEventListener('mousemove', (e: Event) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const mouseEvent = e as MouseEvent; // Cast the event as MouseEvent
+        const x = mouseEvent.pageX - scrollContainer.getBoundingClientRect().left;
+        const walk = (x - startX) * 2; // Adjust scroll speed multiplier
+        scrollContainer.scrollLeft = scrollLeft - walk;
+      });
+    });
+  
     this.renderEarningsChart();
     this.renderMonthlyIncreasedChart();
   }
+
 
   openEditModal(user: any) {
     this.isEditModalOpen = true;
@@ -437,30 +479,33 @@ throw new Error('Method not implemented.');
 
   // Toggle the active status for a specific region
   toggleActiveStatus(regionId: string) {
-    const region = this.topDestinations.find(region => region.id === regionId);
+    const region = this.selectedRegions.find(region => region.id === regionId);
     if (region) {
+      // Toggle the active state
       region.active = !region.active;
-console.log(region);
-
+  
       // Prepare the update payload
       const payload = {
         title: region.title,
         location: region.location,
-        regionId:Number( region.regionId),
+        regionId: Number(region.regionId),
         active: region.active,
         imageUrl: region.imageUrl
       };
-
-      // Hit the update API with the new active status
+  
+      // Update the active status via API
       this.http.post(`${environment.baseUrl}/top-destinations/${region.id}`, payload)
         .subscribe(
           response => {
             console.log('Successfully updated region:', response);
+            this.fetchTopDestinations();
           },
           error => {
             console.error('Error updating region:', error);
           }
         );
+    } else {
+      console.error('Region not found!');
     }
   }
   
@@ -469,7 +514,7 @@ console.log(region);
     const invalidRegion = this.selectedRegions.find(region => !region.imageUrl);
     if (invalidRegion) {
       this.isInvalid = true; // Mark as invalid if any region has no image URL
-      return;
+      return;   
     }
 console.log(this.selectedRegions);
 
@@ -477,7 +522,7 @@ console.log(this.selectedRegions);
     const updateData = this.selectedRegions.map(region => ({
       title: region.name,
       location: region.name, // Assuming location is the same as the region name
-      regionId: Number(region.regionId),
+      regionId: Number(region.id),
       active: region.active,
       imageUrl: region.imageUrl
     }));
@@ -496,33 +541,18 @@ console.log(this.selectedRegions);
     });
   }
 
-  getTopDestinations() {
-    this.isLoading = true;
-
-    this.http.get<any>(`${environment.baseUrl}/top-destination`).subscribe(
-      (response) => {
-        this.isLoading = false;
-        console.log("top",response);
-        
-        // Bind the response to the topDestinations array
-        this.topDestinations = response.response || [];
-      },
-      (error) => {
-        this.isLoading = false;
-        console.error('Error fetching top destinations:', error);
-      }
-    );
-  }
-
   fetchTopDestinations() {
-    this.http.get<any>(`${environment.baseUrl}/top-destination?active=false`).subscribe(
+    this.http.get<any>(`${environment.baseUrl}/top-destination`).subscribe(
       (response) => {
         this.selectedRegions = response.response.map((region: any) => ({
           id: region.id,
+          title: region.title, // Ensure title is mapped
+          location: region.location, // Ensure location is mapped
+          regionId: region.regionId, // Correct regionId reference
           name: region.Region.name,
           countryCode: region.Region.countryCode,
           type: region.Region.type,
-          imageUrl: region.imageUrl,
+          imageUrl: region.imageUrl || '', // Ensure imageUrl is set
           active: region.active
         }));
       },
@@ -532,4 +562,11 @@ console.log(this.selectedRegions);
     );
   }
 
+  openChatwootForTicket(ticket: any) {
+    // Logic to open Chatwoot, or you can customize the logic
+    // Example: Send specific ticket info to Chatwoot if needed
+    window.open('https://app.chatwoot.com/app/login', '_blank');
+  }
+  
+  
 }

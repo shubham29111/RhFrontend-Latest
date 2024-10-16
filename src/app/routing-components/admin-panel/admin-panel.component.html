@@ -260,7 +260,7 @@
             <!-- Display the selected top destinations in a table -->
             <div class="bg-white shadow-md rounded-lg p-6">
               <h2 class="text-2xl font-bold text-gray-800 mb-4">Selected Top Destinations</h2>
-          
+
               <!-- Table for displaying selected regions -->
               <table class="min-w-full bg-white">
                 <thead>
@@ -325,6 +325,8 @@
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                         <div class="table-container overflow-x-auto">
+                           <div class="draggable-scroll-container">
+
                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
                              <thead class="bg-gray-50 dark:bg-gray-800">
                                <tr>
@@ -379,6 +381,7 @@
                                </tr>
                              </tbody>
                            </table>
+                           </div>
                          
                            <!-- Pagination Controls -->
                            <pagination-controls (pageChange)="currentPageBookings  = $event"></pagination-controls>
@@ -407,7 +410,9 @@
                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-xl">
+                        <div class="draggable-scroll-container">
+ 
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-xl">
                              <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>
                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Metric</th>
@@ -468,6 +473,7 @@
                                 </tr>
                              </tbody>
                           </table>
+                        </div>
                        </div>
                     </div>
                  </div>
@@ -483,7 +489,8 @@
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                         <div class="table-container overflow-x-auto">
- 
+                           <div class="draggable-scroll-container">
+
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 rounded-lg">
                              <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>
@@ -530,6 +537,7 @@
                                 </tr>
                              </tbody>
                           </table>
+                           </div>
                           <pagination-controls (pageChange)="currentPageUsers = $event"></pagination-controls>
                         </div>
                        </div>
@@ -578,7 +586,9 @@
                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                        <div class="draggable-scroll-container">
+
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
                              <thead class="bg-gray-50 dark:bg-gray-800">
                                 <tr>
                                    <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Booking ID</th>
@@ -624,6 +634,7 @@
                                 </tr>
                              </tbody>
                           </table>
+                        </div>
                        </div>
                     </div>
                  </div>
@@ -633,50 +644,62 @@
            <!-- Support Section -->
            <div *ngIf="currentSection === 'support'" class="container px-4 mx-auto">
             <div class="bg-white dark:bg-gray-900 rounded-3xl mb-5">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Customer Support</h2>
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                           <div class="table-container overflow-x-auto">
-                              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
-                                <thead class="bg-gray-50 dark:bg-gray-800">
-                                  <tr>
-                                    <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
-                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
-                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
-                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
-                                    <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                  <tr *ngFor="let ticket of supportTickets | paginate: { itemsPerPage: 5, currentPage: currentPageSupportTickets }" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
-                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
-                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
-                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
-                                    <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                                      <span class="px-3 py-1 rounded-full text-xs font-medium"
-                                        [ngClass]="{
-                                          'bg-green-100 text-green-800': ticket.status === 'Resolved',
-                                          'bg-red-100 text-red-800': ticket.status === 'Open',
-                                          'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
-                                        }">
-                                        {{ ticket.status }}
-                                      </span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            
-                              <!-- Pagination Controls -->
-                              <pagination-controls (pageChange)="currentPageSupportTickets = $event"></pagination-controls>
-                            </div>
-                            
-                        </div>
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Customer Support</h2>
+          
+              <!-- Add #scrollContainer here -->
+              <div #scrollContainer class="scroll-container -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div class="table-wrapper overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                    <div class="table-container overflow-x-auto">
+                     <div class="draggable-scroll-container">
+
+                      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
+                        <thead class="bg-gray-50 dark:bg-gray-800">
+                          <tr>
+                            <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
+                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
+                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
+                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
+                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
+                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Chat</th>
+                          </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                          <tr *ngFor="let ticket of supportTickets | paginate: { itemsPerPage: 5, currentPage: currentPageSupportTickets }" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                              <span class="px-3 py-1 rounded-full text-xs font-medium"
+                                [ngClass]="{
+                                  'bg-green-100 text-green-800': ticket.status === 'Resolved',
+                                  'bg-red-100 text-red-800': ticket.status === 'Open',
+                                  'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
+                                }">
+                                {{ ticket.status }}
+                              </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                              <button class="chat-icon-button" (click)="openChatwootForTicket(ticket)">
+                                <i class="fas fa-comment-dots"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+          </div>
+         
+                      <!-- Pagination Controls -->
+                      <pagination-controls (pageChange)="currentPageSupportTickets = $event"></pagination-controls>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
+          
+          
 
         <div *ngIf="currentSection === 'blogs'" class="container px-4 mx-auto">
          <h2 class="text-2xl font-bold mb-4">Blog Management</h2>

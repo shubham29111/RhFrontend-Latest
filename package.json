@@ -38,6 +38,7 @@
     "detect-passive-events": "^2.0.3",
     "flowbite": "^2.4.1",
     "glider-js": "^1.7.9",
+    "i18n-iso-countries": "^7.12.0",
     "jquery": "^3.7.1",
     "leaflet": "^1.9.4",
     "ng5-slider": "^1.2.6",

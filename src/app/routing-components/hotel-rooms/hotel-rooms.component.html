@@ -195,9 +195,9 @@
         <div class="room-image-container" (click)="openRoomModal()">
           <img class="room-image" [src]="getImageUrl(selectedRoomUrl)" alt="Room Image">
           <div class="image-count">{{ roomGroup?.images.length }} photos</div>
-</div>
+    </div>
 
-<!-- Image Modal -->
+
  <div id="imageRoomModal" class="modal" [ngClass]="{'show': isRoomModalOpen}">
     <div class="modal-content">
         <span class="close" (click)="closeRoomModal()">&times;</span>

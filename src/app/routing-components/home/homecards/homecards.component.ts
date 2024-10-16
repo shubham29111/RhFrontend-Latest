@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
+import { environment } from 'src/environments/environments';
 
+// Import the countries library
+import * as countries from 'i18n-iso-countries';
+
+// Import locale for countries (ES6 module import)
+import enLocale from 'i18n-iso-countries/langs/en.json';
 
 interface Place {
-  imageSrc: string;
-  country: string;
-  city: string;
+  id: string;
+  name: string;
+  countryCode: string;
+  country: string; // Add this to store full country name
+  imageUrl: string;
   link: string;
 }
 
@@ -13,73 +24,85 @@ interface Place {
   templateUrl: './homecards.component.html',
   styleUrls: ['./homecards.component.css']
 })
-export class HomecardsComponent {
-    allPlaces: Place[] = [
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/0e/f6/0ef6f230165e2e5531a234a3a8fee992c01f6e1f.jpeg',
-        country: 'United Arab Emirates',
-        city: 'Hotels in Dubai',
-        link: 'https://example.com/dubai'
-      },
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/36/b9/36b9729a26298ddbb866965d6c988ad7524a37b4.jpeg',
-        country: 'United States of America',
-        city: 'Hotels in New York',
-        link: 'https://example.com/newyork'
-      },
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/69/ee/69ee8ec2e5b38692284c67de958211feb0043064.jpeg',
-        country: 'United States of America',
-        city: 'Hotels in Las Vegas',
-        link: 'https://example.com/lasvegas'
-      },
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/36/b9/36b9729a26298ddbb866965d6c988ad7524a37b4.jpeg',
-        country: 'Türkiye',
-        city: 'Hotels in Alanya',
-        link: 'https://example.com/alanya'
-      },
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/0c/24/0c24c13da09c4f1d073d3320c1aeca436f260611.jpeg',
-        country: 'Türkiye',
-        city: 'Hotels in Istanbul',
-        link: 'https://example.com/istanbul'
-      },
-      {
-        imageSrc: 'https://cdn.worldota.net/t/x220/ostrota_mainpage/e2/87/e2877b3fba343aeccf884af931eb47e4f6cedc19.jpeg',
-        country: 'United States of America',
-        city: 'Hotels in Orlando',
-        link: 'https://example.com/orlando'
-      },
-      {
-        imageSrc: 'https://example.com/paris.jpg',
-        country: 'France',
-        city: 'Hotels in Paris',
-        link: 'https://example.com/paris'
-      }
-    ];
-  
-    places: Place[] = [];
-    isLoading = false;
-    placesLoaded = 0;
-  
-    constructor() { }
-  
-    ngOnInit(): void {
-      this.loadMorePlaces();
-    }
-  
-    loadMorePlaces(): void {
-      this.isLoading = true;
-      setTimeout(() => {
-        const nextBatch = this.allPlaces.slice(this.placesLoaded, this.placesLoaded + 3);
-        this.places = this.places.concat(nextBatch);
-        this.placesLoaded += 3;
-        this.isLoading = false;
-      }, 1000);
-    }
-  
-    isMoreDataAvailable(): boolean {
-      return this.placesLoaded < this.allPlaces.length;
-    }
+export class HomecardsComponent implements OnInit {
+  places: Place[] = [];
+  displayedPlaces: Place[] = [];
+  isLoading = false;
+  placesLoaded = 0;
+  totalPlaces = 0;
+
+  constructor(private http: HttpClient, private router: Router, private loadingService: LoadingService) {}
+
+  ngOnInit(): void {
+    // Register the country locale
+    countries.registerLocale(enLocale);
+    this.fetchTopDestinations();
   }
+
+  // Fetch top destinations from the API
+  fetchTopDestinations() {
+    this.isLoading = true;
+  
+    this.http.get<any>(`${environment.baseUrl}/top-destination`).subscribe(
+      (response) => {
+        this.isLoading = false;
+  
+        const tomorrow = new Date();
+        const dayAfterTomorrow = new Date();
+      
+        tomorrow.setDate(tomorrow.getDate() + 1); // Set tomorrow's date
+        dayAfterTomorrow.setDate(tomorrow.getDate() + 1); // Set day after tomorrow
+      
+        const checkIn = this.formatDate(tomorrow); // Format the date to 'YYYY-MM-DD'
+        const checkOut = this.formatDate(dayAfterTomorrow); // Format the date to 'YYYY-MM-DD'
+  
+        // Map response to places array, and build dynamic URLs for the link
+        this.places = response.response.map((region: any) => {
+          const regionId = region.Region.region_id;
+          const location = region.Region.name;
+  
+          return {
+            id: region.id,
+            name: region.Region.name,
+            country: this.getCountryName(region.Region.countryCode), // Convert country code to full name
+            imageUrl: region.imageUrl || 'https://via.placeholder.com/150', // Fallback image
+            link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${checkIn}&checkOut=${checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`,
+          };
+        });
+  
+        this.totalPlaces = this.places.length;
+        this.displayedPlaces = this.places.slice(0, 3); // Show only the first 3 by default
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error fetching top destinations', error);
+      }
+    );
+  }
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Add leading zero
+    const day = String(date.getDate()).padStart(2, '0'); // Add leading zero
+    return `${year}-${month}-${day}`;
+  }
+  
+
+  // Convert country code to full country name
+  getCountryName(countryCode: string): string {
+    return countries.getName(countryCode, 'en') || countryCode; 
+  }
+
+  loadMorePlaces(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      const nextBatch = this.places.slice(this.placesLoaded, this.placesLoaded + 3);
+      this.displayedPlaces = this.displayedPlaces.concat(nextBatch);
+      this.placesLoaded += 3;
+      this.isLoading = false;
+    }, 1000);
+  }
+
+  isMoreDataAvailable(): boolean {
+    return this.placesLoaded < this.totalPlaces && this.totalPlaces > 3;
+  }
+}
