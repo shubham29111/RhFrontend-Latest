@@ -1,0 +1,182 @@
+@import 'tailwindcss/base';
+.box {
+    width: 90%;
+    margin: 0 auto;
+    padding: 2em 0;
+}
+/* html-pages.component.css */
+
+/* Headings */
+h1 {
+    font-size: 1.875rem; /* Tailwind: text-3xl */
+    font-weight: 700;    /* Tailwind: font-bold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 1rem; /* Tailwind: mb-4 */
+  }
+  
+  h2 {
+    font-size: 1.5rem;   /* Tailwind: text-2xl */
+    font-weight: 600;    /* Tailwind: font-semibold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 0.75rem; /* Tailwind: mb-3 */
+  }
+  
+  h3 {
+    font-size: 1.25rem;  /* Tailwind: text-xl */
+    font-weight: 600;    /* Tailwind: font-semibold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 0.75rem; /* Tailwind: mb-3 */
+  }
+  
+  h4 {
+    font-size: 1.125rem; /* Tailwind: text-lg */
+    font-weight: 600;    /* Tailwind: font-semibold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 0.75rem; /* Tailwind: mb-3 */
+  }
+  
+  h5 {
+    font-size: 1rem;     /* Tailwind: text-base */
+    font-weight: 600;    /* Tailwind: font-semibold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 0.5rem; /* Tailwind: mb-2 */
+  }
+  
+  h6 {
+    font-size: 0.875rem; /* Tailwind: text-sm */
+    font-weight: 600;    /* Tailwind: font-semibold */
+    text-align: left;    /* Tailwind: text-left */
+    margin-bottom: 0.5rem; /* Tailwind: mb-2 */
+  }
+  
+  /* Paragraphs */
+  p {
+    margin-bottom: 1rem; /* Tailwind: mb-4 */
+    line-height: 1.75rem; /* Tailwind: leading-relaxed */
+    text-align: left;    /* Tailwind: text-left */
+    font-size: 1rem;     /* Tailwind: text-base */
+    color: #374151;      /* Tailwind: text-gray-700 */
+  }
+  
+  /* Bold, Italic, Underline */
+  strong {
+    font-weight: 700; /* Tailwind: font-bold */
+  }
+  
+  em {
+    font-style: italic; /* Tailwind: italic */
+  }
+  
+  u {
+    text-decoration: underline; /* Tailwind: underline */
+  }
+  
+  /* Blockquote */
+  blockquote {
+    list-style-position: inside;
+    padding-left: 1.5rem;       /* Ensure there's padding to create the indented effect */
+    border-left: 4px solid #ddd; /* Add left border for blockquote */
+    margin-bottom: 1rem;        /* Space below the blockquote */
+    color: #6b7280;             /* Gray text color */
+  }
+  
+  /* Lists */
+  ul {
+    list-style-position: inside;
+    list-style-type: disc; /* Tailwind: list-disc */
+    padding-left: 1rem;    /* Tailwind: pl-4 */
+    margin-bottom: 1rem;   /* Tailwind: mb-4 */
+  }
+  
+  ol {
+    list-style-position: inside;
+    list-style-type: decimal; /* Tailwind: list-decimal */
+    padding-left: 1rem;       /* Tailwind: pl-4 */
+    margin-bottom: 1rem;     /* Tailwind: mb-4 */
+  }
+  
+  li {
+    margin-bottom: 0.5rem; /* Tailwind: mb-2 */
+    padding-left: 0.5rem;
+  }
+  
+  /* Tables */
+  table {
+    width: 100%; /* Tailwind: w-full */
+    border-collapse: collapse; /* Tailwind: border-collapse */
+    margin-bottom: 1rem; /* Tailwind: mb-4 */
+  }
+  
+  th, td {
+    border: 1px solid #ddd; /* Tailwind: border */
+    padding: 0.5rem; /* Tailwind: p-2 */
+  }
+  
+  th {
+    background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+    font-weight: 700; /* Tailwind: font-bold */
+    text-align: left; /* Tailwind: text-left */
+  }
+  
+  td {
+    text-align: left; /* Tailwind: text-left */
+  }
+  
+  /* Images */
+  img {
+    max-width: 100%; /* Tailwind: max-w-full */
+    height: auto; /* Tailwind: h-auto */
+    margin-bottom: 1rem; /* Tailwind: mb-4 */
+    display: block; /* Tailwind: block */
+  }
+  
+  /* Highlight */
+  mark {
+    background-color: #fef3c7; /* Tailwind: bg-yellow-100 */
+    padding: 0.2rem 0.4rem; /* Tailwind: px-2 py-1 */
+  }
+  
+  /* Alignment Styles */
+  h1, h2, h3, h4, h5, h6, p, blockquote, ul, ol, li, th, td {
+    text-align: left; /* Tailwind: text-left */
+  }
+  
+  p.center, h1.center, h2.center, h3.center, h4.center, h5.center, h6.center, blockquote.center, ul.center, ol.center, table.center, th.center, td.center {
+    text-align: center; /* Tailwind: text-center */
+  }
+  
+  p.right, h1.right, h2.right, h3.right, h4.right, h5.right, h6.right, blockquote.right, ul.right, ol.right, table.right, th.right, td.right {
+    text-align: right; /* Tailwind: text-right */
+  }
+  
+  p.justify, h1.justify, h2.justify, h3.justify, h4.justify, h5.justify, h6.justify, blockquote.justify, ul.justify, ol.justify, table.justify, th.justify, td.justify {
+    text-align: justify; /* Tailwind: text-justify */
+  }
+  
+  /* Margins */
+  h1, h2, h3, h4, h5, h6, p, blockquote, ul, ol, table {
+    margin-bottom: 1rem; /* Tailwind: mb-4 */
+  }
+  
+  li {
+    margin-bottom: 0.5rem; /* Tailwind: mb-2 */
+  }
+  
+  /* Padding */
+  th, td {
+    padding: 0.5rem; /* Tailwind: p-2 */
+  }
+  
+  blockquote {
+    padding-left: 1rem; /* Tailwind: pl-4 */
+  }
+  
+  /* Borders */
+  th, td {
+    border: 1px solid #ddd; /* Tailwind: border */
+  }
+  
+  blockquote {
+    border-left: 4px solid #ddd; /* Tailwind: border-l-4 */
+  }
+  

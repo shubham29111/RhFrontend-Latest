@@ -66,10 +66,29 @@ throw new Error('Method not implemented.');
     { metric: 'Cancelled Bookings', value: '20', target: '15', difference: '+ 5', comments: 'Higher than expected' }
   ];
   selectedSection: string = 'dashboard';
-
+  htmlPages = [
+    'Privacy Policy',
+    'Terms & Conditions', 
+    'Cookies Policy',
+    'Legal Notice'
+  ];
+  htmlContent = '';
+  selectedHtmlPages:any ='Privacy Policy';
+  editorConfig = {
+    base_url : '/tinymce',
+    suffix : '.min',
+    plugins : 'lists image media table link code',
+    toolbar: 'undo redo | fontsize forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | image media link',
+    branding: false,
+    height : 500,
+  }
   @ViewChild('earningsChart') earningsChartRef!: ElementRef;
 
-  constructor(private fb: FormBuilder, private http: HttpClient,private router: Router,private loadingService: LoadingService) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private loadingService: LoadingService) {
     Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale);
     // Initialize the form group in the constructor
     this.editUserForm = this.fb.group({
@@ -95,7 +114,7 @@ throw new Error('Method not implemented.');
   ngOnInit(): void {
     const userJson = sessionStorage.getItem('user');
     const user = userJson ? JSON.parse(userJson) : null;
-  
+    this.changeHtmlPages(this.selectedHtmlPages);
     if (!user || !user.isAdmin) {
       this.router.navigate(['/notfound']);
     } else {
@@ -105,11 +124,32 @@ throw new Error('Method not implemented.');
       this.loadCustomers();
       this.getBlogs();
       // this.getTopDestinations();
-      this.fetchTopDestinations(); 
+      this.fetchTopDestinations();
     }
-    
   }
-  
+  changeHtmlPages(page:any) {
+    this.htmlContent = '';
+    this.loadingService.show();
+    this.http.get<any>(environment.baseUrl + `/dashboard/page/${page}`).subscribe(data => {
+      this.loadingService.hide();
+      this.htmlContent = data.response?.htmlContent
+    }, error => {
+      console.error('Error loading support tickets', error);
+    });
+  }
+
+  createOrUpdateHtmlPages() {
+    const payload = {
+      page : this.selectedHtmlPages,
+      htmlContent : this.htmlContent
+    } 
+    this.loadingService.show();
+    this.http.post<any>(environment.baseUrl + `/dashboard/page`, payload).subscribe(data => {
+      this.loadingService.hide();
+    }, error => {
+      console.error('Error loading support tickets', error);
+    });
+  }
 
   ngAfterViewInit(): void {
     const scrollContainers = document.querySelectorAll('.draggable-scroll-container');
@@ -169,7 +209,6 @@ throw new Error('Method not implemented.');
 
   loadBookings() {
     this.http.get<any>(environment.baseUrl + '/book').subscribe(data => {
-      console.log(data.response);
       this.bookings = data.response;
     }, error => {
       console.error('Error loading bookings', error);
@@ -196,7 +235,6 @@ throw new Error('Method not implemented.');
 
   loadCustomers() {
     this.http.get<any>(environment.baseUrl + '/users').subscribe(data => {
-      console.log(data);
       this.customers = data.response;
     }, error => {
       console.error('Error loading customers', error);
@@ -225,7 +263,6 @@ throw new Error('Method not implemented.');
       (response) => {
         if (response.statusCode === 200) {
           this.dashboardData = response.response;
-          console.log('Dashboard Data:', this.dashboardData);
         }
       },
       (error) => {
@@ -333,7 +370,6 @@ throw new Error('Method not implemented.');
     this.loadingService.show();
 
     sessionStorage.removeItem('user');
-    console.log('Logged out');
     setTimeout(() => {
       this.router.navigate(['']).then(() => {
         location.reload();
@@ -371,7 +407,6 @@ throw new Error('Method not implemented.');
  getBlogs() {
     this.http.get<any>(environment.baseUrl + '/posts')
       .subscribe(response => {
-        console.log('Blogs fetched successfully:', response);
         this.blogs = response.response; // Assign the fetched blogs to the blogs array
       }, error => {
         console.error('Error fetching blogs:', error);
@@ -404,7 +439,6 @@ throw new Error('Method not implemented.');
   
       this.http.request('delete', apiUrl, { body: requestBody }).subscribe(
         (response) => {
-          console.log('User deleted successfully:', response);
           this.customers = this.customers.filter(user => user.id !== userId);
         },
         (error) => {
@@ -497,7 +531,6 @@ throw new Error('Method not implemented.');
       this.http.post(`${environment.baseUrl}/top-destinations/${region.id}`, payload)
         .subscribe(
           response => {
-            console.log('Successfully updated region:', response);
             this.fetchTopDestinations();
           },
           error => {
@@ -516,7 +549,6 @@ throw new Error('Method not implemented.');
       this.isInvalid = true; // Mark as invalid if any region has no image URL
       return;   
     }
-console.log(this.selectedRegions);
 
     // Prepare data for submission
     const updateData = this.selectedRegions.map(region => ({
@@ -532,7 +564,6 @@ console.log(this.selectedRegions);
       const apiUrl = `${environment.baseUrl}/top-destinations`;
       this.http.post(apiUrl, destination).subscribe(
         (response) => {
-          console.log('Top destination updated successfully:', response);
         },
         (error) => {
           console.error('Error updating top destination:', error);

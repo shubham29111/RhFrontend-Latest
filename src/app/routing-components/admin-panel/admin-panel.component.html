@@ -116,6 +116,18 @@
                   </a>
                </li>
 
+               <li>
+                  <a href="javascript:void(0)" 
+                     class="flex items-center rounded-lg font-bold text-sm text-blue-900 py-3 px-4"
+                     [ngClass]="{'bg-blue-300': selectedSection === 'htmlPages', 'bg-white hover:bg-blue-50': selectedSection !== 'htmlPages'}"
+                     (click)="selectSection('htmlPages')">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="text-lg mr-4" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                     </svg>
+                     CMS
+                  </a>
+               </li>
+
                  <!-- Settings Menu Item -->
                  <!-- <li>
                     <a href="javascript:void(0)" 
@@ -203,7 +215,7 @@
                  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                    <div *ngFor="let hotel of dashboardData.topHotels" class="text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
                      <img [src]="hotel.hotelimage.replace('{size}', '640x400')" alt="{{ hotel.hotelname }}" class="rounded-lg mx-auto mb-2 shadow-lg">                     <p class="font-bold text-gray-800 dark:text-white">{{ hotel.hotelname }}</p>
-                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ 'Revenue: ' + hotel.totalrevenue | currency:'INR' }}</p>
+                     <p class="text-sm text-gray-600 dark:text-gray-400"> Revenue: {{ hotel.totalrevenue | currency:'INR' }}</p>
                    </div>
                  </div>
                </div>
@@ -310,12 +322,6 @@
               </button>
             </div>
           </div>
-          
-          
-          
-         
-          
-          
 
            <!-- Bookings Section -->
            <div *ngIf="currentSection === 'bookings'" class="container px-4 mx-auto">
@@ -700,7 +706,7 @@
           </div>
           
           
-
+          <!-- Blog Section -->
         <div *ngIf="currentSection === 'blogs'" class="container px-4 mx-auto">
          <h2 class="text-2xl font-bold mb-4">Blog Management</h2>
        
@@ -814,7 +820,35 @@
           
        </div>
        
-        
+           <!-- Html Pages Section -->
+           <div *ngIf="currentSection === 'htmlPages'" class="container px-4 mx-auto">
+            <h2 class="text-2xl font-bold mb-4">Content Management System</h2>
+          
+            <!-- Form for creating a new html pages -->
+            <div class="container mx-auto p-6 bg-gray-100 h-auto space-y-4">
+               <div class="flex space-y-1 flex-col">
+                  <label class="text-xl font-bold">Select Page</label>
+                  <ng-select 
+                  (change)="changeHtmlPages($event)"
+                  [(ngModel)]="selectedHtmlPages"
+                   placeholder="Select Html Pages"
+                   [items]="htmlPages"
+                   [clearable]="false">
+                  </ng-select>
+               </div>
+               <div class="flex space-y-2 flex-col">
+                  <editor class="editor" [(ngModel)]="htmlContent" [init]="editorConfig"></editor>
+                  <div class="flex justify-between">
+                     <div></div>
+                     <button (click)="createOrUpdateHtmlPages()" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        {{htmlContent ? 'Update' : 'Submit'}}
+                     </button>
+                  </div>
+               </div>
+            </div>
+             
+          </div>
+          
 
            <!-- Settings Section -->
            <div *ngIf="currentSection === 'settings'" class="bg-white rounded-3xl  mb-5">

@@ -201,4 +201,9 @@
   .draggable-scroll-container::-webkit-scrollbar {
     display: none; /* Hide scrollbars for better appearance */
   }
-  
+  .editor ::ng-deep .tox .tox-promotion , .tox .tox-statusbar__branding a{
+    display: none;
+  }
+  .editor ::ng-deep .tox .tox-statusbar__branding a{
+    display: none;
+  }
