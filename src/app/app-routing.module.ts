@@ -15,6 +15,7 @@ import { FaqSectionComponent } from './routing-components/faq-section/faq-sectio
 import { ProfileComponent } from './routing-components/profile/profile.component';
 import { UserFavComponent } from './routing-components/profile/user-fav/user-fav.component';
 import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
+import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -31,7 +32,7 @@ const routes: Routes = [
   {path: "faq", component: FaqSectionComponent},
   {path: "adminlogin", component: AdminLoginComponent},
   {path: "admin", component: AdminPanelComponent},
- 
+  {path: "htmlPages", component: HtmlPagesComponent},
 
   { path: 'blog/:id', component: BlogSectionComponent },
   {path: "notfound", component: NotFoundPageComponent},
@@ -44,7 +45,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{ scrollPositionRestoration: 'top' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

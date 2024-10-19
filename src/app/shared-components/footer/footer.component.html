@@ -66,19 +66,19 @@
           <h6 class="text-lg font-medium text-cyan-900">Legal</h6>
           <ul class="mt-4 list-inside space-y-4">
             <li>
-              <a href="#" class="transition hover:text-cyan-600">Privacy Policy</a>
+              <a (click)="navToHtmlPage('Privacy Policy')" class="transition hover:text-cyan-600 cursor-pointer">Privacy Policy</a>
             </li>
             <li>
-              <a href="#" class="transition hover:text-cyan-600">Terms & Conditions</a>
+              <a (click)="navToHtmlPage('Terms & Conditions')" class="transition hover:text-cyan-600 cursor-pointer">Terms & Conditions</a>
             </li>
             <li>
-              <a href="#" class="transition hover:text-cyan-600">Cookies Policy</a>
+              <a (click)="navToHtmlPage('Cookies Policy')" class="transition hover:text-cyan-600 cursor-pointer">Cookies Policy</a>
             </li>
             <li>
-              <a  href="javascript:void(0)" (click)="openPopup()" class="transition hover:text-cyan-600">Contact Us</a>
+              <a  href="javascript:void(0)" (click)="openPopup()" class="transition hover:text-cyan-600 cursor-pointer">Contact Us</a>
             </li>
             <li>
-              <a href="#" class="transition hover:text-cyan-600">Legal Notice</a>
+              <a (click)="navToHtmlPage('Legal Notice')" class="transition hover:text-cyan-600 cursor-pointer">Legal Notice</a>
             </li>
           </ul>
         </div>

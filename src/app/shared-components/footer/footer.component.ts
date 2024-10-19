@@ -32,6 +32,9 @@ export class FooterComponent {
     openPopup() {
       this.isPopupVisible = true;
     }
+    navToHtmlPage(pageName:any) {
+      this.router.navigate(['/htmlPages'],{queryParams:{data:pageName}})
+    }
   
     // Function to close the popup
     closePopup() {

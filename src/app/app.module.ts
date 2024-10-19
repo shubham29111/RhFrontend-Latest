@@ -44,11 +44,8 @@ import { RoomBookingComponent } from './routing-components/room-booking/room-boo
 import { BookinghistoryComponent } from './routing-components/bookinghistory/bookinghistory.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './routing-components/notification/notification.component';
-
-
-
-
-
+import { EditorModule, TINYMCE_SCRIPT_SRC  } from '@tinymce/tinymce-angular';
+import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +81,8 @@ import { NotificationComponent } from './routing-components/notification/notific
     UserFavComponent,
     RoomBookingComponent,
     BookinghistoryComponent,
-    NotificationComponent
+    NotificationComponent,
+    HtmlPagesComponent
 
    
   ],
@@ -100,15 +98,10 @@ import { NotificationComponent } from './routing-components/notification/notific
     GoogleMapsModule,
     NgSelectModule,
     NgbModule,
-    NgxPaginationModule
-
-    
-   
-      
-    
-    
+    NgxPaginationModule,
+    EditorModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
