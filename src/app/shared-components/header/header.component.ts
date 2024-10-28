@@ -6,7 +6,6 @@ import { count } from 'rxjs';
 import { HotelService } from 'src/app/services/hotel.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SharedService } from 'src/app/services/shared-service/shared.service';
-import { TranslationService } from 'src/app/services/translation.service';
 import translations from 'src/app/shared-components/header/translations.json';
 import { environment } from 'src/environments/environments';
 declare const $: any;
@@ -156,11 +155,15 @@ export class HeaderComponent {
 
   showLoginPassword: boolean = false;
   showSignupPassword: boolean = false;
+  
+  showAlert: boolean = false;
+
+  alertMessage: string = '';
   dropdownState = { open: false }; // Object controlling dropdown visibility
 
   @ViewChild('dropdownToggle', { static: false }) dropdownToggle!: ElementRef; // ViewChild to access the dropdown toggle element
 
-  constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,private translationService: TranslationService,
+  constructor(private loadingService: LoadingService, private router: Router,private http: HttpClient,
    private hotelService: HotelService,private sharedService: SharedService
   ) {
     this.loadGoogleTranslate();
@@ -181,9 +184,7 @@ export class HeaderComponent {
       
       this.openDropdown();
     });
-    this.translationService.getLanguage().subscribe(language => {
-      this.selectedLanguage = language;
-    });
+    
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.checkUrlForAdminLogin();
@@ -203,19 +204,6 @@ export class HeaderComponent {
     } else {
       this.hideLogin = false;
     }
-  }
-
-  translateLanguage(language: string) {
-    this.translationService.setLanguage(language);
-  }
-
-
-  getTranslation(key: string): string {
-    return this.translationService.getTranslation(key, this.selectedLanguage);
-  }
-
-  getNestedTranslation(parentKey: string, childKey: string): string {
-    return this.translationService.getNestedTranslation(parentKey, childKey, this.selectedLanguage);
   }
 
   toggleCurrencyPanel() {
@@ -566,6 +554,26 @@ clearForms() {
   if (signupForm) {
     signupForm.reset();
   }
+}
+checkUserData() {
+  const userData = sessionStorage.getItem('user');
+
+  if (userData) {
+    this.router.navigate(['/user/fav']); // If userData exists, navigate to user favorites page
+  } else {
+    this.triggerErrorAlert('User data not found. Please log in.'); // Trigger the alert with a custom message
+  }
+}
+
+triggerErrorAlert(message: string): void {
+  this.alertMessage = message;
+  this.showAlert = true;
+
+  // Hide the alert after 5 seconds
+  setTimeout(() => {
+    this.showAlert = false;
+    this.alertMessage = '';
+  }, 5000);
 }
 
 

@@ -135,7 +135,6 @@ export class HotelsComponent implements OnInit {
   
     this.currency = localStorage.getItem('currency') || "USD";
     
-    // Subscribe to currency changes
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
       (res) => {
         if (res) {
@@ -146,23 +145,20 @@ export class HotelsComponent implements OnInit {
       }
     );
   
-    // Check if the user is logged in
     this.userData = sessionStorage.getItem('user');
     
     if (this.userData) {
-      // User is logged in, retrieve liked hotels from localStorage
       const storedLikes = JSON.parse(localStorage.getItem('likedHotels') || '[]');
       if (storedLikes.length > 0) {
-        // Send the liked hotels to the API one by one
         this.sendStoredLikesToApi(storedLikes);
       }
     } else {
-      // User is not logged in, clear the liked hotels from localStorage
       localStorage.removeItem('likedHotels');
     }
   }
   
   ngAfterViewInit(): void {
+    
     if (typeof google !== 'undefined') {
       this.initMap();
     } else {
@@ -178,30 +174,23 @@ export class HotelsComponent implements OnInit {
     let userIdParam = '';
     
     if (this.userData) {
-      // Parse the user data to extract the userId
       const user = JSON.parse(this.userData);
       userIdParam = `&userId=${user.userId}`;
     } else {
      
-      console.log('User not logged in, opening login dropdown');
    
     }
     
-    // Make the GET request with the userId only if it's available
     this.http.get<any>(`${environment.baseUrl}/hotelsV1?regionId=${this.regionId}&currency=${this.currency}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}${userIdParam}`).subscribe(
       (data) => {
         this.totalItems = data.response.total;
-        console.log(data.response);
         
         this.hotels = this.manipulateHotelData(data.response.data);
         this.hotel = this.hotels.length > 0 ? this.hotels[0] : undefined;
-        console.log(this.hotel);
-        
+        this.initMap();
         this.regionName = this.hotel ? this.hotel.region_name : 'No region found';
-        console.log(this.hotels);
         this.pagination=this.paginate()
-        console.log(this.pagination)
-    this.paginationData=this.hotels.slice(
+      this.paginationData=this.hotels.slice(
       this.pagination.startIndex,this.pagination.lastIndex
     )
 
@@ -213,9 +202,9 @@ export class HotelsComponent implements OnInit {
         this.loading = false;
       }
     );
+    
   }
    loadFilters() {
-    console.log(this.currency)
     const queryParams = this.buildQueryParams(false);
     this.http.get<any>(`${environment.baseUrl}/hotelsV1/ptype?regionId=${this.regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&adults=${this.adults}&children=[${this.childrens}]&${queryParams}`).subscribe(
       (data) => {
@@ -236,7 +225,6 @@ export class HotelsComponent implements OnInit {
     for (const key in this.selectedFilters) {
         if (this.selectedFilters[key].length) {
             let paramKey = key;
-            // Convert values to lowercase and replace spaces with underscores
             const formattedValues = this.selectedFilters[key].map(value => value.toLowerCase().replace(/\s+/g, '_'));
             
             if (paramKey === 'kind') {
@@ -253,7 +241,6 @@ export class HotelsComponent implements OnInit {
             }
 
             params.append(paramKey, JSON.stringify(formattedValues));
-            console.log(`${paramKey}: ${JSON.stringify(formattedValues)}`); 
         }
     }    
     if (includePagination) {
@@ -298,29 +285,31 @@ export class HotelsComponent implements OnInit {
   }
 
   manipulateHotelData(hotels: any[]): Hotel[] {
+    const placeholderImage = 'path/to/placeholder.jpg'; // Make sure you have a valid placeholder image path
+  
     if (!Array.isArray(hotels)) {
       console.error('Expected hotels to be an array, but got:', hotels);
       return [];
     }
   
-    return hotels.map((hotel, index) => {
-      const placeholderImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/495px-No-Image-Placeholder.svg.png?20200912122019';
-      
+    return hotels.map((hotel) => {
       let images: string[] = [];
+  
+      // Check if the hotel has an array of images and map the first 10 images
       if (Array.isArray(hotel.images) && hotel.images.length > 0) {
-        images = hotel.images.slice(0, 10).map((img: string) => {
-          return img ? img.replace('{size}', '640x400') : placeholderImage;
-        });
+        images = hotel.images.slice(0, 10).map((img: string) => 
+          img ? img.replace('{size}', '640x400') : placeholderImage
+        );
       } else {
+        // If no images are available, use the placeholder
         images = [placeholderImage];
       }
   
-      // Return the hotel data including the isliked status
+      // Return the hotel object with images and other default properties
       return {
         ...hotel,
         images: images.length > 0 ? images : [placeholderImage],
-        currentImageIndex: 0,
-        isliked: hotel.isliked // Ensure isliked is passed to the object
+        currentImageIndex: 0, // Add this to handle image carousel functionality
       };
     });
   }
@@ -333,7 +322,6 @@ export class HotelsComponent implements OnInit {
   isMapVisible = false;
 
   toggleMap() {
-    this.isMapVisible = !this.isMapVisible;
     const mapOverlay = document.getElementById('mapOverlay') as HTMLDivElement;
     const hotelListing = document.getElementById('hotelListing') as HTMLDivElement;
     const hotelAddress = document.querySelectorAll('.hotel-address') as NodeListOf<HTMLParagraphElement>;
@@ -343,12 +331,6 @@ export class HotelsComponent implements OnInit {
 
 
     if (this.isMapVisible) {
-      mapOverlay.classList.add('show');
-      hotelListing.classList.add('shrink');
-      hotelAddress.forEach(hotelAddres => hotelAddres.classList.add('hidee'));
-      hotelName.forEach(hotelNam => hotelNam.classList.add('text-header'));
-      hotelCards.forEach(hotelCard => hotelCard.classList.add('compact'));
-      hotelAmenities.forEach(hotelAmenitie => hotelAmenitie.classList.add('hidee'));
 
     } 
     this.initMap()
@@ -432,7 +414,6 @@ export class HotelsComponent implements OnInit {
   }
  
   initMap() {
-    console.log(this.hotels);
   
     if (!this.hotels || this.hotels.length === 0) {
       console.warn('No hotels to display on the map');
@@ -495,7 +476,6 @@ export class HotelsComponent implements OnInit {
       this.markers = {};
     }
   
-    // Loop through the hotels and create markers for each
     this.hotels.forEach(hotel => {
       const marker = new google.maps.Marker({
         position: { lat: hotel.latitude, lng: hotel.longitude },
@@ -561,7 +541,6 @@ export class HotelsComponent implements OnInit {
   }
   
   
-  // Method to add a flag at the city center and zoom in on it
   addCityCenterMarker(center: { lat: number, lng: number }) {
     if (!this.map) {
       console.error('Map is not initialized');
@@ -573,7 +552,6 @@ export class HotelsComponent implements OnInit {
       map: this.map,
       title: 'City Center',
       icon: {
-        url: 'http://maps.google.com/mapfiles/ms/icons/flag.png', 
         scaledSize: new google.maps.Size(32, 32) 
       }
     });
@@ -588,7 +566,6 @@ export class HotelsComponent implements OnInit {
       infoWindow.open(this.map, cityCenterMarker);
     });
   
-    // Optionally, pan to the center marker to ensure it is in view
     this.map.panTo(center);
   }
   
@@ -653,7 +630,6 @@ export class HotelsComponent implements OnInit {
       const hotelId = target.getAttribute('data-hotel-id');
       if (hotelId && this.markers[hotelId] && this.map) {
         this.map.panTo(this.markers[hotelId].getPosition());
-        this.map.setZoom(15); // Optional: Zoom in to give a closer look
       }
     }
   }
@@ -671,75 +647,80 @@ export class HotelsComponent implements OnInit {
       lastIndex: (this.currentPage - 1) * this.itemsPerPage + this.itemsPerPage,
     };
   }
-  toggleLike(hotelId: string, currentLikeStatus: boolean) {
+  toggleLike(hotelId: string, currentLikeStatus: boolean): void {
     const hotel = this.hotels.find(h => h.hotel_id === hotelId);
-    if (hotel) {
-      // Toggle the like status in the UI
-      hotel.isliked = !currentLikeStatus;
+    if (!hotel) {
+      console.error(`Hotel with ID ${hotelId} not found.`);
+      return;
+    }
   
-      // Check if the user is logged in
-      this.userData = sessionStorage.getItem('user');
-      
-      if (!this.userData) {
-        // User not logged in, show alert and store the liked hotel in localStorage
-        let storedLikes = JSON.parse(localStorage.getItem('likedHotels') || '[]');
-        
-        if (hotel.isliked) {
-          const hotelData = { hotelId: hotelId, regionId: this.regionId };
-          if (!storedLikes.some((item: any) => item.hotelId === hotelId)) {
-            storedLikes.push(hotelData);
-          }
-        } else {
-          storedLikes = storedLikes.filter((item: any) => item.hotelId !== hotelId);
+    // Toggle the like status of the hotel
+    hotel.isliked = !currentLikeStatus;
+  
+    // Get the user data from session storage
+    this.userData = sessionStorage.getItem('user');
+  
+    // If user is not logged in, handle likes using localStorage
+    if (!this.userData) {
+      let storedLikes = JSON.parse(localStorage.getItem('likedHotels') || '[]');
+  
+      // If hotel is liked, add it to localStorage
+      if (hotel.isliked) {
+        const hotelData = { hotelId, regionId: this.regionId };
+        if (!storedLikes.some((item: any) => item.hotelId === hotelId)) {
+          storedLikes.push(hotelData);
         }
-  
-        localStorage.setItem('likedHotels', JSON.stringify(storedLikes));
-        
-        // Show the notification alert for non-logged-in users
-        this.notificationComponent.showAlert('To save hotels to your favorites, please log in.');
-        return;
+      } else {
+        // If unliked, remove it from localStorage
+        storedLikes = storedLikes.filter((item: any) => item.hotelId !== hotelId);
       }
   
-      // If the user is logged in, send the like/unlike request to the API
-      const requestBody = {
-        hotelId: hotel.hotel_id,
-        regionId: Number(this.regionId),
-        isLike: hotel.isliked
-      };
+      // Save the updated likes to localStorage
+      localStorage.setItem('likedHotels', JSON.stringify(storedLikes));
   
-      const user = JSON.parse(this.userData);
-  
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${user.token}`,
-      });
-  
-      this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
-        .subscribe(
-          response => {
-            console.log('Like status updated successfully:', response);
-          },
-          error => {
-            console.error('Error updating like status:', error);
-            hotel.isliked = currentLikeStatus;
-          }
-        );
+      // Notify the user to log in to save likes permanently
+      this.notificationComponent.showAlert('To save hotels to your favorites, please log in.');
+      return;
     }
+  
+    // If user is logged in, handle likes via API
+    const requestBody = {
+      hotelId: hotel.hotel_id,
+      regionId: Number(this.regionId),
+      isLike: hotel.isliked
+    };
+  
+    const user = JSON.parse(this.userData);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${user.token}`,
+    });
+  
+    // Send the like status update to the server
+    this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
+      .subscribe(
+        response => {
+          // You can handle the successful response here if needed
+        },
+        error => {
+          console.error('Error updating like status:', error);
+          // If there's an error, revert the like status back to its original state
+          hotel.isliked = currentLikeStatus;
+        }
+      );
   }
+  
   
   
 
   sendStoredLikesToApi(storedLikes: any[]) {
     if (!this.userData) return;
   
-    // Parse the user data to extract the token
     const user = JSON.parse(this.userData);
   
-    // Define the headers with the token for authorization
     const headers = new HttpHeaders({
       Authorization: `Bearer ${user.token}`,
     });
   
-    // Iterate over stored likes and send them one by one
     storedLikes.forEach((like, index) => {
       const requestBody = {
         hotelId: like.hotelId,
@@ -747,19 +728,14 @@ export class HotelsComponent implements OnInit {
         isLike: true
       };
   
-      // Send POST request for each liked hotel
       this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
         .subscribe(
           response => {
-            console.log(`Like for hotel ID ${like.hotelId} sent successfully:`, response);
             
-            // After successfully sending the like, remove it from the local storage array
             storedLikes.splice(index, 1);
   
-            // Update localStorage with the remaining likes
             localStorage.setItem('likedHotels', JSON.stringify(storedLikes));
   
-            // If all likes have been sent, clear localStorage
             if (storedLikes.length === 0) {
               localStorage.removeItem('likedHotels');
             }

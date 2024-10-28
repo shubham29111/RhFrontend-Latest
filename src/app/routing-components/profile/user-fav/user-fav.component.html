@@ -8,7 +8,7 @@
           <!-- Display the location and the total available rooms -->
           <h3>{{ group.location }}</h3>
           <div class="hotel-header">
-            <p class="hotel-availability">Available in total: {{ group.totalAvailable }}</p>
+            <!-- <p class="hotel-availability">Available in total: {{ group.totalAvailable }}</p> -->
             
             <!-- Toggle the visibility of all hotels under this location -->
             <span class="hotel-hide-btn" (click)="toggleShowDetails(group)">
@@ -31,6 +31,7 @@
                       <div class="hotel-like-icon" (click)="toggleLike(hotel)">
                         <i [ngClass]="hotel.isLiked ? 'fas fa-heart' : 'far fa-heart'" class="like-icon" aria-label="Like"></i>
                       </div>
+                      
                     </div>
 
                     <!-- Hotel Description -->
@@ -64,3 +65,4 @@
     </div>
   </div>
 </div>
+<app-alert *ngIf="!userData" [message]="'Please log in to continue. 😔'" type="error"></app-alert>

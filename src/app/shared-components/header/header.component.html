@@ -5,8 +5,11 @@
     </a>
     <ul class="navbar-nav ml-auto d-flex flex-row">
       <li class="nav-item">
-        <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
+        <a class="nav-link" href="#" (click)="checkUserData()">
+          <i class="fa fa-heart nav-icon" aria-hidden="true"></i>
+        </a>
       </li>
+      
       <!-- <li class="nav-item">
         <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
       </li> -->
@@ -25,7 +28,7 @@
       <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
       </div>
     
-      <div class="elfsight-app-84d0b7e8-e859-4ab2-ae91-6ebb4aaad4c4" data-elfsight-app-lazy></div>
+      <div class="elfsight-app-6dfdf886-1a51-414d-9942-e497c12f1bd1" data-elfsight-app-lazy></div>
 
      <li  class="nav-item dropdown" (click)="toggleDropdown()">
       <a
@@ -168,3 +171,4 @@
     </ul>
   </div>
 </nav>
+<app-alert *ngIf="showAlert" [message]="alertMessage" type="error"></app-alert>

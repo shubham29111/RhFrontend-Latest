@@ -1,4 +1,3 @@
-// filter.model.ts
 export interface FilterItem {
     type: string | null;
     category: string;

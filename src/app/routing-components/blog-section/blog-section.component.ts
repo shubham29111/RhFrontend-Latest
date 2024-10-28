@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environments'; // Import the environment for base URL
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-blog-section',
@@ -17,21 +17,17 @@ id:any;
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Load all blogs initially using the API
     this.loadBlogs();
 
-    // Get the selected blog ID from the route and load it dynamically
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
       if (this.id) {
-        console.log("sss",this.id);
         this.loadBlogById(this.id)
        
       }
     });
   }
 
-  // Fetch all blogs from the API
   loadBlogs(): void {
     this.http.get<any>(environment.baseUrl + '/posts').subscribe((response) => {
       if (response && response.response) {
@@ -43,7 +39,6 @@ id:any;
     });
   }
 
-  // Fetch a single blog by ID from the API
   loadBlogById(id: string): void {
     const selectedBlog = this.blogs.find(b => b.id === id);
     if (selectedBlog) {
@@ -52,7 +47,6 @@ id:any;
     }
   }
 
-  // Format blog content for numbered lists, etc.
   formatBlogContent(content: string): void {
     this.formattedContent = content
       .split(/\d+\.\s/)  // Splitting by numbered points in content
@@ -62,7 +56,7 @@ id:any;
     this.scrollToTop();  // Scroll to the top when a new blog is loaded
   }
 
-  // Scroll to the top of the page when a blog is loaded
+
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

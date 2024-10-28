@@ -17,7 +17,6 @@ export class HtmlPagesComponent {
     private loadingService : LoadingService,
     private http : HttpClient,
     private sanitizer: DomSanitizer) {
-      // this.htmlContent = this.sanitizer.bypassSecurityTrustHtml('<p style="color: blue;">This might conflict</p>');
     }
   htmlContent:any = '';
   ngOnInit() {

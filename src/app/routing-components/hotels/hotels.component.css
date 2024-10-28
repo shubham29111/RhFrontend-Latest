@@ -30,7 +30,7 @@
   flex-grow: 1;
   transition: width 0.3s, min-width 0.3s;
   border-top-right-radius: inherit;
-  opacity: 0.5;
+  opacity: 1;
   min-width: 150px;
   overflow: hidden;
   z-index: 1000; /* Ensure this is lower than the navbar and dropdowns */

@@ -9,7 +9,7 @@
       <div class="mt-5 d-flex justify-content-center" *ngFor="let item of cards">
         <div class="card shadow">
           <div class="card-items text-center">
-            <div class="mt-2 cover shadow-lg dark:shadow-black/30">
+            <div class="mt-4 cover shadow-lg dark:shadow-black/30">
               <i *ngIf="item.icon.startsWith('fa')" [ngClass]="item.icon"></i>
               <img *ngIf="!item.icon.startsWith('fa')" [src]="item.icon" alt="{{item.title}}">
             </div>

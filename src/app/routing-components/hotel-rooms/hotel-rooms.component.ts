@@ -94,6 +94,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   isModalOpen: boolean = false;
   loading:boolean=false;
   loadingPrices:boolean=false;
+  showAllReviews = false; // Track whether to show all or just 3 reviews
 
   hotelId: string = '';
   hotelPrice: any;
@@ -130,6 +131,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   displayPlaces: Place[] = [];
   mainAmenities: string[] = [];
   policyStructs: any[] = [];
+  displayedReviews: any[] = []; // Reviews to display (initially 3)
 
   roomGroup: any; 
   isRoomModalOpen: boolean = false; 
@@ -195,7 +197,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.currency =localStorage.getItem('currency') || "USD";
     this.hotelService.getCurrencyDetailsObseravble().subscribe(
       (res)=>{
-        console.log(res)
         if(res){
          
         this.loading=true;
@@ -208,7 +209,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         }
       }
     )
-    this.fetchReviews(this.page, this.limit);
+    // this.fetchReviews(this.page, this.limit);
     this.getHotelData();
     this.getReviewsData();
     this.filteredRooms = this.availableRooms;
@@ -327,13 +328,11 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
       this.http.post(`${environment.baseUrl}/hotels/fetch-prices`, requestBody)
         .subscribe({
           next: (response: any) => {
-            console.log('Hotel prices:', response);
             this.availableRooms = response.response;
             this.filteredRooms = {...this.availableRooms}; // Set filteredRooms here
   
               this.loadingPrices=false;
             this.storedPrice = this.getLowestPriceAcrossAllRooms(this.availableRooms);
-            console.log('Stored Lowest Price:', this.storedPrice);
           },
           error: (error: any) => {
             console.error('Error fetching hotel prices:', error);
@@ -359,7 +358,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
           this.roomGroups = response.response || [];
           this.roomGroup = response.response; 
             this.selectedRoomUrl = this.roomGroup.images[0]; 
-          console.log('Room groups:', this.roomGroups);
         }
       });
   }
@@ -438,7 +436,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     return iconMap[amenity] || 'fas fa-check-circle';
   }
   getImageUrl(imageUrl: string): string {
-    if (imageUrl) {
+    if (imageUrl) {      
       return imageUrl.replace('{size}', '640x400');
     }
     return '';
@@ -511,7 +509,7 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
   
   getEmptyStarsArray(rating: number): number[] {
     const fullStars = Math.floor(rating);
-    const emptyStars = 5 - fullStars; // Assume a 5-star rating system
+    const emptyStars = Math.max(0, 5 - fullStars); // Ensure emptyStars is never negative
     return Array(emptyStars).fill(1); // Array of empty stars
   }
   
@@ -705,7 +703,6 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
     this.nearbyPlaceCategories.forEach(category => {
       this.displayPlaces.push(...category.places.slice(0, 5));
     });
-    console.log(this.displayPlaces);
     
   }
   
@@ -794,32 +791,61 @@ export class HotelRoomsComponent implements OnInit, AfterViewInit {
         }
       });
   }
-
   getReviewsData(): void {
     const userReviewsObservable = this.http.get<any>(`${environment.baseUrl}/userreviews?hotelId=${this.hotelId}`);
-    const generalReviewsObservable = this.http.get<any>(`${environment.baseUrl}/reviews?hotelId=${this.hotelId}`);
   
-    // Use `forkJoin` to fetch both API responses simultaneously
-    forkJoin([userReviewsObservable, generalReviewsObservable])
-      .subscribe(([userReviewsResponse, generalReviewsResponse]) => {
-        // Process the first API response
-        const userReviews = userReviewsResponse.response?.userreviews || [];
-        const detailedRatings = userReviewsResponse.response?.detailedratings || {};
-        const hotelRating = userReviewsResponse.response?.detail_review_rating;
+    userReviewsObservable.subscribe((userReviewsResponse) => {
+      const userReviews = userReviewsResponse.response?.userreviews || [];
+      const userSpecificReviews = userReviewsResponse.response?.userspecificreviews || [];
+      const detailedRatings = userReviewsResponse.response?.detailedratings || {};
+      const hotelRating = userReviewsResponse.response?.detail_review_rating;
   
-        // Process the second API response
-        const generalReviews = generalReviewsResponse.response?.data || [];
-        const averageRating = generalReviewsResponse.response?.averageRating?.rating;
+      // Combine the two sets of reviews
+      const combinedReviews = [...userReviews, ...userSpecificReviews];
   
-        // Combine the two sets of reviews
-        this.reviews = [...userReviews, ...generalReviews];
+      // Remove duplicate reviews based on unique `id` property (ensure id comparison as strings)
+      this.reviews = combinedReviews.filter(
+        (review, index, self) => index === self.findIndex(r => String(r.id) === String(review.id))
+      );
   
-        // You can also store the ratings or detailed ratings if needed
-        this.detailedRatings = detailedRatings;
-        this.hotelRating1 = hotelRating || averageRating; // Use one of the ratings
-      });
+      // Store the first 3 reviews initially
+      this.displayedReviews = this.reviews.slice(0, 3);
+  
+      // Store ratings or detailed ratings if needed
+      this.detailedRatings = detailedRatings;
+      this.hotelRating1 = hotelRating; // Use the hotel rating from the response
+    });
   }
   
+  // Method to toggle showing more or less reviews
+  toggleReviews() {
+    this.showAllReviews = !this.showAllReviews;
+    
+    if (this.showAllReviews) {
+      // Show all reviews
+      this.displayedReviews = this.reviews;
+    } else {
+      // Show only the first 3 reviews
+      this.displayedReviews = this.reviews.slice(0, 3);
+    }
+  }
+
+  // Button text changes depending on the state
+  get toggleButtonText() {
+    return this.showAllReviews ? 'Show Less' : 'Show More';
+  }
+
+  
+// getStars(starRating: number): string {
+//   let stars = '';
+//   for (let i = 0; i < starRating; i++) {
+//     stars += '';
+//   }
+//   for (let i = starRating; i < 5; i++) {
+//     stars += '';
+//   }
+//   return stars;
+// }  
   
   loadMoreReviews(): void {
     if (this.page < this.totalPages) {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomsService } from 'src/app/services/roomsApi.service';
 
 @Component({
   selector: 'app-home',

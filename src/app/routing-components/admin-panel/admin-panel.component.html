@@ -237,6 +237,7 @@
              </div>
              
           </div>
+          <!-- home-page-section -->
           <div *ngIf="currentSection === 'homePage'">
             <div class="bg-white shadow-md rounded-lg p-6 mb-8">
               <h2 class="text-2xl font-bold text-gray-800 mb-4">Select Top Destinations</h2>
@@ -263,7 +264,7 @@
                 </div>
           
                 <!-- Submit Button -->
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button type="submit" class="flex justify-end mt-6 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Add Top Destination
                 </button>
               </form>
@@ -272,56 +273,179 @@
             <!-- Display the selected top destinations in a table -->
             <div class="bg-white shadow-md rounded-lg p-6">
               <h2 class="text-2xl font-bold text-gray-800 mb-4">Selected Top Destinations</h2>
-
+          
               <!-- Table for displaying selected regions -->
               <table class="min-w-full bg-white">
                 <thead>
-                  <tr>
-                    <th class="py-2">Region Name</th>
-                    <th class="py-2">Country Code</th>
-                    <th class="py-2">Type</th>
-                    <th class="py-2">Image URL</th>
-                    <th class="py-2">Active</th>
+                  <tr class="border-b-2">
+                    <th class="py-4 text-left text-sm font-semibold text-gray-600">Region Name</th>
+                    <th class="py-4 text-left text-sm font-semibold text-gray-600">Country Code</th>
+                    <th class="py-4 text-left text-sm font-semibold text-gray-600">Type</th>
+                    <th class="py-4 text-left text-sm font-semibold text-gray-600">Image</th>
+                    <th class="py-4 text-left text-sm font-semibold text-gray-600">Active</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let region of selectedRegions">
-                    <td class="py-2">{{ region.name }}</td>
-                    <td class="py-2">{{ region.countryCode }}</td>
-                    <td class="py-2">{{ region.type }}</td>
+                  <tr *ngFor="let region of selectedRegions" class="border-b">
+                    <td class="py-4 text-sm text-gray-800">{{ region.name }}</td>
+                    <td class="py-4 text-sm text-gray-800">{{ region.countryCode }}</td>
+                    <td class="py-4 text-sm text-gray-800">{{ region.type }}</td>
           
-                    <!-- Column for Image URL -->
-                    <td class="py-2">
-                      <input
-                        type="text"
-                        [value]="region.imageUrl"
-                        (input)="updateImageUrl(region.id, $event)"
-                        placeholder="Enter image URL"
-                        class="border px-2 py-1 rounded w-full" style="width: 90% !important;" />
+                    <!-- Column for Image and Upload Input -->
+                    <td class="py-4">
+                      <div class="flex items-center">
+                        <!-- Image Display -->
+                        <img *ngIf="region.imageUrl" [src]="region.imageUrl" alt="{{ region.name }}" class="w-16 h-16 object-cover rounded shadow-md mr-4" />
+          
+                        <!-- File Input for Uploading Image -->
+                        <label class="flex flex-col items-center px-3 py-1 bg-blue-500 text-white rounded cursor-pointer shadow-md hover:bg-blue-600">
+                          <span>Choose File</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            (change)="updateImageUrl(region.id, $event)"
+                            class="hidden"
+                          />
+                        </label>
+                      </div>
                     </td>
           
                     <!-- Checkbox for active/inactive status -->
-                    <td class="py-2">
+                    <td class="py-4 text-center">
                       <input
                         type="checkbox"
                         [checked]="region.active"
-                        (change)="toggleActiveStatus(region.id)" />
+                        (change)="toggleActiveStatus(region.id)"
+                        class="w-5 h-5 text-blue-500 rounded focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                      />
                     </td>
                   </tr>
                 </tbody>
               </table>
           
-              <!-- Error message if any image URL is missing -->
-              <div *ngIf="isInvalid" class="text-red-500 text-sm mt-2">Please ensure all regions have a valid image URL.</div>
-          
               <!-- Submit Button -->
-              <button   
-                (click)="submitRegions()"
-                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                Submit Top Destinations
-              </button>
+              <div class="flex justify-end mt-6" *ngIf="selectedRegions.length > 0">
+                <button
+                  (click)="submitRegions()"
+                  class="bg-green-500 text-white px-6 py-2 rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                  Submit Top Destinations
+                </button>
+              </div>
             </div>
-          </div>
+          
+            <!-- Reviews Section -->
+            <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+              <h2 class="text-2xl font-bold text-gray-800 mb-4">Submit a Review</h2>
+          
+              <!-- Review Form -->
+              <form [formGroup]="reviewForm" (ngSubmit)="submitReviewForm()">
+                <!-- Reviewer Name -->
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700">Reviewer Name</label>
+                  <input type="text" formControlName="reviewerName"
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+          
+                <!-- Reviewer Type -->
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700">Reviewer Type</label>
+                  <select formControlName="reviewerType" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="Customer">Customer</option>
+                    <option value="Expert">Expert</option>
+                    <option value="Partner">Partner</option>
+                  </select>
+                </div>
+          
+                <!-- Review Content -->
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700">Review Content</label>
+                  <textarea formControlName="content"
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+          
+                <!-- Ratings -->
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700">Ratings (1-5)</label>
+                  <input type="number" formControlName="ratings" min="1" max="5"
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+          
+                <!-- Image Upload -->
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700">Upload Image</label>
+                  
+                  <!-- File Input for Uploading Image -->
+                  <input type="file" accept="image/*" (change)="onImageUploadRe($event)"
+                         class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                
+                  <!-- Image Preview -->
+                  <div *ngIf="imageBase64" class="mt-4">
+                    <img [src]="imageBase64" alt="Image Preview" class="w-32 h-32 object-cover rounded-md shadow-md">
+                  </div>
+                </div>
+                
+                
+          
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                  <button type="submit" class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                    Submit Review
+                  </button>
+                </div>
+              </form>
+          
+              <!-- Display Reviews -->
+              <h2 class="text-2xl font-bold text-gray-800 mt-8">Customer Reviews</h2>
+              <div class="flex flex-wrap justify-between">
+               <div 
+                 *ngFor="let review of reviews"
+                 class="group hover:saturate-100 saturate-0 transition-[filter] relative w-[248px] h-[370px] bg-[#FAEDE4] font-['Robot_Flex'] border-b-2 border-b-[#F04E29] m-4">
+                 
+                 <!-- Reviewer Image -->
+                 <img 
+                   [src]="review.image"
+                   class="group-hover:rounded-br-[100px] rounded-br-[0px] transition-[border-radius] w-full h-[220px] object-cover object-center" />
+             
+                 <!-- Reviewer's Name -->
+                 <p class="m-[5px] text-[#262626] text-base">{{ review.reviewerName }}</p>
+             
+                 <!-- Review Ratings (Stars) -->
+                 <div class="hotel-rating" style="font-size: x-small;">
+                   <span [innerHTML]="getStars(review.ratings)"></span>
+                 </div>
+             
+                 <!-- Reviewer's Title or Type -->
+                 <p class="m-[5px] text-[#777674] text-xs">{{ review.reviewerType }}</p>
+             
+                 <!-- Buttons Section -->
+                 <div class="flex justify-between mt-4">
+                   <!-- Update Button -->
+                   <button 
+                     (click)="onUpdateReview(review)"
+                     class="flex items-center bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-300">
+                     <i class="fas fa-edit mr-2"></i> Update
+                   </button>
+             
+                   <!-- Delete Button -->
+                   <button 
+                     (click)="onDeleteReview(review)"
+                     class="flex items-center bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300">
+                     <i class="fas fa-trash mr-2"></i> Delete
+                   </button>
+                 </div>
+             
+                 <!-- SVG Arrow -->
+                 <svg
+                   class="group-hover:opacity-100 opacity-0 transition-opacity absolute right-[10px] bottom-[10px]"
+                   xmlns="http://www.w3.org/2000/svg" width="45" height="64" viewBox="0 0 45 64" fill="none">
+                   <path d="M5.67927 0.685928C5.66838 0.658706 5.65749 0.636925 5.65749 0.636925L3.81168 1.12696C5.55403 11.7281 0.588324 15.4905 0.375974 15.6484L1.49217 17.2056C1.69363 17.0641 5.49414 14.2654 6.03318 7.14353C9.0333 14.2545 13.0244 20.1731 17.1298 24.774C17.059 24.8774 16.9882 24.9754 16.9229 25.0789C14.3311 29.0645 14.0861 34.651 16.1933 41.6912C18.6271 49.8203 24.5239 57.748 32.3754 63.4434L33.5025 61.8916C25.9886 56.4358 20.3477 48.8729 18.0336 41.1358C16.1388 34.8089 16.2913 29.6526 18.4692 26.2114C21.7035 29.5927 24.9432 32.1518 27.7636 33.8288C33.8945 37.4659 38.2232 36.377 40.2541 35.4078C42.4919 34.3406 44.1254 32.375 44.414 30.4094C44.4575 30.1099 44.4793 29.805 44.4793 29.5001C44.4793 27.5509 43.5864 25.5853 41.9039 23.8756C38.4628 20.3691 32.713 18.7465 26.5276 19.5306C23.1518 19.9607 20.3695 21.2457 18.3603 23.2821C14.4455 18.8554 10.645 13.1655 7.77554 6.34314C9.95348 8.22706 13.2476 10.2199 18.1425 11.5266L18.638 9.67539C9.24565 7.16531 6.28364 1.94369 5.75005 0.838382C5.73371 0.783935 5.71193 0.729488 5.6956 0.669594L5.67382 0.669594L5.67927 0.685928ZM26.7672 21.4308C33.3555 20.5923 38.2014 22.8411 40.5372 25.215C42.0509 26.7559 42.7533 28.5037 42.5192 30.1317C42.3558 31.2425 41.3431 32.767 39.4319 33.6763C37.744 34.4822 34.1069 35.3642 28.7437 32.179C25.9886 30.5455 22.8197 28.03 19.6617 24.6923C21.7797 22.5035 24.6056 21.6976 26.7726 21.4254L26.7672 21.4308Z" fill="#F04E29"/>
+                 </svg>
+               </div>
+             </div>
+             
+            </div></div>
+          
 
            <!-- Bookings Section -->
            <div *ngIf="currentSection === 'bookings'" class="container px-4 mx-auto">
@@ -713,9 +837,9 @@
          <!-- Form for creating a new blog post -->
          <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
             <!-- Blog Posting Section -->
-            <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+            <div class="bg-white shadow-lg rounded-lg p-6 mb-8" id="bloge">
               <h2 class="text-2xl font-bold mb-4 text-gray-800">Create New Blog</h2>
-              <form [formGroup]="blogForm" (ngSubmit)="submitBlogForm()">
+              <form [formGroup]="blogForm" (ngSubmit)="submitBlogForm()" #blogFormElement>
                 <div class="mb-4">
                   <label class="block text-sm font-medium text-gray-700">Title</label>
                   <input type="text" formControlName="title"
@@ -747,10 +871,17 @@
                     class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300">
                 </div>
                 <div class="mb-4">
-                  <label class="block text-sm font-medium text-gray-700">Image URL</label>
-                  <input type="text" formControlName="imageUrl"
+                  <label class="block text-sm font-medium text-gray-700">Upload Image</label>
+                  
+                  <!-- Display Image Preview if an image is present -->
+                  <img *ngIf="imagePreview" [src]="imagePreview" alt="Blog Image" class="mb-4 w-64 h-64 object-cover rounded">
+              
+                  <!-- Image Input for uploading a new image -->
+                  <input type="file" accept="image/*" (change)="onFileChange($event)" 
                     class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300">
                 </div>
+                
+                
                 <div class="mb-4">
                   <label class="block text-sm font-medium text-gray-700">Quote</label>
                   <textarea formControlName="quote"
@@ -766,59 +897,68 @@
                     class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out">Submit Blog</button>
                 </div>
               </form>
-              <div *ngIf="showSuccessModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+              <div *ngIf="showSuccessModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
                  <h2 class="text-2xl font-bold text-green-600 mb-4">Success!</h2>
-                 <p class="text-gray-700 mb-6">Your blog has been successfully created.</p>
+                 <p class="text-gray-700 mb-6"></p>
                  <button (click)="closeSuccessModal()" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500">
                    Close
                  </button>
                </div>
-            </div>
+             </div>
+             
             </div>
           
           <!-- Blogs Display Section -->
-<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-   <h2 class="text-3xl font-bold text-gray-800 mb-6">Recent Blogs</h2>
- 
-   <!-- Blog List with Pagination -->
-   <div class="space-y-8">
-     <div *ngFor="let blog of blogs | paginate: { itemsPerPage: 5, currentPage: currentPageBlogs }; let i = index" class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-transform transform hover:scale-105 flex">
-       <!-- Blog Image -->
-       <div class="w-1/3">
-         <img [src]="blog.imageUrl" alt="{{ blog.title }}" class="rounded-lg w-full h-64 object-cover">
-       </div>
-       <!-- Blog Content -->
-       <div class="w-2/3 pl-6 flex flex-col justify-between">
-         <!-- Blog Title and Subtitle -->
-         <div>
-           <h3 class="text-2xl font-semibold text-gray-800">{{ blog.title }}</h3>
-           <p class="text-sm text-gray-600 mt-2">{{ blog.subtitle }}</p>
+          <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Recent Blogs</h2>
+         
+            <!-- Blog List with Pagination -->
+            <div class="space-y-8">
+              <div *ngFor="let blog of blogs | paginate: { itemsPerPage: 5, currentPage: currentPageBlogs }; let i = index" class="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-transform transform hover:scale-105 flex">
+                <!-- Blog Image -->
+                <div class="w-1/3">
+                  <img [src]="blog.image" alt="{{ blog.title }}" class="rounded-lg w-full h-64 object-cover">
+                </div>
+                <!-- Blog Content -->
+                <div class="w-2/3 pl-6 flex flex-col justify-between">
+                  <!-- Blog Title and Subtitle -->
+                  <div>
+                    <h3 class="text-2xl font-semibold text-gray-800">{{ blog.title }}</h3>
+                    <p class="text-sm text-gray-600 mt-2">{{ blog.subtitle }}</p>
+                  </div>
+                  <!-- Blog Author and Date -->
+                  <p class="text-sm font-semibold text-gray-700 mt-2">By {{ blog.author }} | {{ blog.publishedDate | date: 'MMM d, y' }}</p>
+                  <!-- Blog Tags -->
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    <span *ngFor="let tag of blog.tags" class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs">{{ tag }}</span>
+                  </div>
+                  <!-- Blog Quote -->
+                  <blockquote class="italic text-gray-500 border-l-4 border-indigo-400 pl-4 my-4">{{ blog.quote }}</blockquote>
+                  <!-- Blog Content (Preview) -->
+                  <p class="text-sm text-gray-700 leading-relaxed">{{ blog.content | slice: 0:100 }}...</p>
+         
+                  <!-- Update and Delete Buttons -->
+                  <div class="flex space-x-4 mt-4">
+                    <!-- Update Blog Button -->
+                    <button (click)="editBlog(blog)" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
+                      Update
+                    </button>
+         
+                    <!-- Delete Blog Button -->
+                    <button (click)="deleteBlog(blog.id)" class="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+            <!-- Pagination Controls -->
+            <pagination-controls style="margin-left: 250px; margin-top: 20px;" (pageChange)="currentPageBlogs = $event"></pagination-controls>
          </div>
-         <!-- Blog Author and Date -->
-         <p class="text-sm font-semibold text-gray-700 mt-2">By {{ blog.author }} | {{ blog.publishedDate | date: 'MMM d, y' }}</p>
-         <!-- Blog Tags -->
-         <div class="flex flex-wrap gap-2 mt-2">
-           <span *ngFor="let tag of blog.tags" class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full text-xs">{{ tag }}</span>
          </div>
-         <!-- Blog Quote -->
-         <blockquote class="italic text-gray-500 border-l-4 border-indigo-400 pl-4 my-4">{{ blog.quote }}</blockquote>
-         <!-- Blog Content (Preview) -->
-         <p class="text-sm text-gray-700 leading-relaxed">{{ blog.content | slice: 0:100 }}...</p>
-       </div>
-     </div>
-   </div>
- 
-   <!-- Pagination Controls -->
-   <pagination-controls style="    margin-left: 250px;
-   margin-top: 20px;
-" (pageChange)="currentPageBlogs = $event"></pagination-controls>
- </div>
- 
-             
-          </div>
-          
-       </div>
+        </div>
        
            <!-- Html Pages Section -->
            <div *ngIf="currentSection === 'htmlPages'" class="container px-4 mx-auto">

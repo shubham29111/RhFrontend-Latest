@@ -1,20 +1,21 @@
 .alert-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    top: 580px;
-    background-color: #0595f5; /* Soft bluish background */
-    color: #feffff; /* Darker bluish color for text */
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    max-width: 300px;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
+  position: fixed;
+  top: 20px; /* Distance from the top of the viewport */
+  left: 0;
+  right: 0;
+  margin: 0 auto; /* This will center it horizontally */
+  background-color: #0595f5; /* Soft bluish background */
+  color: #feffff; /* Lighter color for text */
+  padding: 20px; /* Increased padding to 20px */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 300px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
   .alert-notification p {
     margin: 0;
     font-size: 1rem;

@@ -34,20 +34,36 @@ main {
     margin-top: 100px;
 }
 
-.card {
+/* .card {
     width: 100%;
     height: 100%; 
     display: flex;
     justify-content: center;
     border: none;
-    max-width: 300px; /* Ensures the card doesn't exceed 300px in width */
+    max-width: 300px; 
+} */
+.card {
+    max-width: 300px;
+    border: none;
+    height: 100%; /* Ensure each card takes the same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
-
-.card-body h3 {
-    margin-bottom: 15px; /* Add padding between title and text */
+.card-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensure the content takes the full height */
+    text-align: center;
 }
+/* .card-body h3 {
+    margin-bottom: 15px;
+} */
 
-.cover {
+/* .cover {
     width: 80px;
     height: 80px;
     border: 1px solid #1b9bd0;
@@ -62,6 +78,20 @@ main {
    
     --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+} */
+.cover {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #1b9bd0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1b9bd0;
+    transition: 0.3s all ease;
+    cursor: pointer;
+    margin-bottom: 15px; /* Adds consistent space below the icon */
+    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .cover:hover  {
@@ -87,21 +117,35 @@ main {
         transform: rotate(0deg);
     }
 }
-
 .card-body {
     text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
-
+/* .card-body {
+    text-align: center;
+} */
 .card-body h3 {
     font-size: 18px;
-    color: #5e5e5e;
+    margin-bottom: 10px; /* Adjust space between the title and description */
 }
 
+/* .card-body h3 {
+    font-size: 18px;
+    color: #5e5e5e;
+} */
+/* 
 .card-body p {
     font-size: 13px;
     color: #8e8b8b;
+} */
+.card-body p {
+    font-size: 13px;
+    color: #8e8b8b;
+    margin: 0; /* Prevent additional margins */
 }
-
 .card-body a {
     text-decoration: none;
     color: #1b9bd0;

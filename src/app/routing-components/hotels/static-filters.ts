@@ -18,7 +18,6 @@ const staticFilters:FilterGroup[] = [
         { name: "⭐️⭐️⭐️", id: "3-stars-checkbox", count: '' },
         { name: "⭐️⭐️", id: "2-stars-checkbox", count: '' },
         { name: "⭐️", id: "1-star-checkbox", count: '' },
-        // { name: "0", id: "0-stars-checkbox", count: '' }
       ]
     },
     {

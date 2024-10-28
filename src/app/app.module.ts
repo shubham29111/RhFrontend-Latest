@@ -6,17 +6,13 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared-components/header/header.component';
 import { FooterComponent } from './shared-components/footer/footer.component';
 import { HomeComponent } from './routing-components/home/home.component';
-import { RoomsComponent } from './routing-components/rooms/rooms.component';
 import { HotelsComponent } from './routing-components/hotels/hotels.component';
-import { BookedRoomsComponent } from './routing-components/booked-rooms/booked-rooms.component';
 import { BannerComponent } from './routing-components/home/banner/banner.component';
 import { HomecardsComponent } from './routing-components/home/homecards/homecards.component';
 import { UspsectionComponent } from './routing-components/home/uspsection/uspsection.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from 'ngx-slider-v2';
-import { RoomDetailsComponent } from './routing-components/rooms/room-details/room-details.component';
-import { RoomMoredetailsComponent } from './routing-components/rooms/room-details/room-moredetails/room-moredetails.component';
-import { OtherRoomsComponent } from './routing-components/rooms/room-details/other-rooms/other-rooms.component';
+
 import { NotfoundComponent } from './routing-components/notfound/notfound.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BlogsSectionComponent } from './routing-components/home/blogs-section/blogs-section.component';
@@ -46,21 +42,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NotificationComponent } from './routing-components/notification/notification.component';
 import { EditorModule, TINYMCE_SCRIPT_SRC  } from '@tinymce/tinymce-angular';
 import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.component';
+import { AlertComponent } from './shared-components/alert/alert.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    RoomsComponent,
     HotelsComponent,
-    BookedRoomsComponent,
     BannerComponent,
     HomecardsComponent,
     UspsectionComponent,
-    RoomDetailsComponent,
-    RoomMoredetailsComponent,
-    OtherRoomsComponent,
     NotfoundComponent,
     BlogsSectionComponent,
     TestimonialComponent,
@@ -82,7 +74,8 @@ import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.c
     RoomBookingComponent,
     BookinghistoryComponent,
     NotificationComponent,
-    HtmlPagesComponent
+    HtmlPagesComponent,
+    AlertComponent
 
    
   ],
@@ -99,7 +92,7 @@ import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.c
     NgSelectModule,
     NgbModule,
     NgxPaginationModule,
-    EditorModule,
+    EditorModule 
   ],
   providers: [DatePipe,{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
     bootstrap: [AppComponent]

@@ -207,3 +207,7 @@
   .editor ::ng-deep .tox .tox-statusbar__branding a{
     display: none;
   }
+  .hotel-rating .stars {
+    color: #ffeb3b; /* Yellow for stars */
+    font-size: 1.25rem; /* 20px */
+  }

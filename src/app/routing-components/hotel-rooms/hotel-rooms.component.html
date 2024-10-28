@@ -375,68 +375,67 @@
   </section>
 
 
-  <section class="reviews-section container my-8 p-6 bg-gray-50 rounded-lg shadow-lg">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Hotel Reviews</h2>
-  
-    <!-- Loading Spinner -->
-    <div *ngIf="loadingReviews" class="flex justify-center items-center py-10">
-      <div class="loader">Loading reviews...</div>
-    </div>
-  
-    <!-- Display reviews -->
-    <div *ngIf="!loadingReviews && reviews.length > 0">
-      <div *ngFor="let review of reviews" class="review-card bg-white p-6 mb-6 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-        
-        <!-- Review Header with Author and Date -->
-        <div class="flex justify-between items-center mb-4">
-          <div>
-            <h3 class="font-semibold text-lg text-gray-800">{{ review.author }}</h3>
-            <p class="text-sm text-gray-500">{{ review.created | date: 'MMM d, y' }}</p>
+  <section class="bg-white container my-8 p-6 rounded-lg shadow-lg">
+    <section id="reviews" class="bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="transition duration-500 ease-in-out transform scale-100 translate-x-0 translate-y-0 opacity-100">
+          <div class="mb-12 space-y-5 text-center">
+            <h2 style="padding-top: 20px;">Reviews</h2>
           </div>
-          <div>
-            <div class="rating-bar flex items-center">
-              <ng-container *ngFor="let star of getStarsArray(review.rating)">
-                <i class="fas fa-star text-yellow-500"></i>
-              </ng-container>
-              <ng-container *ngFor="let emptyStar of getEmptyStarsArray(review.rating)">
-                <i class="far fa-star text-gray-300"></i>
-              </ng-container>
-              <span class="ml-2 text-lg font-semibold">{{ review.rating }}</span>/10
+        </div>
+  
+        <!-- Display the reviews -->
+        <div class="space-y-6">
+          <div *ngFor="let review of displayedReviews" class="relative group">
+            <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-blue-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
+            <div class="relative p-6 space-y-6 leading-none rounded-lg ring-1 ring-gray-900/5 bg-white flex items-center space-x-6">
+              <!-- Placeholder or dynamically loaded profile image -->
+              <img
+                [src]="review.profileImageUrl || 'https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg'"
+                class="w-24 h-24 bg-center bg-cover border rounded-full"
+                alt="{{ review.author }}">
+  
+              <div class="space-y-2">
+                <!-- Author Name -->
+                <h3 class="text-lg font-semibold">{{ review.author || 'Anonymous' }}</h3>
+  
+                <!-- Traveller Type -->
+                <p *ngIf="review.traveller_type" class="text-gray-500 text-md">{{ review.traveller_type | titlecase }}</p>
+  
+                <!-- Review Plus (comments for user-specific reviews) -->
+                <p *ngIf="review.review_plus || review.comments" class="leading-normal text-gray-700 text-md">
+                  {{ review.review_plus || review.comments }}
+                </p>
+  
+                <!-- Review Minus -->
+                <p *ngIf="review.review_minus" class="leading-normal text-red-500 text-md">
+                  Downside: {{ review.review_minus }}
+                </p>
+  
+                <!-- Room Name -->
+                <p *ngIf="review.room_name" class="leading-normal text-gray-700 text-sm">
+                  <strong>Room Type:</strong> {{ review.room_name }}
+                </p>
+  
+                <!-- Rating -->
+                <p *ngIf="review.rating" class="leading-normal text-gray-700 text-sm">
+                  <strong>Rating:</strong> {{ review.rating }} / 10
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        
-        <!-- Review Content -->
-        <div class="review-content mb-4">
-          <p class="text-gray-800 text-sm font-semibold">What they liked:</p>
-          <p class="text-gray-700 text-sm">{{ review.reviewPlus || 'No positive comments.' }}</p>
-          <p class="text-gray-800 text-sm font-semibold mt-2">What could be better:</p>
-          <p class="text-gray-700 text-sm">{{ review.reviewMinus || 'No negative comments.' }}</p>
-        </div>
   
-        <!-- Room and Trip Details -->
-        <div class="room-details flex justify-between items-center text-gray-600 text-xs">
-          <p><strong>Room Type:</strong> {{ review.roomName || review.room_name }}</p>
-          <p><strong>Trip Type:</strong> {{ review.tripType || review.trip_type }}</p>
+        <!-- Button to toggle between showing more or less -->
+        <div class="text-center mt-8">
+          <button (click)="toggleReviews()" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+            {{ toggleButtonText }}
+          </button>
         </div>
       </div>
-  
-      <!-- Show "Load More" button if there are more pages -->
-      <div class="text-center mt-8" *ngIf="page < totalPages">
-        <button class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300" (click)="loadMoreReviews()">
-          Load More Reviews
-        </button>
-      </div>
-    </div>
-  
-    <!-- No reviews message -->
-    <div *ngIf="!loadingReviews && reviews.length === 0" class="text-center text-gray-600 py-6">
-      <p>No reviews available for this hotel.</p>
-    </div>
+    </section>
   </section>
   
-  
-
 
 
   <!-- Contact Information Section -->

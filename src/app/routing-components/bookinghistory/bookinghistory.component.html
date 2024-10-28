@@ -5,7 +5,7 @@
     <div class="booking-card" *ngFor="let booking of bookings">
       <div class="booking-header">
         <div class="hotel-info">
-          <img class="hotel-image" [src]="hotelImage" alt="{{ booking.Hotel?.name }}" />
+          <img class="hotel-image" [src]="getImageUrl(booking.hotelImage)" alt="{{ booking.Hotel?.name }}" />
           <div>
             <h3>{{ booking.Hotel?.name }}</h3>
             <small>{{ booking.checkInDate | date: 'dd MMM yyyy' }} - {{ booking.checkOutDate | date: 'dd MMM yyyy' }}</small>

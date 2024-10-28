@@ -245,3 +245,132 @@ border: 1px solid #1b9bd0 !important;
     outline: none;
 }
 
+/* Popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup content */
+.popup-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-btn:hover {
+    color: #ff5a5f;
+}
+
+/* Popup header */
+.popup-content h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Input section */
+.input-element {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-element label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Default styling for inputs */
+.input-element input {
+    padding: 10px;
+    border: 1px solid #ddd; /* Regular border */
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none; /* Disable browser's default focus outline */
+}
+
+/* Custom focus state */
+.input-element input:focus {
+    border-color: #4dabf7; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(77, 171, 247, 0.5); /* Optional: Add subtle shadow for focus */
+}
+
+/* Date section layout */
+.date-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-section .input-element {
+    width: 48%;
+}
+
+/* Search button */
+.search-btn {
+    width: 100%;
+    background-color: #205391;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #1a4a7a;
+}
+
+/* Improved placeholder for guest selection */
+.guests-placeholder {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+    text-align: center;
+}

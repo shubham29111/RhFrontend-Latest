@@ -13,7 +13,6 @@ export class NotificationComponent {
     this.message = message;
     this.isVisible = true;
 
-    // Auto-hide the notification after 3 seconds
     setTimeout(() => {
       this.isVisible = false;
     }, 3000);

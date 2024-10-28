@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environments';
 
 interface Hotel {
-  hotel_id: string; // Add this property
+  hotel_id: string;
   region_id: string;
   name: string;
   location: string;
@@ -12,9 +12,9 @@ interface Hotel {
   imageUrl: string;
   address: string;
   rating: number;
-  stars: number;
   url: string;
-  isLiked: boolean; // Add this field
+  stars: number;
+  isLiked: boolean;  // Added field for like status
 }
 
 interface HotelGroup {
@@ -32,7 +32,7 @@ interface HotelGroup {
 export class UserFavComponent implements OnInit {
   groupedHotels: HotelGroup[] = [];
   hotels: Hotel[] = [];
-  userData: any; // Will hold the user data from sessionStorage
+  userData: any; // Added userData definition
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -40,27 +40,24 @@ export class UserFavComponent implements OnInit {
     this.fetchFavorites();
   }
 
-  // Fetch the user's favorite hotels from the /favorites API
   fetchFavorites() {
-    this.userData = sessionStorage.getItem('user'); // Fetch user data from sessionStorage
+    this.userData = sessionStorage.getItem('user');
+
     if (!this.userData) {
       console.error('User not logged in.');
-      this.router.navigate(['']); // Redirect to login if no user data
       return;
     }
 
-    const user = JSON.parse(this.userData); // Parse user data to get the token
-
-    // Construct headers with Authorization token
+    const user = JSON.parse(this.userData);
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${user.token}`, // Use user token from sessionStorage
+      Authorization: `Bearer ${user.token}`,
     });
 
-    // Call the /favorites API with Authorization headers
     this.http.get<any>(`${environment.baseUrl}/favorites`, { headers }).subscribe(
       (response) => {
         if (response.statusCode === 200) {
           this.mapResponseToHotels(response.response);
+          this.groupHotelsByLocation();
         } else {
           console.error('Error in API response:', response.errorMessage);
         }
@@ -71,7 +68,6 @@ export class UserFavComponent implements OnInit {
     );
   }
 
-  // Map the API response to the hotels data structure
   mapResponseToHotels(apiResponse: any) {
     const hotelsData: Hotel[] = [];
 
@@ -79,30 +75,28 @@ export class UserFavComponent implements OnInit {
       region.hotelList.forEach((hotel: any) => {
         hotelsData.push({
           hotel_id: hotel.hotel_id,
-          region_id:hotel.region_id,
+          region_id: hotel.region_id,
           name: hotel.name,
           location: region.regionName,
-          available: 1, // Assuming each liked hotel is counted as 1
-          imageUrl: hotel.images[0], // Using the first image in the array
           address: hotel.address,
-          rating: hotel.rating || 0, // Assuming rating could be null
           stars: hotel.star_rating,
-          url: `/hotelrooms?hotel=${hotel.hotel_id}`, // Create the room URL
-          isLiked: true // Since these are favorite hotels, set `isLiked` to true
+          available: hotel.available || 0,
+          rating: hotel.rating || 0,
+          url: `/hotelrooms?hotel=${hotel.hotel_id}`,
+          imageUrl: hotel.images && hotel.images.length > 0 ? hotel.images[0] : '', // Bind only the first image
+          
+          isLiked: hotel.isliked || true, // Set default like status
         });
       });
     });
 
     this.hotels = hotelsData;
-    this.groupHotelsByLocation(); // Group the hotels by their location
   }
 
   getRoomImageUrl(imageUrl: string): string {
-    // Replace the {size} placeholder with '132x104'
     return imageUrl.replace('{size}', '640x400');
   }
-  
-  // Group hotels by their location and calculate total available rooms for each location
+
   groupHotelsByLocation() {
     const grouped: { [key: string]: Hotel[] } = this.hotels.reduce((acc, hotel) => {
       if (!acc[hotel.location]) {
@@ -135,47 +129,82 @@ export class UserFavComponent implements OnInit {
     });
   }
 
-  toggleLike(hotel: Hotel) {
-    // Toggle the like status locally
-    const currentLikeStatus = hotel.isLiked;
-    hotel.isLiked = !currentLikeStatus; // Toggle the status
-  
-    const requestBody = {
-      hotelId: hotel.hotel_id,
-      regionId: Number(hotel.region_id), // assuming regionId is available in your component
-      isLike: hotel.isLiked // This will be `false` when the hotel is unliked
-    };
-  
-    // Check if the user is logged in
-    this.userData = sessionStorage.getItem('user');
-   
-  
-    // Parse the user data to extract the token
-    const user = JSON.parse(this.userData);
-  
-    // Define the headers with the token for authorization
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${user.token}`,
-    });
-  
-    // Only send the API request if the user unlikes the hotel (isLike: false)
-    if (!hotel.isLiked) {
-      // Send POST request to the API when unliked
-      this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
-        .subscribe(
-          response => {
-            console.log('Dislike status updated successfully:', response);
-          },
-          error => {
-            console.error('Error updating dislike status:', error);
-            // Optionally revert the like status in case of an error
-            hotel.isLiked = currentLikeStatus;
-          }
-        );
-    } else {
-      // Optionally, handle logic for when the hotel is liked (no API call needed)
-      console.log('Hotel liked, no API call required.');
-    }
+//   toggleLike(hotel: Hotel) {
+//     const currentLikeStatus = hotel.isLiked;
+//     hotel.isLiked = !currentLikeStatus;  // Toggle the like status locally
+// console.log(hotel);
+
+//     const requestBody = {
+//       hotelId: hotel.hotel_id,
+//     };
+
+//     if (!this.userData) {
+//       console.error('User not logged in.');
+//       return;
+//     }
+
+//     const user = JSON.parse(this.userData);
+//     const headers = new HttpHeaders({
+//       Authorization: `Bearer ${user.token}`,
+//     });
+
+//     if (!hotel.isLiked) {
+//       // Unlike the hotel
+//       this.http.post(`${environment.baseUrl}/favorites/${hotel.hotel_id}`, { headers })
+//         .subscribe(
+//           () => {
+//             this.fetchFavorites();  // Refresh the favorites list after unliking
+//           },
+//           error => {
+//             console.error('Error updating like status:', error);
+//             hotel.isLiked = currentLikeStatus;  // Revert the like status on error
+//           }
+//         );
+//     } else {
+//       // Like the hotel
+//       this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
+//         .subscribe(
+//           () => {
+//             this.fetchFavorites();  // Refresh the favorites list after liking
+//           },
+//           error => {
+//             console.error('Error updating like status:', error);
+//             hotel.isLiked = currentLikeStatus;  // Revert the like status on error
+//           }
+//         );
+//     }
+//   }
+toggleLike(hotel: Hotel) {
+  const currentLikeStatus = hotel.isLiked;
+  hotel.isLiked = !currentLikeStatus;  // Toggle the like status locally
+
+  const requestBody = {
+    hotelId: hotel.hotel_id,  // Pass the hotel's ID
+    regionId: Number(hotel.region_id),  // Pass the region's ID
+    isLike: hotel.isLiked  // Update like status (true for like, false for unlike)
+  };
+
+  if (!this.userData) {
+    console.error('User not logged in.');
+    return;
   }
-  
+
+  const user = JSON.parse(this.userData);
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${user.token}`,
+  });
+
+  // Make the API request for liking/unliking the hotel
+  this.http.post(`${environment.baseUrl}/favorites`, requestBody, { headers })
+    .subscribe(
+      () => {
+        this.fetchFavorites();  // Refresh the favorites list after updating
+      },
+      error => {
+        console.error('Error updating like status:', error);
+        hotel.isLiked = currentLikeStatus;  // Revert the like status on error
+      }
+    );
+}
+
 }

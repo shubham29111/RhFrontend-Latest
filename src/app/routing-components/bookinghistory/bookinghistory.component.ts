@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { environment } from 'src/environments/environments';
 
 @Component({
@@ -11,15 +12,13 @@ import { environment } from 'src/environments/environments';
 })
 export class BookinghistoryComponent implements OnInit {
   bookings: any[] = []; // Will hold the merged bookings from upcoming and old bookings
-  hotelImage = "";
+  hotelImage = '';
   isReviewPopupOpen = false;
   selectedBooking: any;
-  userData:any;
-  overheaders:any;
+  userData: any;
+  overheaders: any;
   isThankYouPopupOpen = false; // For Thank You popup
 
-
-  // Review data for the popup form
   reviewData = {
     rating: 5,
     comments: '',
@@ -36,7 +35,6 @@ export class BookinghistoryComponent implements OnInit {
   };
 
   ratingValues = {
-    
     'Excellent': 5,
     'Very Good': 4,
     'Good': 3,
@@ -53,54 +51,71 @@ export class BookinghistoryComponent implements OnInit {
     'Poor service': 1
   };
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
+  constructor(private loadingService: LoadingService, private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchBookingHistory();
   }
 
-  // Fetch booking history from the API
   fetchBookingHistory(): void {
     const user = sessionStorage.getItem('user');
     if (!user) {
       console.error('User not logged in.');
-      
-      // Redirect to the login page
-      this.router.navigate(['/']); // Change '/login' to the desired route
+      this.router.navigate(['/']);
       return;
     }
-
+  
     const userData = JSON.parse(user);
     const headers = { Authorization: `Bearer ${userData.token}` };
-    this.overheaders=headers;
+    this.overheaders = headers;
+  
     this.http.get<any>(`${environment.baseUrl}/bookings`, { headers }).subscribe(
       (response) => {
         if (response.statusCode === 200) {
-          // Merge old and upcoming bookings
-          const hotelDetails = JSON.parse(sessionStorage.getItem('hotelDetails')!);
-
           this.bookings = [
             ...response.response.upcomingBookings,
             ...response.response.oldBookings
-          ];
-
-          this.hotelImage = hotelDetails.hotelImage;
-          console.log('Booking history:', this.bookings);
+          ].map((booking: any) => {
+            const hotelImages = booking.Hotel?.HotelImages || [];
+            const firstImage = hotelImages.length ? this.getImageUrl(hotelImages[0].images) : '';
+            
+            return {
+              ...booking,
+              hotelImage: firstImage
+            };
+          });
+          // Print each booking to the console (optional)
+          this.bookings.forEach(booking => {
+            console.log('Booking:', booking);
+          });
+        } else {
+          console.error('Error: Invalid response status code');
         }
       },
       (error) => {
         console.error('Error fetching booking history', error);
+        this.router.navigate(['/']);
       }
     );
   }
+  
+  // Ensure the image URL is properly formatted
+  // getImageUrl(imageUrl: string): string {
+  //   if (imageUrl) {
+  //     // Replace {size} with the actual size, such as 640x400
+  //     return imageUrl.replace('{size}', '640x400');
+  //   }
+  //   return '';
+  // }
+  
 
-  closeThankYouPopup() {
+  closeThankYouPopup(): void {
     this.isThankYouPopupOpen = false;
   }
 
-  calculateRating() {
+  calculateRating(): void {
     const detailedRatings = this.reviewData.detailedRatings;
-  
+
     const totalRating = (
       this.ratingValues[detailedRatings.cleanness as keyof typeof this.ratingValues] +
       this.ratingValues[detailedRatings.hygiene as keyof typeof this.ratingValues] +
@@ -110,12 +125,10 @@ export class BookinghistoryComponent implements OnInit {
       this.ratingValues[detailedRatings.room as keyof typeof this.ratingValues] +
       this.ratingValues[detailedRatings.services as keyof typeof this.ratingValues]
     ) / 7;
-  
+
     this.reviewData.rating = parseFloat(totalRating.toFixed(1)); 
   }
-  
 
-  // Returns class for the booking status
   getBookingStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'confirmed':
@@ -127,57 +140,59 @@ export class BookinghistoryComponent implements OnInit {
     }
   }
 
-  // Function to view more details about the booking
   viewBookingDetails(booking: any): void {
-    console.log('Viewing booking details for:', booking);
+    // Implement logic to view booking details here
   }
 
-  // Opens the review popup for the selected booking
-  openReviewPopup(booking: any) {
+  openReviewPopup(booking: any): void {
     this.selectedBooking = booking;
     this.isReviewPopupOpen = true;
   }
 
-  // Closes the review popup
-  closeReviewPopup() {
+  closeReviewPopup(): void {
     this.isReviewPopupOpen = false;
   }
 
-  // Submits the review to the server
-  submitReview() {
+  submitReview(): void {
     const user = sessionStorage.getItem('user');
     if (!user) {
       console.error('User not logged in.');
-      this.router.navigate(['/']); // Redirect to login if the user is not logged in
+      this.router.navigate(['/']);
       return;
     }
-  
+
     const userData = JSON.parse(user);
-    const headers = { Authorization: `Bearer ${userData.token}` }; // Authorization header
-  
-    // Prepare the request body
+    const headers = { Authorization: `Bearer ${userData.token}` }; 
+
+    this.loadingService.show();
     const requestBody = {
-      userId: this.selectedBooking.userId, // Assuming booking has userId
-      hotel: this.selectedBooking.Hotel?.hotel_id || '', // Get hotel name from the selected booking
-      bookingId: this.selectedBooking.bookingId, // Include bookingId in the review
       rating: this.reviewData.rating,
       comments: this.reviewData.comments,
-      detailedRatings: this.reviewData.detailedRatings
+      detailedRatings: this.reviewData.detailedRatings,
+      userId: this.selectedBooking.userId, // Assuming booking has userId
+      hotel: this.selectedBooking.Hotel?.hotel_id || '', // Get hotel name from the selected booking
+
     };
-  
-    // Define the API endpoint
-    const apiUrl = `${environment.baseUrl}/savereview`; // Replace with actual API endpoint
-  
-    // Send the POST request with the Authorization header
+    const apiUrl = `${environment.baseUrl}/savereview`;
+
     this.http.post(apiUrl, requestBody, { headers }).subscribe(
       (response) => {
-        console.log('Review submitted successfully:', response);
-        this.closeReviewPopup(); // Close popup after successful submission
+        this.loadingService.hide();
+        console.log('Review submitted successfully');
+        this.closeReviewPopup();
+        this.isReviewPopupOpen = false;
       },
       (error) => {
+        this.loadingService.hide();
         console.error('Error submitting review:', error);
       }
     );
   }
-  
+
+  getImageUrl(imageUrl: string): string {
+    if (imageUrl) {
+      return imageUrl.replace('{size}', '640x400');
+    }
+    return '';
+  }
 }

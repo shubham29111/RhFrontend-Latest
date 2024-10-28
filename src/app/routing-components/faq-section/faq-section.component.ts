@@ -50,30 +50,22 @@ export class FaqSectionComponent {
     }
   ];
 
-  // Popup visibility and selected FAQ
   popupVisible = false;
   selectedFaq: any = null;
 
-  // Store the selected feedback emoji
   selectedFeedback: string | null = null;
 
-  // Method to open the popup with the selected FAQ
   openPopup(faq: any) {
     this.selectedFaq = faq;
     this.popupVisible = true;
-    this.selectedFeedback = null; // Reset the feedback selection on popup open
   }
 
-  // Method to close the popup
   closePopup() {
     this.popupVisible = false;
     this.selectedFaq = null;
   }
 
-  // Method to handle feedback selection
   sendFeedback(feedbackType: string) {
     this.selectedFeedback = feedbackType;
-    console.log(`User feedback: ${feedbackType}`);
-    // Here you can add logic to send this feedback to a backend server or handle it otherwise
   }
 }

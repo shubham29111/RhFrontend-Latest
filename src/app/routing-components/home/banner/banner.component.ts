@@ -2,7 +2,6 @@
   import { HttpClient } from '@angular/common/http';
   import { environment } from 'src/environments/environments';
   import { Router } from '@angular/router';
-  import { TranslationService } from 'src/app/services/translation.service';
 
   @Component({
     selector: 'app-banner',
@@ -26,19 +25,17 @@
     selectedChildren: string[] = [];    // Array to store selected ages
     availableAges: string[] = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
     placeholder: string = 'Add a child';  // Initial placeholder text
-    
+        
 
-    constructor(private http: HttpClient, private router: Router,private translationService: TranslationService) {}
+    constructor(private http: HttpClient, private router: Router) {}
     ngOnInit(): void {
-      this.translationService.getLanguage().subscribe(language => {
-        this.selectedLanguage = language;
-      });
+  
     this.currentDate();
   }
   
-  getTranslation(key: string): string {
-    return this.translationService.getTranslation(key, this.selectedLanguage);
-  }
+  // getTranslation(key: string): string {
+  //   return this.translationService.getTranslation(key, this.selectedLanguage);
+  // }
 
   currentDate()
   {
@@ -62,7 +59,6 @@
       if (query.length ) {
         this.http.get<any>(environment.baseUrl+`/regions?search=${query}`).subscribe(
           (data) => {
-            console.log('API Response:', data);
             this.suggestions.regions = data.response.regions;
             this.suggestions.hotels = data.response.hotels;
             this.showDropdownMenu = true; 

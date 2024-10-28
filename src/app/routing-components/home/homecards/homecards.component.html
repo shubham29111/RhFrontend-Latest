@@ -9,7 +9,7 @@
     <div class="travel-cards">
       <!-- Wrap each travel card in an anchor tag -->
       <a *ngFor="let place of displayedPlaces" [href]="place.link" target="_blank" class="travel-card">
-        <img class="travel-card-image" [src]="place.imageUrl" alt="Destination image">
+        <img class="travel-card-image" [src]="place.image" alt="Destination image">
         <div class="travel-card-content">
           <p class="travel-card-country">{{ place.country }}</p>
           <p class="travel-card-link">{{ place.name }}</p>

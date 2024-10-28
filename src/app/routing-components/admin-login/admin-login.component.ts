@@ -35,7 +35,6 @@ export class AdminLoginComponent {
           const userData = response.response;
           sessionStorage.setItem('user', JSON.stringify(userData));
           this.username = userData.username;  
-          console.log('Login successful', userData);
           this.router.navigate(['/admin']);
         } else {
           this.loginErrorMessage = response.errorMessage || 'An error occurred during login.';
