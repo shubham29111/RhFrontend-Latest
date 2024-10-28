@@ -65,7 +65,7 @@ export class HomecardsComponent implements OnInit {
             id: region.id,
             name: region.Region.name,
             country: this.getCountryName(region.Region.countryCode), // Convert country code to full name
-            imageUrl: region.imageUrl || 'https://via.placeholder.com/150', // Fallback image
+            imageUrl: region.image || 'https://via.placeholder.com/150', // Fallback image
             link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${checkIn}&checkOut=${checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`,
           };
         });

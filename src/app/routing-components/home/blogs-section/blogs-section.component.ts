@@ -37,7 +37,7 @@ export class BlogsSectionComponent implements OnInit {
         // Assuming response structure contains an array of blogs
         this.posts = response.response.map((post: any) => ({
           link: `/blog/${post.id}`,
-          imageSrc: post.imageUrl,
+          imageSrc: post.image,
           category: post.tags[0],  // Assuming the first tag as the category
           date: post.publishedDate,
           title: post.title

@@ -185,6 +185,13 @@
 }
 
 @media (max-width: 768px) {
+    .header__content{
+        padding: 3rem 1rem;
+    }
+    .header__content h1 {
+        font-size: 2rem;
+        line-height: 2.2rem;
+    }
     .search-bar {
         flex-direction: column;
         padding: 10px;
@@ -202,6 +209,8 @@
     .search-button {
         width: 100%;
         margin: 5px 0;
+        font-size: 1rem;
+        height: 34px;
     }
 }
 

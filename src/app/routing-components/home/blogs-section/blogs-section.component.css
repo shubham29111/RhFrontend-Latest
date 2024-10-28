@@ -147,7 +147,13 @@
 
 @media (max-width: 768px) {
   .post {
-    width: calc(100% - 20px);
+    width:100%;
+  }
+  .blog-posts {
+    width: 100%;
+  }
+  .blog {
+    padding: 0;
   }
 }
 
@@ -155,9 +161,15 @@
   .homepage-blog-wrapper {
     width: 95%;
   }
+  .blog-posts {
+    width: 100%;
+  }
 
   .blog-title {
     font-size: 20px;
+  }
+  .blog {
+    padding: 0;
   }
 
   .post-content {
