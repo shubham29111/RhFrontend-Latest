@@ -206,8 +206,8 @@ font-size: 17px;
 
 @media (max-width: 480px) {
   .filter-bar {
-    display: none;
-  }
+    /* display: none; */
+  } 
   .main-hotel-listing {
     width: 100%;
     padding: 5px;
@@ -217,6 +217,9 @@ font-size: 17px;
   }
   .main-hotel-listing.shrink {
     width: 100%;
+  }
+  .list-view-button {
+    width: 100% !important;
   }
 }
 

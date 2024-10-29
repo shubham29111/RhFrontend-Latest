@@ -157,6 +157,9 @@
   .travel-card {
     width: calc(100% - 20px);
   }
+  .travel-recommendation-wrapper {
+    padding: 0;
+  }
 }
 .lg\:text-6xl
 {

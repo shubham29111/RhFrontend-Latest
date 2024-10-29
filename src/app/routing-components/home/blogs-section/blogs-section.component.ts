@@ -37,8 +37,13 @@ export class BlogsSectionComponent implements OnInit {
         // Assuming the API returns a "response" object with a list of blog posts
         this.posts = response.response.map((post: any) => ({
           link: `/blog/${post.id}`,
+<<<<<<< HEAD
           image: post.image,
           category: post.tags[0],
+=======
+          imageSrc: post.image,
+          category: post.tags[0],  // Assuming the first tag as the category
+>>>>>>> 06bc90ff2be0d038f3d39eda59beabd6d7077602
           date: post.publishedDate,
           title: post.title
         }));
