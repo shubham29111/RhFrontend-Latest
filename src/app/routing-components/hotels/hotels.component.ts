@@ -111,7 +111,10 @@ export class HotelsComponent implements OnInit {
  
   }
 
-
+  isFilterVisible: boolean = false;
+  toggleFilter() {
+    this.isFilterVisible = !this.isFilterVisible;
+  }
   hidePopup() {
     this.isPopupVisible = false;
   }
@@ -322,6 +325,8 @@ export class HotelsComponent implements OnInit {
   isMapVisible = false;
 
   toggleMap() {
+    this.toggleFilter();
+    this.isMapVisible = !this.isMapVisible
     const mapOverlay = document.getElementById('mapOverlay') as HTMLDivElement;
     const hotelListing = document.getElementById('hotelListing') as HTMLDivElement;
     const hotelAddress = document.querySelectorAll('.hotel-address') as NodeListOf<HTMLParagraphElement>;
@@ -331,6 +336,14 @@ export class HotelsComponent implements OnInit {
 
 
     if (this.isMapVisible) {
+      if (this.isMapVisible) {
+        mapOverlay.classList.add('show');
+        hotelListing.classList.add('shrink');
+        hotelAddress.forEach(hotelAddres => hotelAddres.classList.add('hidee'));
+        hotelName.forEach(hotelNam => hotelNam.classList.add('text-header'));
+        hotelCards.forEach(hotelCard => hotelCard.classList.add('compact'));
+        hotelAmenities.forEach(hotelAmenitie => hotelAmenitie.classList.add('hidee'));
+      } 
 
     } 
     this.initMap()
@@ -338,6 +351,7 @@ export class HotelsComponent implements OnInit {
   }
   listView()
   { 
+    this.toggleFilter();
     this.isMapVisible = false;
 
     const mapOverlay = document.getElementById('mapOverlay') as HTMLDivElement;

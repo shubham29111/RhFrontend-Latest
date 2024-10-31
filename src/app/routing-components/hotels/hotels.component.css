@@ -12,7 +12,7 @@
 }
 
 .filter-bar {
-  width: 100%;
+  max-width: 100%;
   background-color: #f2f1f0;
   padding-top: 20px;
 
@@ -141,10 +141,10 @@ font-size: 17px;
  
   } */
   .filter-bar {
-    width: 230px;
+    width: 350px;
   }
   .main-hotel-listing {
-    width: 1040px;
+    width: 100%;
   }
  .main-hotel-listing.shrink {
   width: 30.5%;
@@ -173,10 +173,15 @@ font-size: 17px;
     display: none;
   }
 }
-
+.hotel-list {
+  display: block;
+}
 @media (max-width: 768px) {
+  .hotel-list {
+    display: none;
+  }
   .filter-bar {
-    width: 100%;
+    width: 100vw;
     padding: 5px;
   }
   .main-hotel-listing {

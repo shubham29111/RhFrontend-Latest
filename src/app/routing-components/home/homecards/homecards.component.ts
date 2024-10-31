@@ -66,17 +66,10 @@ checkOut!: string;
 
           return {
             id: region.id,
-<<<<<<< HEAD
-            name: location,
-            countryCode: countryCode,
-            image: image,
-            link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`
-=======
             name: region.Region.name,
             country: this.getCountryName(region.Region.countryCode), // Convert country code to full name
             imageUrl: region.image || 'https://via.placeholder.com/150', // Fallback image
-            link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${checkIn}&checkOut=${checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`,
->>>>>>> 06bc90ff2be0d038f3d39eda59beabd6d7077602
+            link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`,
           };
         });
 

@@ -1,18 +1,12 @@
 <nav *ngIf="!hideLogin" class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+  <div class="container-fluid md:space-y-0 space-y-2">
+    <a class="navbar-brand w-fit md:w-[68%]" href="#">
       <img class="navbar-logo" src="assets/RhTravel-Color-Logo.png" alt="RH Travel Logo">
     </a>
-    <ul class="navbar-nav ml-auto d-flex flex-row">
+    <div class="md:hidden flex items-center space-x-2">
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="checkUserData()">
-          <i class="fa fa-heart nav-icon" aria-hidden="true"></i>
-        </a>
+        <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
       </li>
-      
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-bell nav-icon" aria-hidden="true"></i></a>
-      </li> -->
       <li class="nav-item dropdown">
         <ng-select 
         (change)="changeCurrency($event)"
@@ -25,10 +19,28 @@
 </ng-select>
      
       </li>      
-      <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true">
       </div>
+    <ul class="navbar-nav ml-auto d-flex flex-row w-full md:w-[18rem] space-x-4 justify-end">
+      <div class="hidden md:visible w-fit">
+        <li class="nav-item ">
+          <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
+        </li>
+        <li class="nav-item dropdown">
+          <ng-select 
+          (change)="changeCurrency($event)"
+          [(ngModel)]="selectedCurrency"
+          [style.width]="'130px'" placeholder="Currency" >
+          <ng-container  *ngFor="let currency of filteredAllCurrencies">
+            <ng-option [value]="currency">{{currency | slice:0:3}}</ng-option>
+          </ng-container>
+             >
+          </ng-select>
     
-      <div class="elfsight-app-6dfdf886-1a51-414d-9942-e497c12f1bd1" data-elfsight-app-lazy></div>
+        </li>      
+      </div>
+      <div class="bfh-selectbox bfh-currencies md:visible hidden" data-currency="EUR" data-flags="true">
+      </div>
+      <div class="elfsight-app-84d0b7e8-e859-4ab2-ae91-6ebb4aaad4c4" data-elfsight-app-lazy></div>
 
      <li  class="nav-item dropdown" (click)="toggleDropdown()">
       <a
@@ -171,4 +183,3 @@
     </ul>
   </div>
 </nav>
-<app-alert *ngIf="showAlert" [message]="alertMessage" type="error"></app-alert>
