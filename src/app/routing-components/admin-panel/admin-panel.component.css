@@ -211,3 +211,12 @@
     color: #ffeb3b; /* Yellow for stars */
     font-size: 1.25rem; /* 20px */
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0; /* Tailwind's gray-400 */
+    border-radius: 4px;
+  }

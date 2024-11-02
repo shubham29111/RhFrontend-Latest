@@ -772,61 +772,75 @@
            </div>
 
            <!-- Support Section -->
-           <div *ngIf="currentSection === 'support'" class="container px-4 mx-auto">
-            <div class="bg-white dark:bg-gray-900 rounded-3xl mb-5">
-              <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Customer Support</h2>
-          
-              <!-- Add #scrollContainer here -->
-              <div #scrollContainer class="scroll-container -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                  <div class="table-wrapper overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                    <div class="table-container overflow-x-auto">
-                     <div class="draggable-scroll-container">
-
-                      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-purple-900 text-white rounded-lg">
-                        <thead class="bg-gray-50 dark:bg-gray-800">
-                          <tr>
-                            <th class="py-3.5 px-5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Name</th>
-                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
-                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Ticket ID</th>
-                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Issue</th>
-                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
-                            <th class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Chat</th>
-                          </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                          <tr *ngFor="let ticket of supportTickets | paginate: { itemsPerPage: 5, currentPage: currentPageSupportTickets }" class="border-b border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.fullName }}</td>
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.email }}</td>
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.ticketId }}</td>
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">{{ ticket.issue }}</td>
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                              <span class="px-3 py-1 rounded-full text-xs font-medium"
-                                [ngClass]="{
-                                  'bg-green-100 text-green-800': ticket.status === 'Resolved',
-                                  'bg-red-100 text-red-800': ticket.status === 'Open',
-                                  'bg-yellow-100 text-yellow-800': ticket.status === 'Pending'
-                                }">
-                                {{ ticket.status }}
-                              </span>
-                            </td>
-                            <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
-                              <button class="chat-icon-button" (click)="openChatwootForTicket(ticket)">
-                                <i class="fas fa-comment-dots"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-          </div>
-         
-                      <!-- Pagination Controls -->
-                      <pagination-controls (pageChange)="currentPageSupportTickets = $event"></pagination-controls>
-                    </div>
+           <div *ngIf="currentSection === 'support'" class="container px-4 mx-auto relative">
+            <div class="flex h-[95vh] bg-blue-100">
+               <!-- User List (Left Sidebar) -->
+               <div class="w-1/3 bg-white shadow-2xl border-r border-gray-300 p-4">
+                 <h3 class="text-lg font-semibold mb-4">Chats</h3>
+                 <ul class="space-y-2">
+                   <li
+                     *ngFor="let user of users"
+                     (click)="selectUser(user)"
+                     [class.bg-blue-100]="selectedUser?.id === user.id"
+                     class="flex items-center p-2 rounded-lg hover:bg-blue-50 cursor-pointer transition"
+                   >
+                     <img
+                       src="https://via.placeholder.com/40"
+                       alt="avatar"
+                       class="w-10 h-10 rounded-full mr-3"
+                     />
+                     <div>
+                     <p class="text-sm font-semibold">{{ user.name }}</p>
+                       <p class="text-xs text-gray-500 truncate">Last message preview...</p>
+                     </div>
+                   </li>
+                 </ul>
+               </div>
+             
+               <!-- Chat Section (Right Sidebar) -->
+               <div class="flex-1 flex flex-col">
+                 <!-- Chat Header -->
+                 <div *ngIf="selectedUser" class="flex items-center justify-between p-4 bg-blue-300 text-white shadow-md">
+                   <div class="flex items-center">
+                     <img src="https://via.placeholder.com/40" alt="avatar" class="w-10 h-10 rounded-full mr-3" />
+                   <h2 class="text-lg font-semibold">{{ selectedUser.name }}</h2>
+                 </div>
+                 </div>
+             
+                 <!-- Chat Messages -->
+                 <div *ngIf="selectedUser" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                   <div *ngFor="let message of messages" class="flex items-center">
+                     <div [ngClass]="message.fromUser ? 'bg-blue-300 text-white' : 'bg-gray-200 text-gray-800'"
+                       class="p-3 rounded-lg max-w-xs shadow-md">
+                       {{ message.content }}
+                       <span class="text-xs text-gray-400 block mt-1 text-right">{{ message.timestamp }}</span>
+                     </div>
+                   </div>
+                 </div>
+             
+                 <!-- Message Input -->
+                 <div *ngIf="selectedUser" class="flex items-center p-3 border-t border-gray-300 bg-white shadow-md">
+                   <input
+                     [(ngModel)]="newMessage"
+                     type="text"
+                     class="flex-1 p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                     placeholder="Type a message..."
+                   />
+                   <button (click)="showEmojiPicker = !showEmojiPicker" class="ml-2 p-1">
+                     😊
+                   </button>
+                   <button (click)="sendMessage()" class="ml-2 p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500">
+                     Send
+                   </button>
+                   <!-- Emoji Picker -->
+                   <emoji-mart *ngIf="showEmojiPicker" emoji="point_up" (emojiSelect)="addEmoji($event)" set="apple" class="absolute bottom-16 right-8"></emoji-mart>
+                 </div>
+                 <div *ngIf="!selectedUser" class="flex items-center justify-center flex-1 text-gray-500">
+                    <p>Select a user to start a chat</p>
                   </div>
-                </div>
-              </div>
-            </div>
+               </div>
+             </div>
+             
           </div>
           
           

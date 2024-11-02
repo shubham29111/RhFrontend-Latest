@@ -68,7 +68,7 @@ checkOut!: string;
             id: region.id,
             name: region.Region.name,
             country: this.getCountryName(region.Region.countryCode), // Convert country code to full name
-            imageUrl: region.image || 'https://via.placeholder.com/150', // Fallback image
+            image: region.image || 'https://via.placeholder.com/150', // Fallback image
             link: `/hotels?location=${location}&type=region&regionId=${regionId}&checkIn=${this.checkIn}&checkOut=${this.checkOut}&guests=1&totalAdults=1&totalChildren=0&rooms=1`,
           };
         });

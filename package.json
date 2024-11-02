@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
     "@coreui/angular": "^5.2.11",
+    "@ctrl/ngx-emoji-mart": "^9.2.0",
     "@google-cloud/translate": "^8.3.0",
     "@material-tailwind/html": "^2.2.2",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",

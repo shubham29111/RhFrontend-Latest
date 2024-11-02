@@ -5,7 +5,9 @@
     </a>
     <div class="md:hidden flex items-center space-x-2">
       <li class="nav-item">
-        <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
+        <a class="nav-link" (click)="checkUserData()">
+          <i class="fa fa-heart nav-icon" aria-hidden="true"></i>
+        </a>
       </li>
       <li class="nav-item dropdown">
         <ng-select 
@@ -23,7 +25,9 @@
     <ul class="navbar-nav ml-auto d-flex flex-row w-full md:w-[18rem] space-x-4 justify-end">
       <div class="hidden md:visible w-fit">
         <li class="nav-item ">
-          <a class="nav-link" href="/user/fav"><i class="fa fa-heart nav-icon" aria-hidden="true"></i></a>
+          <a class="nav-link" (click)="checkUserData()">
+            <i class="fa fa-heart nav-icon" aria-hidden="true"></i>
+          </a>
         </li>
         <li class="nav-item dropdown">
           <ng-select 
@@ -177,9 +181,8 @@
       <i class="fa fa-sign-out-alt mr-2"></i> Log Out
     </a>
   </div>
-</li>
-
-      
+</li> 
     </ul>
   </div>
 </nav>
+<app-alert *ngIf="showAlert" [message]="alertMessage" type="error"></app-alert>

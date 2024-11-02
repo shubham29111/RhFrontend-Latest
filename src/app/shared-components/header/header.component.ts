@@ -557,7 +557,6 @@ clearForms() {
 }
 checkUserData() {
   const userData = sessionStorage.getItem('user');
-
   if (userData) {
     this.router.navigate(['/user/fav']); // If userData exists, navigate to user favorites page
   } else {
