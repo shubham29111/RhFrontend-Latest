@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
 import Compressor from 'compressorjs';
-
-
+import { ChatwootService } from 'src/app/services/chatwoot.service';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 interface Blog {
   id: string;
   title: string;
@@ -20,6 +20,17 @@ interface Blog {
   author: string;
   content: string;
 }
+interface User {
+  id: number;
+  name: string;
+}
+
+interface Message {
+  content: string;
+  fromUser: boolean;
+  timestamp: string;
+}
+
 
 Chart.register(...registerables);
 
@@ -100,7 +111,8 @@ throw new Error('Method not implemented.');
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private loadingService: LoadingService) {
+    private loadingService: LoadingService,
+    private chatwootService : ChatwootService) {
     Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Tooltip, CategoryScale);
     this.editUserForm = this.fb.group({
       fullname: [''],
@@ -129,10 +141,21 @@ throw new Error('Method not implemented.');
         });
     
   }
+  users: User[] = [
+    {
+      name : 'Rahul',
+      id : 1234
+    }
+  ];
+  selectedUser: User | null = null;
+  messages: Message[] = [];
+  newMessage: string = '';
+  showEmojiPicker: boolean = false;
 
   ngOnInit(): void {
     const userJson = sessionStorage.getItem('user');
     const user = userJson ? JSON.parse(userJson) : null;
+    this.loadConversations();
     this.changeHtmlPages(this.selectedHtmlPages);
     if (!user || !user.isAdmin) {
       this.router.navigate(['/notfound']);
@@ -918,4 +941,49 @@ updateReview(id: number, reviewData: any) {
   }
 
 
+  loadConversations(): void {
+    this.chatwootService.getConversations().subscribe((conversations: any) => {
+      this.users = conversations.map((conv: any) => ({
+        id: conv.id,
+        name: conv.meta.sender.name || 'Anonymous'
+      }));
+    });
+  }
+
+  selectUser(user: User): void {
+    this.selectedUser = user;
+    this.loadMessages(user.id);
+  }
+
+  loadMessages(conversationId: number): void {
+    this.chatwootService.getMessages(conversationId).subscribe((messages: any) => {
+      this.messages = messages;
+    });
+  }
+
+  sendMessage(): void {
+    if (this.newMessage.trim() && this.selectedUser) {
+      this.chatwootService.sendMessage(this.selectedUser.id, this.newMessage).subscribe(() => {
+        this.messages.push({
+          content: this.newMessage,
+          fromUser: true,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        this.newMessage = '';
+        this.showEmojiPicker = false;
+      });
+    }
+  }
+
+  addEmoji(event: EmojiEvent): void {
+    this.newMessage += event.emoji.native;
+  }
+  scrollToBottom() {
+    setTimeout(() => {
+      const chatContainer = document.querySelector('.overflow-y-auto');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }, 0);
+  }
 }

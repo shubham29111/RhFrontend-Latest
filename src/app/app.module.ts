@@ -43,6 +43,8 @@ import { NotificationComponent } from './routing-components/notification/notific
 import { EditorModule, TINYMCE_SCRIPT_SRC  } from '@tinymce/tinymce-angular';
 import { HtmlPagesComponent } from './routing-components/html-pages/html-pages.component';
 import { AlertComponent } from './shared-components/alert/alert.component';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +94,9 @@ import { AlertComponent } from './shared-components/alert/alert.component';
     NgSelectModule,
     NgbModule,
     NgxPaginationModule,
-    EditorModule 
+    EditorModule,
+    EmojiModule,
+    PickerModule
   ],
   providers: [DatePipe,{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
     bootstrap: [AppComponent]
